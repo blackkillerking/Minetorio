@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minetorio:silver_ingot"
+    },
+    {
+      "item": "minetorio:copper_clipper"
+    }
+  ],
+  "result": {
+    "item": "minetorio:tin_rod"
+  }
+}

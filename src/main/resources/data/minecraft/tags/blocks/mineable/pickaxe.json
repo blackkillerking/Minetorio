@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "minetorio:raw_tin",
+    "minetorio:raw_zinc",
+    "minetorio:raw_silver"
+  ]
+}

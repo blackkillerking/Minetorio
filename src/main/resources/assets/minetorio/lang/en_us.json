@@ -1,0 +1,16 @@
+{
+  "item.minetorio.raw_tin": "Raw Tin",
+  "item.minetorio.tin_rod": "Tin Rod",
+  "item.minetorio.raw_zinc": "Raw Zinc",
+  "item.minetorio.zinc_bar": "Zinc Bar",
+  "item.minetorio.raw_silver": "Raw Silver",
+  "item.minetorio.silver_ingot": "Silver Ingot",
+  "item.minetorio.copper_clipper": "Copper Clipper",
+
+  "block.minetorio.tin_ore": "Tin Ore",
+  "block.minetorio.zinc_ore": "Zinc Ore",
+  "block.minetorio.silver_ore": "Silver Ore",
+
+  "creativetab.minetorio_ingredients": "Minetorio Ingredients"
+
+}
