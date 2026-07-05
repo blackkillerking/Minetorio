@@ -1,6 +1,7 @@
 package net.blackkillerking.minetorio.block;
 
 import net.blackkillerking.minetorio.Minetorio;
+import net.blackkillerking.minetorio.block.custom.PolisherBlock;
 import net.blackkillerking.minetorio.item.ModItems;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
@@ -32,18 +33,21 @@ public class ModBlocks {
             "silver_ore", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DIAMOND_ORE)));
 
     public static final RegistryObject<Block> RAW_TIN_BLOCK = registerBlock(
-            "raw_tin_block", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.RAW_IRON_BLOCK)));
+            "raw_tin_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.RAW_IRON_BLOCK)));
     public static final RegistryObject<Block> RAW_ZINC_BLOCK = registerBlock(
-            "raw_zinc_block", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.RAW_IRON_BLOCK)));
+            "raw_zinc_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.RAW_IRON_BLOCK)));
     public static final RegistryObject<Block> RAW_SILVER_BLOCK = registerBlock(
-            "raw_silver_block", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.RAW_IRON_BLOCK)));
+            "raw_silver_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.RAW_IRON_BLOCK)));
 
     public static final RegistryObject<Block> TIN_BLOCK = registerBlock(
-            "tin_block", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+            "tin_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
     public static final RegistryObject<Block> ZINC_BLOCK = registerBlock(
-            "zinc_block", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK)));
+            "zinc_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK)));
     public static final RegistryObject<Block> SILVER_BLOCK = registerBlock(
-            "silver_block", () -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK)));
+            "silver_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK)));
+
+    public static final RegistryObject<Block> POLISHER = registerBlock(
+            "polisher", () -> new PolisherBlock(BlockBehaviour.Properties.copy(Blocks.SMITHING_TABLE)));
 
 
 

@@ -1,15 +1,37 @@
 {
   "item.minetorio.raw_tin": "Raw Tin",
+  "item.minetorio.tin_ingot": "Tin Ingot",
   "item.minetorio.tin_rod": "Tin Rod",
+  "item.minetorio.tin_sheet": "Tin Sheet",
+
   "item.minetorio.raw_zinc": "Raw Zinc",
-  "item.minetorio.zinc_bar": "Zinc Bar",
+  "item.minetorio.zinc_ingot": "Zinc Ingot",
+  "item.minetorio.zinc_rod": "Zinc Rod",
+  "item.minetorio.zinc_sheet": "Zinc Sheet",
+
   "item.minetorio.raw_silver": "Raw Silver",
   "item.minetorio.silver_ingot": "Silver Ingot",
+  "item.minetorio.silver_rod": "Silver Rod",
+  "item.minetorio.silver_sheet": "Silver Sheet",
+
   "item.minetorio.copper_clipper": "Copper Clipper",
+  "item.minetorio.blunt_copper_clipper": "Blunt Copper Clipper",
+
+  "item.minetorio.heated_metal": "Heated Metal",
 
   "block.minetorio.tin_ore": "Tin Ore",
   "block.minetorio.zinc_ore": "Zinc Ore",
   "block.minetorio.silver_ore": "Silver Ore",
+
+  "block.minetorio.raw_tin_block": "Raw Tin Block",
+  "block.minetorio.raw_zinc_block": "Raw Zinc Block",
+  "block.minetorio.raw_silver_block": "Raw Silver Block",
+
+  "block.minetorio.tin_block": "Tin Block",
+  "block.minetorio.zinc_block": "Zinc Block",
+  "block.minetorio.silver_block": "Silver Block",
+
+  "block.minetorio.polisher": "Polisher",
 
   "creativetab.minetorio_ingredients": "Minetorio Ingredients"
 

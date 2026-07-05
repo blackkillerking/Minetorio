@@ -35,6 +35,9 @@ public class ModCreativeModTabs {
                         output.accept(ModItems.SILVER_SHEET.get());
 
                         output.accept(ModItems.COPPER_CLIPPER.get());
+                        output.accept(ModItems.BLUNT_COPPER_CLIPPER.get());
+
+                        output.accept(ModItems.HEATED_METAL.get());
 
                         output.accept(ModBlocks.TIN_ORE.get());
                         output.accept(ModBlocks.ZINC_ORE.get());
@@ -47,6 +50,8 @@ public class ModCreativeModTabs {
                         output.accept(ModBlocks.TIN_BLOCK.get());
                         output.accept(ModBlocks.ZINC_BLOCK.get());
                         output.accept(ModBlocks.SILVER_BLOCK.get());
+
+                        output.accept(ModBlocks.POLISHER.get());
 
 
                     })

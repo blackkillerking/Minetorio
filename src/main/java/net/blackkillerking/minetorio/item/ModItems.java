@@ -22,14 +22,15 @@ public class ModItems {
     public static final RegistryObject<Item> ZINC_ROD = ITEMS.register("zinc_rod", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> ZINC_SHEET = ITEMS.register("zinc_sheet", () -> new Item(new Item.Properties()));
 
-
     public static final RegistryObject<Item> RAW_SILVER = ITEMS.register("raw_silver", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SILVER_INGOT = ITEMS.register("silver_ingot", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SILVER_ROD = ITEMS.register("silver_rod", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SILVER_SHEET = ITEMS.register("silver_sheet", () -> new Item(new Item.Properties()));
 
-
     public static final RegistryObject<Item> COPPER_CLIPPER = ITEMS.register("copper_clipper", () -> new CopperClipperItem((new Item.Properties())));
+    public static final RegistryObject<Item> BLUNT_COPPER_CLIPPER = ITEMS.register("blunt_copper_clipper", () -> new CopperClipperItem((new Item.Properties())));
+
+    public static final RegistryObject<Item> HEATED_METAL = ITEMS.register("heated_metal", () -> new Item(new Item.Properties()));
 
 
     public static void register(IEventBus eventBus){

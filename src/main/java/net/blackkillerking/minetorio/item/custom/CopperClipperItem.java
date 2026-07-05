@@ -1,5 +1,6 @@
 package net.blackkillerking.minetorio.item.custom;
 
+import net.blackkillerking.minetorio.item.ModItems;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -9,7 +10,7 @@ public class CopperClipperItem extends Item {
 
     public CopperClipperItem(Properties pProperties) {
         super(pProperties
-                .durability(128));
+                .durability(2));
     }
 
 
@@ -24,7 +25,7 @@ public class CopperClipperItem extends Item {
         int newDamage = currentClipper.getDamageValue() + 1;
 
         if (currentClipper.getMaxDamage() <= newDamage){
-            return ItemStack.EMPTY;
+            return new ItemStack(ModItems.BLUNT_COPPER_CLIPPER.get());
         }
 
         currentClipper.setDamageValue(newDamage);
