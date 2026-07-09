@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import net.blackkillerking.minetorio.block.ModBlocks;
 import net.blackkillerking.minetorio.item.ModCreativeModTabs;
 import net.blackkillerking.minetorio.item.ModItems;
+import net.blackkillerking.minetorio.sound.ModSound;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -36,6 +37,8 @@ public class Minetorio
         ModBlocks.register(modEventBus);
 
         ModCreativeModTabs.register(modEventBus);
+
+        ModSound.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);

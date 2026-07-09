@@ -10,7 +10,7 @@ public class CopperClipperItem extends Item {
 
     public CopperClipperItem(Properties pProperties) {
         super(pProperties
-                .durability(2));
+                .durability(32));
     }
 
 

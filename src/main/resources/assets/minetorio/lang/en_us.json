@@ -17,6 +17,9 @@
   "item.minetorio.copper_clipper": "Copper Clipper",
   "item.minetorio.blunt_copper_clipper": "Blunt Copper Clipper",
 
+  "item.minetorio.copper_hammer": "Copper Hammer",
+  "item.minetorio.blunt_copper_hammer": "Blunt Copper Hammer",
+
   "item.minetorio.heated_metal": "Heated Metal",
 
   "block.minetorio.tin_ore": "Tin Ore",
@@ -33,6 +36,8 @@
 
   "block.minetorio.polisher": "Polisher",
 
-  "creativetab.minetorio_ingredients": "Minetorio Ingredients"
+  "creativetab.minetorio_ingredients": "Minetorio Ingredients",
+
+  "sounds.minetorio.hammer_crafting": "Hammer crafting Metal Sheets"
 
 }

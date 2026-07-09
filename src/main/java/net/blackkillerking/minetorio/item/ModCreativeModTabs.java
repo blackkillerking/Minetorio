@@ -37,6 +37,9 @@ public class ModCreativeModTabs {
                         output.accept(ModItems.COPPER_CLIPPER.get());
                         output.accept(ModItems.BLUNT_COPPER_CLIPPER.get());
 
+                        output.accept(ModItems.COPPER_HAMMER.get());
+                        output.accept(ModItems.BLUNT_COPPER_HAMMER.get());
+
                         output.accept(ModItems.HEATED_METAL.get());
 
                         output.accept(ModBlocks.TIN_ORE.get());

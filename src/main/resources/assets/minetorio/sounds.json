@@ -1,0 +1,20 @@
+{
+  "hammer_crafting": {
+    "subtitle": "sounds.minetorio.hammer_crafting",
+    "sounds": [
+      {
+        "name" : "minetorio:hammer_crafting"
+      }
+
+    ]
+  },
+
+  "mo_beats": {
+    "sounds": [
+      {
+        "name" : "minetorio:mo_beats",
+        "stream" : true
+      }
+    ]
+  }
+}
