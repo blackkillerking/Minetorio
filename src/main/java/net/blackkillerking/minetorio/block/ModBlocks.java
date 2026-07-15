@@ -1,15 +1,14 @@
 package net.blackkillerking.minetorio.block;
 
 import net.blackkillerking.minetorio.Minetorio;
+import net.blackkillerking.minetorio.block.custom.MetalShapingStationBlock;
 import net.blackkillerking.minetorio.block.custom.PolisherBlock;
+import net.blackkillerking.minetorio.fluid.ModFluids;
 import net.blackkillerking.minetorio.item.ModItems;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DropExperienceBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
@@ -48,6 +47,11 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> POLISHER = registerBlock(
             "polisher", () -> new PolisherBlock(BlockBehaviour.Properties.copy(Blocks.SMITHING_TABLE)));
+    public static final RegistryObject<Block> METAL_SHAPING_STATION = registerBlock(
+            "metal_shaping_station", () -> new MetalShapingStationBlock(BlockBehaviour.Properties.copy(Blocks.ANVIL)));
+
+    public static final RegistryObject<LiquidBlock> CRUDE_OIL_BLOCK = BLOCKS.register(
+            "crude_oil_block", () -> new LiquidBlock(ModFluids.SOURCE_CRUDE_OIL, BlockBehaviour.Properties.copy(Blocks.LAVA).noLootTable()));
 
 
 

@@ -44,6 +44,11 @@ public class ModItemTagGenerator extends ItemTagsProvider {
                         ModItems.ZINC_SHEET.get(),
                         ModItems.SILVER_SHEET.get()
                 );
+        this.tag(ModTags.Items.METAL_WORKING_TOOLS)
+                .add(
+                        ModItems.COPPER_CLIPPER.get(),
+                        ModItems.COPPER_HAMMER.get()
+                );
     }
 
     @Override

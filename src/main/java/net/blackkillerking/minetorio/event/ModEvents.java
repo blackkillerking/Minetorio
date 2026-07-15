@@ -123,6 +123,19 @@ public class ModEvents {
     }
 
     @SubscribeEvent
+    public static void onIngotSmelted(PlayerEvent.ItemSmeltedEvent event) {
+        Player player = event.getEntity();
+        ItemStack craftedItem = event.getSmelting();
+        boolean isIngot = craftedItem.is(ModItems.TIN_INGOT.get());
+
+        if(isIngot   && player.level().isClientSide){
+            player.level().playLocalSound(player.getX(), player.getY(), player.getZ(), ModSound.HAMMER_CRAFTING.get(), SoundSource.PLAYERS, 1, 1, false);
+            Minetorio.LOGGER.info("Sound fired");
+
+        }
+    }
+
+    @SubscribeEvent
     public static void onCommandRegister (RegisterCommandsEvent event){
         new SetHomeCommand(event.getDispatcher());
         new ReturnHomeCommand(event.getDispatcher());

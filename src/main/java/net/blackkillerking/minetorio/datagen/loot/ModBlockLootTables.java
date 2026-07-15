@@ -32,6 +32,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.add(ModBlocks.SILVER_ORE.get(), block -> createOreDrop(ModBlocks.SILVER_ORE.get(), ModItems.RAW_SILVER.get()));
 
         this.dropSelf(ModBlocks.POLISHER.get());
+        this.dropSelf(ModBlocks.METAL_SHAPING_STATION.get());
 
     }
 

@@ -2,10 +2,19 @@ package net.blackkillerking.minetorio;
 
 import com.mojang.logging.LogUtils;
 import net.blackkillerking.minetorio.block.ModBlocks;
+import net.blackkillerking.minetorio.block.entity.ModBlockEntites;
+import net.blackkillerking.minetorio.fluid.ModFluidTypes;
+import net.blackkillerking.minetorio.fluid.ModFluids;
 import net.blackkillerking.minetorio.item.ModCreativeModTabs;
 import net.blackkillerking.minetorio.item.ModItems;
+import net.blackkillerking.minetorio.particle.ModParticals;
+import net.blackkillerking.minetorio.screen.MetalShapingStationScreen;
+import net.blackkillerking.minetorio.screen.ModMenuTypes;
 import net.blackkillerking.minetorio.sound.ModSound;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -39,6 +48,15 @@ public class Minetorio
         ModCreativeModTabs.register(modEventBus);
 
         ModSound.register(modEventBus);
+
+        ModParticals.register(modEventBus);
+
+        ModFluidTypes.register(modEventBus);
+        ModFluids.register(modEventBus);
+
+        ModBlockEntites.register(modEventBus);
+
+        ModMenuTypes.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -79,9 +97,12 @@ public class Minetorio
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            event.enqueueWork(() -> {
+                ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_CRUDE_OIL.get(), RenderType.solid());
+                ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_CRUDE_OIL.get(), RenderType.solid());
+
+                MenuScreens.register(ModMenuTypes.METAL_SHAPING_STATION_MENU.get(), MetalShapingStationScreen::new);
+            });
         }
     }
 }

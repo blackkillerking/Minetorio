@@ -25,6 +25,8 @@ public class ModTags {
         public static final TagKey<Item> COPPER_METALS = tag("copper_metals");
         public static final TagKey<Item> GOLD_METALS = tag("gold_metals");
 
+        public static final TagKey<Item> METAL_WORKING_TOOLS = tag("metal_working_tools");
+
         private static TagKey<Item> tag(String name){
             return ItemTags.create(new ResourceLocation(Minetorio.MOD_ID, name));
         }

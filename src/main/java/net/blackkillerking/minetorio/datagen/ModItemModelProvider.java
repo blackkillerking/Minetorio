@@ -44,12 +44,20 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         simpleItem(ModItems.HEATED_METAL);
 
+        simpleItem(ModItems.CRUDE_OIL_BUCKET);
+
         withExistingParent(
                 ModBlocks.POLISHER.getId().getPath(),
                 new ResourceLocation(Minetorio.MOD_ID, "block/" + ModBlocks.POLISHER.getId().getPath())
         );
 
+        withExistingParent(
+                ModBlocks.METAL_SHAPING_STATION.getId().getPath(),
+                new ResourceLocation(Minetorio.MOD_ID, "block/" + ModBlocks.METAL_SHAPING_STATION.getId().getPath())
+        );
+
         customBBBlock(ModBlocks.POLISHER.get());
+        customBBBlock(ModBlocks.METAL_SHAPING_STATION.get());
     }
 
     private ItemModelBuilder simpleItem (RegistryObject<Item> item){

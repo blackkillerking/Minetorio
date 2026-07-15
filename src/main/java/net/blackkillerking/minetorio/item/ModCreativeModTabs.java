@@ -55,6 +55,9 @@ public class ModCreativeModTabs {
                         output.accept(ModBlocks.SILVER_BLOCK.get());
 
                         output.accept(ModBlocks.POLISHER.get());
+                        output.accept(ModBlocks.METAL_SHAPING_STATION.get());
+
+                        output.accept(ModItems.CRUDE_OIL_BUCKET.get());
 
 
                     })

@@ -1,12 +1,12 @@
 package net.blackkillerking.minetorio.item;
 
 import net.blackkillerking.minetorio.Minetorio;
+import net.blackkillerking.minetorio.fluid.ModFluids;
 import net.blackkillerking.minetorio.item.custom.CopperClipperItem;
 import net.blackkillerking.minetorio.item.custom.CopperHammerItem;
+import net.blackkillerking.minetorio.item.custom.HeatedMetalItem;
 import net.blackkillerking.minetorio.sound.ModSound;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.RecordItem;
-import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -37,7 +37,9 @@ public class ModItems {
     public static final RegistryObject<Item> COPPER_HAMMER = ITEMS.register("copper_hammer", () -> new CopperHammerItem(1, 1, ModToolTiers.COPPER, new Item.Properties().durability(512)));
     public static final RegistryObject<Item> BLUNT_COPPER_HAMMER = ITEMS.register("blunt_copper_hammer", () -> new Item((new Item.Properties())));
 
-    public static final RegistryObject<Item> HEATED_METAL = ITEMS.register("heated_metal", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> HEATED_METAL = ITEMS.register("heated_metal", () -> new HeatedMetalItem(new Item.Properties()));
+
+    public static final RegistryObject<Item> CRUDE_OIL_BUCKET = ITEMS.register("crude_oil_bucket", () -> new BucketItem(ModFluids.SOURCE_CRUDE_OIL, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
 
 //    public static final RegistryObject<Item> M0_BEATS_RECORD = ITEMS.register("mo_beats_record", () -> new RecordItem(4, ModSound.MO_BEATS, new Item.Properties().stacksTo(1), 3280));
 
