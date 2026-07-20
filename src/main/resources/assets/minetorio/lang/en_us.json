@@ -1,18 +1,72 @@
 {
   "item.minetorio.raw_tin": "Raw Tin",
   "item.minetorio.tin_ingot": "Tin Ingot",
-  "item.minetorio.tin_rod": "Tin Rod",
+
   "item.minetorio.tin_sheet": "Tin Sheet",
+  "item.minetorio.tin_bar": "Tin Bar",
+  "item.minetorio.tin_stripe": "Tin Stripe",
+  "item.minetorio.tin_rod": "Tin Rod",
+  "item.minetorio:tin_panel": "Tin Panel",
+  "item.minetorio.tin_wire": "Tin Wire",
+  "item.minetorio.tin_screws": "Tin Screws",
+  "item.minetorio.tin_column": "Tin Column",
+  "item.minetorio.tin_ring": "Tin Ring",
 
   "item.minetorio.raw_zinc": "Raw Zinc",
   "item.minetorio.zinc_ingot": "Zinc Ingot",
-  "item.minetorio.zinc_rod": "Zinc Rod",
+
   "item.minetorio.zinc_sheet": "Zinc Sheet",
+  "item.minetorio.zinc_bar": "Zinc Bar",
+  "item.minetorio.zinc_stripe": "Zinc Stripe",
+  "item.minetorio.zinc_rod": "Zinc Rod",
+  "item.minetorio.zinc_panel": "Zinc Panel",
+  "item.minetorio.zinc_wire": "Zinc Wire",
+  "item.minetorio.zinc_screws": "Zinc Screws",
+  "item.minetorio.zinc_column": "Zinc Column",
+  "item.minetorio.zinc_ring": "Zinc Ring",
 
   "item.minetorio.raw_silver": "Raw Silver",
   "item.minetorio.silver_ingot": "Silver Ingot",
-  "item.minetorio.silver_rod": "Silver Rod",
+
   "item.minetorio.silver_sheet": "Silver Sheet",
+  "item.minetorio.silver_bar": "Silver Bar",
+  "item.minetorio.silver_stripe": "Silver Stripe",
+  "item.minetorio.silver_rod": "Silver Rod",
+  "item.minetorio.silver_panel": "Silver Panel",
+  "item.minetorio.silver_wire": "Silver Wire",
+  "item.minetorio.silver_screws": "Silver Screws",
+  "item.minetorio.silver_column": "Silver Column",
+  "item.minetorio.silver_ring": "Heated Ring",
+
+  "item.minetorio.iron_sheet": "Iron Sheet",
+  "item.minetorio.iron_bar": "Iron Bar",
+  "item.minetorio.iron_stripe": "Iron Stripe",
+  "item.minetorio.iron_rod": "Iron Rod",
+  "item.minetorio.iron_panel": "Iron Panel",
+  "item.minetorio.iron_wire": "Iron Wire",
+  "item.minetorio.iron_screws": "Iron Screws",
+  "item.minetorio.iron_column": "Iron Column",
+  "item.minetorio.iron_ring": "Iron Ring",
+
+  "item.minetorio.copper_sheet": "Copper Sheet",
+  "item.minetorio.copper_bar": "Copper Bar",
+  "item.minetorio.copper_stripe": "Copper Stripe",
+  "item.minetorio.copper_rod": "Copper Rod",
+  "item.minetorio.copper_panel": "Copper Panel",
+  "item.minetorio.copper_wire": "Copper Wire",
+  "item.minetorio.copper_screws": "Copper Screws",
+  "item.minetorio.copper_column": "Copper Column",
+  "item.minetorio.copper_ring": "Copper Ring",
+
+  "item.minetorio.gold_sheet": "Gold Sheet",
+  "item.minetorio.gold_bar": "Gold Bar",
+  "item.minetorio.gold_stripe": "Gold Stripe",
+  "item.minetorio.gold_rod": "Gold Rod",
+  "item.minetorio.gold_panel": "Gold Panel",
+  "item.minetorio.gold_wire": "Gold Wire",
+  "item.minetorio.gold_screws": "Gold Screws",
+  "item.minetorio.gold_column": "Gold Column",
+  "item.minetorio.gold_ring": "Gold Ring",
 
   "item.minetorio.copper_clipper": "Copper Clipper",
   "item.minetorio.blunt_copper_clipper": "Blunt Copper Clipper",
@@ -20,7 +74,20 @@
   "item.minetorio.copper_hammer": "Copper Hammer",
   "item.minetorio.blunt_copper_hammer": "Blunt Copper Hammer",
 
-  "item.minetorio.heated_metal": "Heated Metal",
+  "item.minetorio.copper_roller": "Copper Roller",
+  "item.minetorio.blunt_copper_roller": "Blunt Copper Roller",
+
+  "item.minetorio.heated_ingot": "Heated Ingot",
+
+  "item.minetorio.heated_sheet": "Heated Sheet",
+  "item.minetorio.heated_bar": "Heated Bar",
+  "item.minetorio.heated_stripe": "Heated Stripe",
+  "item.minetorio.heated_rod": "Heated Rod",
+  "item.minetorio.heated_panel": "Heated Panel",
+  "item.minetorio.heated_wire": "Heated Wire",
+  "item.minetorio.heated_screws": "Heated Screws",
+  "item.minetorio.heated_column": "Heated Column",
+  "item.minetorio.heated_ring": "Heated Ring",
 
   "block.minetorio.tin_ore": "Tin Ore",
   "block.minetorio.zinc_ore": "Zinc Ore",
@@ -40,6 +107,8 @@
   "item.minetorio.crude_oil_bucket": "Crude Oil Bucket",
 
   "creativetab.minetorio_ingredients": "Minetorio Ingredients",
+
+  "tooltip.minetorio.abstract_heated_metal.no_shift_tooltip": "Press §eSHIFT§7 for info",
 
   "sounds.minetorio.hammer_crafting": "Hammer crafting Metal Sheets"
 

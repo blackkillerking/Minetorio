@@ -15,6 +15,9 @@ public class ModTags {
         public static final TagKey<Item> CLIPPER_ABLE_INGOTS = tag("clipper_able_ingots");
         public static final TagKey<Item> CLIPPERS = tag("clippers");
         public static final TagKey<Item> HAMMERS = tag("hammers");
+        public static final TagKey<Item> ROLLERS = tag("rollers");
+        public static final TagKey<Item> SOLID_CONES = tag("solid_cones");
+        public static final TagKey<Item> HOLLOW_CONES = tag("hollow_cones");
 
         public static final TagKey<Item> SHEET = tag("sheet");
 
@@ -26,6 +29,7 @@ public class ModTags {
         public static final TagKey<Item> GOLD_METALS = tag("gold_metals");
 
         public static final TagKey<Item> METAL_WORKING_TOOLS = tag("metal_working_tools");
+        public static final TagKey<Item> HEATED_METALS = tag("heated_metals");
 
         private static TagKey<Item> tag(String name){
             return ItemTags.create(new ResourceLocation(Minetorio.MOD_ID, name));

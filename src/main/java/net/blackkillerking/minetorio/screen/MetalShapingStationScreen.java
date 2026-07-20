@@ -12,7 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 public class MetalShapingStationScreen extends AbstractContainerScreen<MetalShapingStationMenu> {
 
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Minetorio.MOD_ID, "texture/gui/metal_shaping_station_gui.png");
+            new ResourceLocation(Minetorio.MOD_ID, "textures/gui/metal_shaping_station_gui.png");
 
 
     public MetalShapingStationScreen(MetalShapingStationMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
@@ -21,7 +21,6 @@ public class MetalShapingStationScreen extends AbstractContainerScreen<MetalShap
 
     @Override
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
-        Minetorio.LOGGER.info("Screen Rendered");
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1f,1f,1f,1f);
         RenderSystem.setShaderTexture(0, TEXTURE);

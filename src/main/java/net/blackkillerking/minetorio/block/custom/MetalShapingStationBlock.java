@@ -51,7 +51,7 @@ public class MetalShapingStationBlock extends BaseEntityBlock {
             Minetorio.LOGGER.info("On Server Side");
             if (blockEntity instanceof MetalShapingStationBlockEntity){
                 Minetorio.LOGGER.info("Opened Screen");
-                NetworkHooks.openScreen((ServerPlayer) pPlayer, (MetalShapingStationBlockEntity) blockEntity);
+                NetworkHooks.openScreen((ServerPlayer) pPlayer, (MetalShapingStationBlockEntity) blockEntity, pPos);
             }
             else {
                 throw new IllegalStateException("Container missing");

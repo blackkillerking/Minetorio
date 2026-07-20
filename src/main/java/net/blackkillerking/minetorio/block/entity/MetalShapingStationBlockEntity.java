@@ -1,35 +1,37 @@
 package net.blackkillerking.minetorio.block.entity;
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.datagen.ModItemTagGenerator;
 import net.blackkillerking.minetorio.item.ModItems;
+import net.blackkillerking.minetorio.recipe.MetalShapingRecipe;
 import net.blackkillerking.minetorio.screen.MetalShapingStationMenu;
 import net.blackkillerking.minetorio.utils.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.plaf.basic.BasicComboBoxUI;
+import java.util.Optional;
 
 public class MetalShapingStationBlockEntity extends BlockEntity implements MenuProvider {
 
@@ -43,7 +45,7 @@ public class MetalShapingStationBlockEntity extends BlockEntity implements MenuP
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return switch (slot){
                 case 0, 1 -> stack.is(ModTags.Items.METAL_WORKING_TOOLS); // Tools input
-                case 2 -> stack.getItem() == ModItems.HEATED_METAL.get(); // Heated metal input
+                case 2 -> stack.is(ModTags.Items.HEATED_METALS); // Heated metal input
                 case 3 -> false; // Output
                 default -> super.isItemValid(slot, stack);
             };
@@ -106,16 +108,82 @@ public class MetalShapingStationBlockEntity extends BlockEntity implements MenuP
         itemHandler.deserializeNBT(pTag.getCompound( "inv"));
     }
 
-    public void tick(Level level, BlockPos pos, BlockState state) {
-
-    }
-
     public void drops() {
+        if(this.level.isClientSide){
+            return;
+        }
         SimpleContainer container = new SimpleContainer(itemHandler.getSlots());
-        for (int i = 0; i < itemHandler.getSlots(); i++) {
+        for (int i = 0; i < itemHandler.getSlots()-1; i++) {
             container.setItem(i, itemHandler.getStackInSlot(i));
         }
 
         Containers.dropContents(this.level, this.worldPosition, container);
+    }
+
+
+    public void tick(Level level, BlockPos pos, BlockState state) {
+        updateOutputResult();
+        if (hasRecipe() && canCraft()) {
+            setChanged(level, pos, state);
+        }
+    }
+
+    private void updateOutputResult() {
+        ItemStack output = this.itemHandler.getStackInSlot(OUTPUT_SHAPED_METAL);
+
+        if(hasRecipe() && output.isEmpty()){
+            ItemStack result = getRecipe().get().getResultItem(getLevel().registryAccess());
+            this.itemHandler.setStackInSlot(OUTPUT_SHAPED_METAL, result);
+        } else if(!hasRecipe() && !output.isEmpty()) {
+            this.itemHandler.setStackInSlot(OUTPUT_SHAPED_METAL, ItemStack.EMPTY);
+        }
+    }
+
+    private boolean hasRecipe() {
+        return getRecipe().isPresent();
+    }
+
+    private boolean canCraft() {
+        Optional<MetalShapingRecipe> recipe = getRecipe();
+
+        ItemStack result = recipe.get().getResultItem(getLevel().registryAccess());
+        ItemStack output = this.itemHandler.getStackInSlot(OUTPUT_SHAPED_METAL);
+
+        if (output.isEmpty()) return true;
+        if (!ItemStack.isSameItemSameTags(output, result)) return false;
+        return output.getCount() + result.getCount() <= output.getMaxStackSize();
+    }
+
+    public void craftItem() {
+        Minetorio.LOGGER.info("Crafting Item");
+        Optional<MetalShapingRecipe> recipe = getRecipe();
+        if(recipe.isEmpty()) return;
+        int extractCount = recipe.get().getIngredients().get(INPUT_HEATED_METAL).getItems()[0].getCount();
+
+        hurtToolsOrBreak();
+        this.itemHandler.extractItem(INPUT_HEATED_METAL, extractCount, false);
+    }
+
+    private void hurtToolsOrBreak(){
+        ItemStack toolOne = this.itemHandler.getStackInSlot(INPUT_TOOL_ONE);
+        ItemStack toolTwo = this.itemHandler.getStackInSlot(INPUT_TOOL_TWO);
+
+        ItemStack bluntToolOne = toolOne.getItem().hasCraftingRemainingItem(toolOne)
+                ? toolOne.getItem().getCraftingRemainingItem(toolOne)
+                : toolOne;
+        ItemStack bluntToolTwo = toolTwo.getItem().hasCraftingRemainingItem(toolTwo)
+                ? toolTwo.getItem().getCraftingRemainingItem(toolTwo)
+                : toolTwo;
+
+        this.itemHandler.setStackInSlot(INPUT_TOOL_ONE, bluntToolOne);
+        this.itemHandler.setStackInSlot(INPUT_TOOL_TWO, bluntToolTwo);
+    }
+
+    private Optional<MetalShapingRecipe> getRecipe() {
+        SimpleContainer inv = new SimpleContainer(this.itemHandler.getSlots());
+        for (int i = 0; i < this.itemHandler.getSlots(); i++) {
+            inv.setItem(i, this.itemHandler.getStackInSlot(i));
+        }
+        return this.level.getRecipeManager().getRecipeFor(MetalShapingRecipe.Type.INSTANCE, inv, level);
     }
 }

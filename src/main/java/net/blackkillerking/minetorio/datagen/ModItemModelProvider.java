@@ -25,16 +25,67 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.RAW_SILVER);
 
         simpleItem(ModItems.TIN_INGOT);
-        simpleItem(ModItems.ZINC_INGOT);
-        simpleItem(ModItems.SILVER_INGOT);
-
-        simpleItem(ModItems.TIN_ROD);
-        simpleItem(ModItems.ZINC_ROD);
-        simpleItem(ModItems.SILVER_ROD);
-
         simpleItem(ModItems.TIN_SHEET);
+        simpleItem(ModItems.TIN_BAR);
+        simpleItem(ModItems.TIN_PANEL);
+        simpleItem(ModItems.TIN_ROD);
+        simpleItem(ModItems.TIN_WIRE);
+        simpleItem(ModItems.TIN_STRIPE);
+        simpleItem(ModItems.TIN_SCREWS);
+        simpleItem(ModItems.TIN_COLUMN);
+        simpleItem(ModItems.TIN_RING);
+
+        simpleItem(ModItems.ZINC_INGOT);
         simpleItem(ModItems.ZINC_SHEET);
+        simpleItem(ModItems.ZINC_BAR);
+        simpleItem(ModItems.ZINC_PANEL);
+        simpleItem(ModItems.ZINC_ROD);
+        simpleItem(ModItems.ZINC_WIRE);
+        simpleItem(ModItems.ZINC_STRIPE);
+        simpleItem(ModItems.ZINC_SCREWS);
+        simpleItem(ModItems.ZINC_COLUMN);
+        simpleItem(ModItems.ZINC_RING);
+
+        simpleItem(ModItems.SILVER_INGOT);
         simpleItem(ModItems.SILVER_SHEET);
+        simpleItem(ModItems.SILVER_BAR);
+        simpleItem(ModItems.SILVER_PANEL);
+        simpleItem(ModItems.SILVER_ROD);
+        simpleItem(ModItems.SILVER_WIRE);
+        simpleItem(ModItems.SILVER_STRIPE);
+        simpleItem(ModItems.SILVER_SCREWS);
+        simpleItem(ModItems.SILVER_COLUMN);
+        simpleItem(ModItems.SILVER_RING);
+
+        simpleItem(ModItems.IRON_SHEET);
+        simpleItem(ModItems.IRON_BAR);
+        simpleItem(ModItems.IRON_PANEL);
+        simpleItem(ModItems.IRON_ROD);
+        simpleItem(ModItems.IRON_WIRE);
+        simpleItem(ModItems.IRON_STRIPE);
+        simpleItem(ModItems.IRON_SCREWS);
+        simpleItem(ModItems.IRON_COLUMN);
+        simpleItem(ModItems.IRON_RING);
+
+        simpleItem(ModItems.COPPER_SHEET);
+        simpleItem(ModItems.COPPER_BAR);
+        simpleItem(ModItems.COPPER_PANEL);
+        simpleItem(ModItems.COPPER_ROD);
+        simpleItem(ModItems.COPPER_WIRE);
+        simpleItem(ModItems.COPPER_STRIPE);
+        simpleItem(ModItems.COPPER_SCREWS);
+        simpleItem(ModItems.COPPER_COLUMN);
+        simpleItem(ModItems.COPPER_RING);
+
+        simpleItem(ModItems.GOLD_SHEET);
+        simpleItem(ModItems.GOLD_BAR);
+        simpleItem(ModItems.GOLD_PANEL);
+        simpleItem(ModItems.GOLD_ROD);
+        simpleItem(ModItems.GOLD_WIRE);
+        simpleItem(ModItems.GOLD_STRIPE);
+        simpleItem(ModItems.GOLD_SCREWS);
+        simpleItem(ModItems.GOLD_COLUMN);
+        simpleItem(ModItems.GOLD_RING);
 
         simpleItem(ModItems.COPPER_CLIPPER);
         simpleItem(ModItems.BLUNT_COPPER_CLIPPER);
@@ -42,7 +93,25 @@ public class ModItemModelProvider extends ItemModelProvider {
         handHeldItem(ModItems.COPPER_HAMMER);
         simpleItem(ModItems.BLUNT_COPPER_HAMMER);
 
-        simpleItem(ModItems.HEATED_METAL);
+        simpleItem(ModItems.COPPER_ROLLER);
+        simpleItem(ModItems.BLUNT_COPPER_ROLLER);
+
+        simpleItem(ModItems.COPPER_SOLID_CONE);
+        simpleItem(ModItems.BLUNT_COPPER_SOLID_CONE);
+
+        simpleItem(ModItems.COPPER_HOLLOW_CONE);
+        simpleItem(ModItems.BLUNT_COPPER_HOLLOW_CONE);
+
+        simpleItem(ModItems.HEATED_INGOT);
+        simpleItem(ModItems.HEATED_SHEET);
+        simpleItem(ModItems.HEATED_BAR);
+        simpleItem(ModItems.HEATED_PANEL);
+        simpleItem(ModItems.HEATED_ROD);
+        simpleItem(ModItems.HEATED_WIRE);
+        simpleItem(ModItems.HEATED_STRIPE);
+        simpleItem(ModItems.HEATED_SCREWS);
+        simpleItem(ModItems.HEATED_COLUMN);
+        simpleItem(ModItems.HEATED_RING);
 
         simpleItem(ModItems.CRUDE_OIL_BUCKET);
 

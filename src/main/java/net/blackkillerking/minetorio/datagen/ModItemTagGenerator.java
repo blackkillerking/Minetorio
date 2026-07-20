@@ -38,6 +38,18 @@ public class ModItemTagGenerator extends ItemTagsProvider {
                 .add(
                         ModItems.COPPER_HAMMER.get()
                 );
+        this.tag(ModTags.Items.ROLLERS)
+                .add(
+                        ModItems.COPPER_ROLLER.get()
+                );
+        this.tag(ModTags.Items.SOLID_CONES)
+                .add(
+                        ModItems.COPPER_SOLID_CONE.get()
+                );
+        this.tag(ModTags.Items.HOLLOW_CONES)
+                .add(
+                        ModItems.COPPER_HOLLOW_CONE.get()
+                );
         this.tag(ModTags.Items.SHEET)
                 .add(
                         ModItems.TIN_SHEET.get(),
@@ -47,7 +59,23 @@ public class ModItemTagGenerator extends ItemTagsProvider {
         this.tag(ModTags.Items.METAL_WORKING_TOOLS)
                 .add(
                         ModItems.COPPER_CLIPPER.get(),
-                        ModItems.COPPER_HAMMER.get()
+                        ModItems.COPPER_HAMMER.get(),
+                        ModItems.COPPER_ROLLER.get(),
+                        ModItems.COPPER_SOLID_CONE.get(),
+                        ModItems.COPPER_HOLLOW_CONE.get()
+                );
+        this.tag(ModTags.Items.HEATED_METALS)
+                .add(
+                      ModItems.HEATED_INGOT.get(),
+                      ModItems.HEATED_SHEET.get(),
+                      ModItems.HEATED_BAR.get(),
+                      ModItems.HEATED_PANEL.get(),
+                      ModItems.HEATED_ROD.get(),
+                      ModItems.HEATED_WIRE.get(),
+                      ModItems.HEATED_STRIPE.get(),
+                      ModItems.HEATED_SCREWS.get(),
+                      ModItems.HEATED_COLUMN.get(),
+                      ModItems.HEATED_RING.get()
                 );
     }
 

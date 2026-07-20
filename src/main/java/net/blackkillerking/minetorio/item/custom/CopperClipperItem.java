@@ -31,4 +31,5 @@ public class CopperClipperItem extends Item {
         currentClipper.setDamageValue(newDamage);
         return currentClipper;
     }
+
 }

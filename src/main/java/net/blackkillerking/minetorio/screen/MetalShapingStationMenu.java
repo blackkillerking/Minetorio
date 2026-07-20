@@ -4,6 +4,7 @@ import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.block.ModBlocks;
 import net.blackkillerking.minetorio.block.entity.MetalShapingStationBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -24,7 +25,6 @@ public class MetalShapingStationMenu extends AbstractContainerMenu {
 
     public MetalShapingStationMenu(int pContainerId, Inventory inv, BlockEntity blockEntity){
         super(ModMenuTypes.METAL_SHAPING_STATION_MENU.get(), pContainerId);
-        Minetorio.LOGGER.info("Screen Rendered");
         checkContainerSize(inv, 4);
         blockEntity1 = ((MetalShapingStationBlockEntity) blockEntity);
         this.level = inv.player.level();
@@ -33,14 +33,20 @@ public class MetalShapingStationMenu extends AbstractContainerMenu {
         addPlayerHotbar(inv);
 
         this.blockEntity1.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-            this.addSlot(new SlotItemHandler(iItemHandler, 0, 20, 20));
-            this.addSlot(new SlotItemHandler(iItemHandler, 1, 40, 20));
-            this.addSlot(new SlotItemHandler(iItemHandler, 2, 20, 40));
-            this.addSlot(new SlotItemHandler(iItemHandler, 3, 40, 40));
+            this.addSlot(new SlotItemHandler(iItemHandler, 0, 40, 20));
+            this.addSlot(new SlotItemHandler(iItemHandler, 1, 80, 20));
+            this.addSlot(new SlotItemHandler(iItemHandler, 2, 40, 55));
+            this.addSlot(new SlotItemHandler(iItemHandler, 3, 120, 55){
+                @Override
+                public void onTake(Player pPlayer, ItemStack pStack) {
+                    Minetorio.LOGGER.info("OnTake Fired");
+                    blockEntity1.craftItem();
+                    super.onTake(pPlayer, pStack);
+                }
+            });
         });
 
     }
-
 
     private static final int HOTBAR_SLOT_COUNT = 9;
     private static final int PLAYER_INVENTORY_ROW_COUNT = 3;

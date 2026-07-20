@@ -8,6 +8,7 @@ import net.blackkillerking.minetorio.fluid.ModFluids;
 import net.blackkillerking.minetorio.item.ModCreativeModTabs;
 import net.blackkillerking.minetorio.item.ModItems;
 import net.blackkillerking.minetorio.particle.ModParticals;
+import net.blackkillerking.minetorio.recipe.ModRecipes;
 import net.blackkillerking.minetorio.screen.MetalShapingStationScreen;
 import net.blackkillerking.minetorio.screen.ModMenuTypes;
 import net.blackkillerking.minetorio.sound.ModSound;
@@ -57,6 +58,7 @@ public class Minetorio
         ModBlockEntites.register(modEventBus);
 
         ModMenuTypes.register(modEventBus);
+        ModRecipes.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
