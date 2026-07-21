@@ -85,6 +85,20 @@ public class ModRecipeProiver extends RecipeProvider {
             "gold"
     );
 
+//    private final Map<Item, Integer> heatedMetalTypes = Map.of(
+//            ModItems.HEATED_INGOT.get(), 1800,
+//            ModItems.HEATED_SHEET.get(),1200,
+//            ModItems.HEATED_BAR.get(),800,
+//            ModItems.HEATED_STRIPE.get(),800,
+//            ModItems.HEATED_PANEL.get(),1200,
+//            ModItems.HEATED_ROD.get(),400,
+//            ModItems.HEATED_WIRE.get(),200,
+//            ModItems.HEATED_SCREWS.get(),40,
+//            ModItems.HEATED_COLUMN.get(),800,
+//            ModItems.HEATED_RING.get(), 40
+//
+//    );
+
 
     @Override
     protected void buildRecipes(Consumer<FinishedRecipe> pWriter) {
@@ -103,12 +117,12 @@ public class ModRecipeProiver extends RecipeProvider {
                 "minetorio:raw_silver", "silver", "minetorio:raw_silver_block", "silver");
 
 
-        quickHeatedMetalSetup(RecipeCategory.MISC, ModItems.RAW_TIN.get(), ModBlocks.TIN_ORE.get(), ModItems.HEATED_INGOT.get(), "tin", 1200,50, 100, pWriter, "tin");
-        quickHeatedMetalSetup(RecipeCategory.MISC, ModItems.RAW_ZINC.get(), ModBlocks.ZINC_ORE.get(), ModItems.HEATED_INGOT.get(), "zinc", 1200, 70, 1200, pWriter, "zinc");
-        quickHeatedMetalSetup(RecipeCategory.MISC, ModItems.RAW_SILVER.get(), ModBlocks.SILVER_ORE.get(), ModItems.HEATED_INGOT.get(), "silver", 1200, 70, 1200, pWriter, "silver");
-        quickHeatedMetalSetup(RecipeCategory.MISC, Items.RAW_IRON, Blocks.IRON_ORE, ModItems.HEATED_INGOT.get(), "iron", 1200, 70, 1200, pWriter, "iron");
-        quickHeatedMetalSetup(RecipeCategory.MISC, Items.RAW_COPPER, Blocks.COPPER_ORE, ModItems.HEATED_INGOT.get(), "copper", 1200, 70, 1200, pWriter, "copper");
-        quickHeatedMetalSetup(RecipeCategory.MISC, Items.RAW_GOLD, Blocks.GOLD_ORE, ModItems.HEATED_INGOT.get(), "gold", 1200, 70, 1200, pWriter, "gold");
+        quickHeatedMetalSetup(RecipeCategory.MISC, ModItems.RAW_TIN.get(), ModBlocks.TIN_ORE.get(), ModItems.HEATED_INGOT.get(), "tin", 1800,50, 1200, pWriter, "tin");
+        quickHeatedMetalSetup(RecipeCategory.MISC, ModItems.RAW_ZINC.get(), ModBlocks.ZINC_ORE.get(), ModItems.HEATED_INGOT.get(), "zinc", 1800, 70, 1200, pWriter, "zinc");
+        quickHeatedMetalSetup(RecipeCategory.MISC, ModItems.RAW_SILVER.get(), ModBlocks.SILVER_ORE.get(), ModItems.HEATED_INGOT.get(), "silver", 1800, 70, 1200, pWriter, "silver");
+        quickHeatedMetalSetup(RecipeCategory.MISC, Items.RAW_IRON, Blocks.IRON_ORE, ModItems.HEATED_INGOT.get(), "iron", 1800, 70, 1200, pWriter, "iron");
+        quickHeatedMetalSetup(RecipeCategory.MISC, Items.RAW_COPPER, Blocks.COPPER_ORE, ModItems.HEATED_INGOT.get(), "copper", 1800, 70, 1200, pWriter, "copper");
+        quickHeatedMetalSetup(RecipeCategory.MISC, Items.RAW_GOLD, Blocks.GOLD_ORE, ModItems.HEATED_INGOT.get(), "gold", 1800, 70, 1200, pWriter, "gold");
 
         for(String metalType : metalTypes){
 
@@ -123,7 +137,26 @@ public class ModRecipeProiver extends RecipeProvider {
             metalShapingBarBasedRecipe(ModItems.HEATED_COLUMN.get(), ModTags.Items.HAMMERS, ModTags.Items.SOLID_CONES, 1,metalType, 800, pWriter);
 
             metalShapingSheetBasedRecipe(ModItems.HEATED_RING.get(), ModTags.Items.HAMMERS, ModTags.Items.HOLLOW_CONES, 32,metalType, 40, pWriter);
+
+            Minetorio.LOGGER.info("" + ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_ingot")));
+            heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_sheet")), ModItems.HEATED_SHEET.get(), 1, metalType, 1200, 0, 300, pWriter, metalType);
+            heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_bar")), ModItems.HEATED_BAR.get(), 1, metalType, 800, 0, 200, pWriter, metalType);
+            heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_stripe")), ModItems.HEATED_STRIPE.get(), 1, metalType, 800, 0, 200, pWriter, metalType);
+            heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_panel")), ModItems.HEATED_PANEL.get(), 1, metalType, 1200, 0, 300, pWriter, metalType);
+            heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_wire")), ModItems.HEATED_WIRE.get(), 1, metalType, 200, 0, 50, pWriter, metalType);
+            heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_rod")), ModItems.HEATED_ROD.get(), 1, metalType, 400, 0, 100, pWriter, metalType);
+            heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_screws")), ModItems.HEATED_SCREWS.get(), 1, metalType, 40, 0, 20, pWriter, metalType);
+            heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_column")), ModItems.HEATED_COLUMN.get(), 1, metalType, 800, 0, 200, pWriter, metalType);
+            heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_ring")), ModItems.HEATED_RING.get(), 1, metalType, 40, 0, 20, pWriter, metalType);
+            if(!(metalType == "iron" || metalType == "gold" || metalType == "copper")){
+                heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_ingot")), ModItems.HEATED_INGOT.get(), 1, metalType, 1800, 0, 400, pWriter, metalType);
+            }
+
         }
+        heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", Items.IRON_INGOT, ModItems.HEATED_INGOT.get(), 1, "iron", 1800, 0, 400, pWriter, "iron");
+        heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", Items.GOLD_INGOT, ModItems.HEATED_INGOT.get(), 1, "gold", 1800, 0, 400, pWriter, "gold");
+        heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", Items.COPPER_INGOT, ModItems.HEATED_INGOT.get(), 1, "copper", 1800, 0, 400, pWriter, "copper");
+
     }
 
     protected static void oreSmelting(Consumer<FinishedRecipe> pFinishedRecipeConsumer, List<ItemLike> pIngredients, RecipeCategory pCategory, ItemLike pResult, float pExperience, int pCookingTIme, String pGroup) {
@@ -147,8 +180,8 @@ public class ModRecipeProiver extends RecipeProvider {
     private static void quickHeatedMetalSetup(RecipeCategory pCategory, ItemLike pIngredient_1, ItemLike pIngredient_2, Item pResult, String pType, int pCoolingTime, float pExperience, int pCookingTime, Consumer<FinishedRecipe> FinishedRecipeConsumer, String pGroup){
         heatedIngotFromSmeltingBuilder(pCategory, "_from_smelting", pIngredient_1, pResult, 1, pType, pCoolingTime,pExperience, pCookingTime, FinishedRecipeConsumer, pGroup);
         heatedIngotFromSmeltingBuilder(pCategory, "_from_smelting", pIngredient_2, pResult, 1, pType, pCoolingTime,pExperience, pCookingTime, FinishedRecipeConsumer, pGroup);
-        heatedIngotFromBlastingBuilder(pCategory, "_from_blasting", pIngredient_1, pResult, 1, pType, (int) (pCoolingTime * 1.2),(float) (pExperience * 1.45), pCookingTime * (2/3), FinishedRecipeConsumer, pGroup);
-        heatedIngotFromBlastingBuilder(pCategory, "_from_blasting", pIngredient_2, pResult, 1, pType, (int) (pCoolingTime * 1.2),(float) (pExperience * 1.45), pCookingTime * (2/3), FinishedRecipeConsumer, pGroup);
+        heatedIngotFromBlastingBuilder(pCategory, "_from_blasting", pIngredient_1, pResult, 1, pType, (int) (pCoolingTime * 1.2),(float) (pExperience * 1.45), (int) (pCookingTime * 0.6), FinishedRecipeConsumer, pGroup);
+        heatedIngotFromBlastingBuilder(pCategory, "_from_blasting", pIngredient_2, pResult, 1, pType, (int) (pCoolingTime * 1.2),(float) (pExperience * 1.45), (int) (pCookingTime * 0.6), FinishedRecipeConsumer, pGroup);
     }
 
     private static void heatedIngotFromSmeltingBuilder(RecipeCategory pCategory, String pRecipeName, ItemLike pIngredient, Item pResult, int pCount, String pType, int pCoolingTime, float pExperience, int pCookingTime, Consumer<FinishedRecipe> FinishedRecipeConsumer, String pGroup){
@@ -169,9 +202,7 @@ public class ModRecipeProiver extends RecipeProvider {
 
     private void metalShapingIngotBasedRecipe(Item pItem, TagKey<Item> pTools_1, @Nullable TagKey<Item> pTools_2, int pCount, String pMetalType, int pCoolingTime, Consumer<FinishedRecipe> pWriter) {
         CompoundTag metalData = new CompoundTag();
-        ItemStack heatedIngotType = new ItemStack(ModItems.HEATED_INGOT.get(), 1);
         metalData.putString("metal_type", pMetalType);
-        heatedIngotType.setTag(metalData);
 
         List<Ingredient> heatedIngotShapingRecipe = new ArrayList<>();
         heatedIngotShapingRecipe.add(Ingredient.of(pTools_1));
@@ -188,32 +219,28 @@ public class ModRecipeProiver extends RecipeProvider {
 
     private void metalShapingBarBasedRecipe(Item pItem, TagKey<Item> pTools_1, @Nullable TagKey<Item> pTools_2, int pCount, String pMetalType, int pCoolingTime, Consumer<FinishedRecipe> pWriter) {
         CompoundTag metalData = new CompoundTag();
-        ItemStack heatedBarShapingProduct = new ItemStack(ModItems.HEATED_BAR.get(), 1);
         metalData.putString("metal_type", pMetalType);
-        heatedBarShapingProduct.setTag(metalData);
 
-        List<Ingredient> heatedMetalShapingRecipe = new ArrayList<>(List.of());
-        heatedMetalShapingRecipe.add(Ingredient.of(pTools_1));
-        heatedMetalShapingRecipe.add(pTools_2 == null ? Ingredient.EMPTY : Ingredient.of(pTools_2));
-        heatedMetalShapingRecipe.add(Ingredient.of(heatedBarShapingProduct));
+        List<Ingredient> heatedBarShapingRecipe = new ArrayList<>();
+        heatedBarShapingRecipe.add(Ingredient.of(pTools_1));
+        heatedBarShapingRecipe.add(pTools_2 == null ? Ingredient.EMPTY : Ingredient.of(pTools_2));
+        heatedBarShapingRecipe.add(PartialNBTIngredient.of(metalData, ModItems.HEATED_BAR.get()));
 
-        new MetalShapingRecipeBuilder(pItem, heatedMetalShapingRecipe, pCount, pCoolingTime)
+        new MetalShapingRecipeBuilder(pItem, heatedBarShapingRecipe, pCount, pCoolingTime)
                 .unlockedBy("has_" + pMetalType + "_bar", has(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, pMetalType + "_bar"))))
                 .save(pWriter);
     }
 
     private void metalShapingSheetBasedRecipe(Item pItem, TagKey<Item> pTools_1, @Nullable TagKey<Item> pTools_2, int pCount, String pMetalType, int pCoolingTime, Consumer<FinishedRecipe> pWriter) {
         CompoundTag metalData = new CompoundTag();
-        ItemStack heatedSheetShapingProduct = new ItemStack(ModItems.HEATED_SHEET.get(), 1);
         metalData.putString("metal_type", pMetalType);
-        heatedSheetShapingProduct.setTag(metalData);
 
-        List<Ingredient> heatedMetalShapingRecipe = new ArrayList<>(List.of());
-        heatedMetalShapingRecipe.add(Ingredient.of(pTools_1));
-        heatedMetalShapingRecipe.add(pTools_2 == null ? Ingredient.EMPTY : Ingredient.of(pTools_2));
-        heatedMetalShapingRecipe.add(Ingredient.of(heatedSheetShapingProduct));
+        List<Ingredient> heatedSheetShapingRecipe = new ArrayList<>();
+        heatedSheetShapingRecipe.add(Ingredient.of(pTools_1));
+        heatedSheetShapingRecipe.add(pTools_2 == null ? Ingredient.EMPTY : Ingredient.of(pTools_2));
+        heatedSheetShapingRecipe.add(PartialNBTIngredient.of(metalData, ModItems.HEATED_SHEET.get()));
 
-        new MetalShapingRecipeBuilder(pItem, heatedMetalShapingRecipe, pCount, pCoolingTime)
+        new MetalShapingRecipeBuilder(pItem, heatedSheetShapingRecipe, pCount, pCoolingTime)
                 .unlockedBy("has_" + pMetalType + "_sheet", has(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, pMetalType + "_sheet"))))
                 .save(pWriter);
     }

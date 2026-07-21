@@ -52,9 +52,10 @@ public class MetalShapingRecipe implements Recipe<SimpleContainer> {
         );
 
         boolean toolsMatch = RecipeMatcher.findMatches(toolInputs, toolIngredients) != null;
-        boolean heatedIngotMatches = pContainer.getItem(2).getTag() != null && this.ingredients.get(2).getItems()[0].getTag() != null && this.ingredients.get(2).getItems()[0].getTag().getString("metal_type").equals(pContainer.getItem(2).getTag().getString("metal_type"));
+        boolean heatedIngotMatchesTag = pContainer.getItem(2).getTag() != null && this.ingredients.get(2).getItems()[0].getTag() != null && this.ingredients.get(2).getItems()[0].getTag().getString("metal_type").equals(pContainer.getItem(2).getTag().getString("metal_type"));
+        boolean heatedIngotMatchesItem = this.ingredients.get(2).getItems()[0].getItem() == pContainer.getItem(2).getItem();
 
-        return toolsMatch && heatedIngotMatches;
+        return toolsMatch && heatedIngotMatchesTag && heatedIngotMatchesItem;
     }
 
     @Override

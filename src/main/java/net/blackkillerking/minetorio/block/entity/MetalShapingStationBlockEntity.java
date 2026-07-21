@@ -128,15 +128,24 @@ public class MetalShapingStationBlockEntity extends BlockEntity implements MenuP
         }
     }
 
-    private void updateOutputResult() {
+    private Optional<MetalShapingRecipe> prevRecipe;
+    public void updateOutputResult() {
         ItemStack output = this.itemHandler.getStackInSlot(OUTPUT_SHAPED_METAL);
+        Optional<MetalShapingRecipe> currentRecipe = getRecipe();
 
-        if(hasRecipe() && output.isEmpty()){
-            ItemStack result = getRecipe().get().getResultItem(getLevel().registryAccess());
-            this.itemHandler.setStackInSlot(OUTPUT_SHAPED_METAL, result);
+        if(hasRecipe()){
+            if(output.isEmpty()){
+                ItemStack result = getRecipe().get().getResultItem(getLevel().registryAccess());
+                this.itemHandler.setStackInSlot(OUTPUT_SHAPED_METAL, result);
+            } else if(prevRecipe != currentRecipe){
+                ItemStack result = currentRecipe.get().getResultItem(getLevel().registryAccess());
+                this.itemHandler.setStackInSlot(OUTPUT_SHAPED_METAL, result);
+            }
+
         } else if(!hasRecipe() && !output.isEmpty()) {
             this.itemHandler.setStackInSlot(OUTPUT_SHAPED_METAL, ItemStack.EMPTY);
         }
+        prevRecipe = currentRecipe;
     }
 
     private boolean hasRecipe() {
