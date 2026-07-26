@@ -35,7 +35,6 @@ public class MetalShapingStationBlock extends BaseEntityBlock {
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
         if (pState.getBlock() != pNewState.getBlock()){
-            Minetorio.LOGGER.info("Block removed");
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
             if (blockEntity instanceof MetalShapingStationBlockEntity){
                 ((MetalShapingStationBlockEntity) blockEntity).drops();
@@ -45,12 +44,9 @@ public class MetalShapingStationBlock extends BaseEntityBlock {
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        Minetorio.LOGGER.info("Block Used");
         if(!pLevel.isClientSide){
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            Minetorio.LOGGER.info("On Server Side");
             if (blockEntity instanceof MetalShapingStationBlockEntity){
-                Minetorio.LOGGER.info("Opened Screen");
                 NetworkHooks.openScreen((ServerPlayer) pPlayer, (MetalShapingStationBlockEntity) blockEntity, pPos);
             }
             else {

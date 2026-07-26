@@ -2,11 +2,14 @@ package net.blackkillerking.minetorio.datagen;
 
 import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.block.ModBlocks;
+import net.blackkillerking.minetorio.block.crops.OliveCropBlock;
 import net.blackkillerking.minetorio.block.custom.PolisherBlock;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -16,6 +19,8 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.function.Function;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -37,20 +42,40 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.ZINC_BLOCK);
         blockWithItem(ModBlocks.SILVER_BLOCK);
 
-        getVariantBuilder(ModBlocks.POLISHER.get()).forAllStates(state -> {
-            if(!state.getValue(PolisherBlock.BROKEN)){
-                return new ConfiguredModel[] {
-                        new ConfiguredModel(new ModelFile.UncheckedModelFile(modLoc("block/polisher")))
-                };
-            }
-            else{
-                return new ConfiguredModel[] {
-                        new ConfiguredModel(new ModelFile.UncheckedModelFile(modLoc("block/broken_polisher")))
-                };
-            }
-        });
+        blockWithItem(ModBlocks.OLD_LOG);
+        blockWithItem(ModBlocks.BASALT_BLOCK);
+        blockWithItem(ModBlocks.FLINT_BLOCK);
 
+        simpleBlock(ModBlocks.POLISHER.get(),
+                new ModelFile.UncheckedModelFile(modLoc("block/polisher")));
+        simpleBlock(ModBlocks.BROKEN_POLISHER.get(),
+                new ModelFile.UncheckedModelFile(modLoc("block/broken_polisher")));
 
+        simpleBlock(ModBlocks.METAL_SHAPING_STATION.get(),
+                new ModelFile.UncheckedModelFile(modLoc("block/metal_shaping_station")));
+
+        simpleBlock(ModBlocks.ANIMAL_HIDE.get(),
+                new ModelFile.UncheckedModelFile(modLoc("block/animal_hide_block")));
+        simpleBlock(ModBlocks.HIDE.get(),
+                new ModelFile.UncheckedModelFile(modLoc("block/hide_block")));
+        simpleBlock(ModBlocks.TREATED_HIDE.get(),
+                new ModelFile.UncheckedModelFile(modLoc("block/treated_hide_block")));
+        simpleBlock(ModBlocks.LEATHER.get(),
+                new ModelFile.UncheckedModelFile(modLoc("block/leather_block")));
+
+        makeCropModel((CropBlock) ModBlocks.OLIVE_CROP.get(), "olive_crop_stage", "olive_crop_stage");
+    }
+
+    private void makeCropModel(CropBlock block, String modelName, String textureName){
+        Function<BlockState, ConfiguredModel[]> function = state -> states(state, block, modelName, textureName);
+        getVariantBuilder(block).forAllStates(function);
+    }
+
+    private ConfiguredModel[] states(BlockState state, CropBlock block, String modelName, String textureName){
+        ConfiguredModel[] models = new ConfiguredModel[1];
+        models[0] = new ConfiguredModel(models().crop(modelName + state.getValue(((OliveCropBlock) block).getAgeProperty()),
+                new ResourceLocation(Minetorio.MOD_ID, "block/" + textureName + state.getValue(((OliveCropBlock) block).getAgeProperty()))).renderType("cutout"));
+        return models;
     }
 
     private void blockItem (RegistryObject<Block> block, String appendix){

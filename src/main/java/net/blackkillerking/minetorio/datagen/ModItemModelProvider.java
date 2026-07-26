@@ -20,11 +20,61 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
+
+        simpleItem(ModItems.WOOD_BARK);
+
+        simpleItem(ModItems.OLIVE);
+        simpleItem(ModItems.OLIVE_OIL);
+        simpleItem(ModItems.OLIVE_SEEDS);
+
+        simpleItem(ModItems.FLINT_FRAGMENT);
+        simpleItem(ModItems.BASALT_ROCK);
+        simpleItem(ModItems.SHARPENED_FLINT);
+        simpleItem(ModItems.SHARPENED_BASALT);
+
+        simpleItem(ModItems.ANIMAL_HIDE);
+        simpleItem(ModItems.HIDE);
+        simpleItem(ModItems.SOAKED_HIDE);
+        simpleItem(ModItems.DRIED_HIDE);
+        simpleItem(ModItems.TREATED_HIDE);
+
+        simpleItem(ModItems.PLANT_FIBER);
+        simpleItem(ModItems.FIRM_PLANT_FIBER);
+        simpleItem(ModItems.STIFF_STICK);
+
+        simpleItem(ModItems.WOODEN_AXE_HEAD);
+        simpleItem(ModItems.FLINT_PICKAXE_HEAD);
+        simpleItem(ModItems.FLINT_AXE_HEAD);
+        simpleItem(ModItems.FLINT_SHOVEL_HEAD);
+        simpleItem(ModItems.FLINT_HOE_HEAD);
+        simpleItem(ModItems.BASALT_PICKAXE_HEAD);
+        simpleItem(ModItems.BASALT_AXE_HEAD);
+        simpleItem(ModItems.BASALT_SHOVEL_HEAD);
+        simpleItem(ModItems.BASALT_HOE_HEAD);
+
+        simpleItem(ModItems.FLINT_BASALT_PICKAXE_BODY);
+        simpleItem(ModItems.FLINT_BASALT_AXE_BODY);
+        simpleItem(ModItems.FLINT_BASALT_SHOVEL_HOE_BODY);
+        simpleItem(ModItems.BASALT_HAMMER_BODY);
+
+        handHeldItem(ModItems.FLINT_PICKAXE);
+        handHeldItem(ModItems.FLINT_AXE);
+        handHeldItem(ModItems.FLINT_SHOVEL);
+        handHeldItem(ModItems.FLINT_HOE);
+        handHeldItem(ModItems.FLINT_KNIFE);
+        handHeldItem(ModItems.BASALT_PICKAXE);
+        handHeldItem(ModItems.BASALT_AXE);
+        handHeldItem(ModItems.BASALT_SHOVEL);
+        handHeldItem(ModItems.BASALT_HOE);
+        handHeldItem(ModItems.BASALT_KNIFE);
+        handHeldItem(ModItems.CRACKED_BASALT_HAMMER);
+
         simpleItem(ModItems.RAW_TIN);
         simpleItem(ModItems.RAW_ZINC);
         simpleItem(ModItems.RAW_SILVER);
 
         simpleItem(ModItems.TIN_INGOT);
+        simpleItem(ModItems.TIN_NUGGET);
         simpleItem(ModItems.TIN_SHEET);
         simpleItem(ModItems.TIN_BAR);
         simpleItem(ModItems.TIN_PANEL);
@@ -36,6 +86,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.TIN_RING);
 
         simpleItem(ModItems.ZINC_INGOT);
+        simpleItem(ModItems.ZINC_NUGGET);
         simpleItem(ModItems.ZINC_SHEET);
         simpleItem(ModItems.ZINC_BAR);
         simpleItem(ModItems.ZINC_PANEL);
@@ -47,6 +98,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.ZINC_RING);
 
         simpleItem(ModItems.SILVER_INGOT);
+        simpleItem(ModItems.SILVER_NUGGET);
         simpleItem(ModItems.SILVER_SHEET);
         simpleItem(ModItems.SILVER_BAR);
         simpleItem(ModItems.SILVER_PANEL);
@@ -67,6 +119,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.IRON_COLUMN);
         simpleItem(ModItems.IRON_RING);
 
+        simpleItem(ModItems.COPPER_NUGGET);
         simpleItem(ModItems.COPPER_SHEET);
         simpleItem(ModItems.COPPER_BAR);
         simpleItem(ModItems.COPPER_PANEL);
@@ -114,18 +167,10 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.HEATED_RING);
 
         simpleItem(ModItems.CRUDE_OIL_BUCKET);
-
-        withExistingParent(
-                ModBlocks.POLISHER.getId().getPath(),
-                new ResourceLocation(Minetorio.MOD_ID, "block/" + ModBlocks.POLISHER.getId().getPath())
-        );
-
-        withExistingParent(
-                ModBlocks.METAL_SHAPING_STATION.getId().getPath(),
-                new ResourceLocation(Minetorio.MOD_ID, "block/" + ModBlocks.METAL_SHAPING_STATION.getId().getPath())
-        );
+        simpleItem(ModItems.TANNIN_BUCKET);
 
         customBBBlock(ModBlocks.POLISHER.get());
+        customBBBlock(ModBlocks.BROKEN_POLISHER.get());
         customBBBlock(ModBlocks.METAL_SHAPING_STATION.get());
     }
 

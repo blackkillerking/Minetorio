@@ -4,12 +4,14 @@ import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.item.ModItems;
 import net.blackkillerking.minetorio.recipe.MetalShapingRecipe;
 import net.blackkillerking.minetorio.screen.MetalShapingStationMenu;
+import net.blackkillerking.minetorio.sound.ModSound;
 import net.blackkillerking.minetorio.utils.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -164,10 +166,17 @@ public class MetalShapingStationBlockEntity extends BlockEntity implements MenuP
     }
 
     public void craftItem() {
+        if(this.level.isClientSide()){
+            return;
+        }
         Minetorio.LOGGER.info("Crafting Item");
         Optional<MetalShapingRecipe> recipe = getRecipe();
         if(recipe.isEmpty()) return;
         int extractCount = recipe.get().getIngredients().get(INPUT_HEATED_METAL).getItems()[0].getCount();
+        BlockPos blockPos = this.getBlockPos();
+
+        this.level.playLocalSound(blockPos.getX(), blockPos.getY(), blockPos.getZ(), ModSound.HAMMER_CRAFTING.get(), SoundSource.PLAYERS, 1, 1, false);
+        Minetorio.LOGGER.info("Sound fired");
 
         hurtToolsOrBreak();
         this.itemHandler.extractItem(INPUT_HEATED_METAL, extractCount, false);

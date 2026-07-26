@@ -10,20 +10,18 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.PartialNBTIngredient;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -34,48 +32,6 @@ public class ModRecipeProiver extends RecipeProvider {
     public ModRecipeProiver(PackOutput pOutput) {
         super(pOutput);
     }
-
-
-    private final List<ItemLike> tinSmeltables = List.of(
-            ModItems.RAW_TIN.get(),
-            ModBlocks.TIN_ORE.get()
-    );
-
-    private final List<ItemLike> zincSmeltables = List.of(
-            ModItems.RAW_ZINC.get(),
-            ModBlocks.ZINC_ORE.get()
-    );
-
-    private final List<ItemLike> silverSmeltables = List.of(
-            ModItems.RAW_SILVER.get(),
-            ModBlocks.SILVER_ORE.get()
-    );
-
-    private final List<ItemLike> rawTinBlock = List.of(
-            ModBlocks.RAW_TIN_BLOCK.get()
-    );
-    private final List<ItemLike> rawZincBlock = List.of(
-            ModBlocks.RAW_ZINC_BLOCK.get()
-    );
-
-    private final List<ItemLike> rawSilverBlock = List.of(
-            ModBlocks.RAW_SILVER_BLOCK.get()
-    );
-
-    private final Map<RegistryObject<Item>, RegistryObject<Item>> INGOT_TO_ROD = Map.of(
-            ModItems.TIN_INGOT, ModItems.TIN_ROD,
-            ModItems.ZINC_INGOT, ModItems.ZINC_ROD,
-            ModItems.SILVER_INGOT, ModItems.SILVER_ROD
-
-    );
-
-    private final Map<RegistryObject<Item>, RegistryObject<Item>> INGOT_TO_SHEET = Map.of(
-            ModItems.TIN_INGOT, ModItems.TIN_SHEET,
-            ModItems.ZINC_INGOT, ModItems.ZINC_SHEET,
-            ModItems.SILVER_INGOT, ModItems.SILVER_SHEET
-    );
-
-
     private final List<String> metalTypes = List.of(
             "tin",
             "zinc",
@@ -84,20 +40,6 @@ public class ModRecipeProiver extends RecipeProvider {
             "copper",
             "gold"
     );
-
-//    private final Map<Item, Integer> heatedMetalTypes = Map.of(
-//            ModItems.HEATED_INGOT.get(), 1800,
-//            ModItems.HEATED_SHEET.get(),1200,
-//            ModItems.HEATED_BAR.get(),800,
-//            ModItems.HEATED_STRIPE.get(),800,
-//            ModItems.HEATED_PANEL.get(),1200,
-//            ModItems.HEATED_ROD.get(),400,
-//            ModItems.HEATED_WIRE.get(),200,
-//            ModItems.HEATED_SCREWS.get(),40,
-//            ModItems.HEATED_COLUMN.get(),800,
-//            ModItems.HEATED_RING.get(), 40
-//
-//    );
 
 
     @Override
@@ -108,7 +50,6 @@ public class ModRecipeProiver extends RecipeProvider {
                 "minetorio:zinc_ingot", "zinc", "minetorio:zinc_block", "zinc");
         nineBlockStorageRecipes(pWriter, RecipeCategory.MISC, ModItems.SILVER_INGOT.get(), RecipeCategory.MISC, ModBlocks.SILVER_BLOCK.get(),
                 "minetorio:silver_ingot", "silver", "minetorio:silver_block", "silver");
-
         nineBlockStorageRecipes(pWriter, RecipeCategory.MISC, ModItems.RAW_TIN.get(), RecipeCategory.MISC, ModBlocks.RAW_TIN_BLOCK.get(),
                 "minetorio:raw_tin", "tin", "minetorio:raw_tin_block", "tin");
         nineBlockStorageRecipes(pWriter, RecipeCategory.MISC, ModItems.RAW_ZINC.get(), RecipeCategory.MISC, ModBlocks.RAW_ZINC_BLOCK.get(),
@@ -116,7 +57,47 @@ public class ModRecipeProiver extends RecipeProvider {
         nineBlockStorageRecipes(pWriter, RecipeCategory.MISC, ModItems.RAW_SILVER.get(), RecipeCategory.MISC, ModBlocks.RAW_SILVER_BLOCK.get(),
                 "minetorio:raw_silver", "silver", "minetorio:raw_silver_block", "silver");
 
+        twoByTwoPacker(pWriter, RecipeCategory.MISC, Items.FLINT, ModItems.FLINT_FRAGMENT.get());
+        twoByTwoPacker(pWriter, RecipeCategory.MISC, ModBlocks.BASALT_BLOCK.get(), ModItems.BASALT_ROCK.get());
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FIRM_PLANT_FIBER.get(), 1).pattern("SP ").pattern("P  ").pattern("   ").define('S', ModTags.Items.STICK_BARK).define('P', ModTags.Items.PLANT_FIBERS).unlockedBy("has_plant_fiber_and_sticks", has(ModTags.Items.PLANT_FIBERS)).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.CRAFTING_TABLE, 1).pattern("SPS").pattern("APH").pattern("SSS").define('A', ModTags.Items.AXES).define('S', ItemTags.WOODEN_SLABS).define('P', ItemTags.PLANKS).define('H', ModTags.Items.HAMMERS).unlockedBy("has_flint_axe", has(ModItems.FLINT_AXE.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.OLIVE_OIL.get(), 1).pattern("OHO").pattern("OBO").pattern("OOO").define('O', ModItems.OLIVE.get()).define('H', ModTags.Items.HAMMERS).define('B', ModItems.WOOD_BARK.get()).unlockedBy("has_olive", has(ModItems.OLIVE.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.TREATED_HIDE.get(), 1).pattern("OOO").pattern(" L ").pattern("   ").define('O', ModItems.OLIVE_OIL.get()).define('L', ModItems.DRIED_HIDE.get()).unlockedBy("has_dried_hide", has(ModItems.DRIED_HIDE.get())).save(pWriter);
+        //WOODEN TOOLS
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.WOODEN_PICKAXE, 1).pattern("PB ").pattern("SP ").pattern("   ").define('P', ModTags.Items.PLANT_FIBERS).define('B', ModItems.WOOD_BARK.get()).define('S', Items.STICK).unlockedBy("has_plant_fiber_and_sticks", has(ModTags.Items.PLANT_FIBERS)).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.WOODEN_AXE_HEAD.get(), 1).pattern("BB ").pattern("PB ").pattern("   ").define('P', ModTags.Items.PLANT_FIBERS).define('B', ModItems.WOOD_BARK.get()).unlockedBy("has_plant_fiber_and_sticks", has(ModTags.Items.PLANT_FIBERS)).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.WOODEN_AXE, 1).pattern("PH ").pattern("S  ").pattern("   ").define('P', ModTags.Items.PLANT_FIBERS).define('H', ModItems.WOODEN_AXE_HEAD.get()).define('S', Items.STICK).unlockedBy("has_axe_head", has(ModItems.WOODEN_AXE_HEAD.get())).save(pWriter);
+        //FLINT/BASALT TOOLS
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FLINT_PICKAXE_HEAD.get(), 1).pattern("SF ").pattern("P  ").pattern("   ").define('P', ModItems.FIRM_PLANT_FIBER.get()).define('F', ModItems.SHARPENED_FLINT.get()).define('S', ModItems.STIFF_STICK.get()).unlockedBy("has_sharpened_flint", has(ModItems.SHARPENED_FLINT.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FLINT_AXE_HEAD.get(), 1).pattern("SF ").pattern("PP ").pattern("   ").define('P', ModItems.FIRM_PLANT_FIBER.get()).define('F', ModItems.SHARPENED_FLINT.get()).define('S', ModItems.STIFF_STICK.get()).unlockedBy("has_sharpened_flint", has(ModItems.SHARPENED_FLINT.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FLINT_SHOVEL_HEAD.get(), 1).pattern("FF ").pattern("PP ").pattern("   ").define('P', ModItems.FIRM_PLANT_FIBER.get()).define('F', Items.FLINT).unlockedBy("has_flint", has(Items.FLINT)).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FLINT_HOE_HEAD.get(), 1).pattern("PF ").pattern("P  ").pattern("   ").define('P', ModItems.FIRM_PLANT_FIBER.get()).define('F', Items.FLINT).unlockedBy("has_flint", has(Items.FLINT)).save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BASALT_PICKAXE_HEAD.get(), 1).pattern("SB ").pattern("P  ").pattern("   ").define('P', ModItems.FIRM_PLANT_FIBER.get()).define('B', ModItems.SHARPENED_BASALT.get()).define('S', ModItems.STIFF_STICK.get()).unlockedBy("has_sharpened_basalt", has(ModItems.SHARPENED_BASALT.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BASALT_AXE_HEAD.get(), 1).pattern("SB ").pattern("PP ").pattern("   ").define('P', ModItems.FIRM_PLANT_FIBER.get()).define('B', ModItems.SHARPENED_BASALT.get()).define('S', ModItems.STIFF_STICK.get()).unlockedBy("has_sharpened_basalt", has(ModItems.SHARPENED_BASALT.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BASALT_SHOVEL_HEAD.get(), 1).pattern("BB ").pattern("PP ").pattern("   ").define('P', ModItems.FIRM_PLANT_FIBER.get()).define('B', ModItems.BASALT_ROCK.get()).unlockedBy("has_basalt_rock", has(ModItems.BASALT_ROCK.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BASALT_HOE_HEAD.get(), 1).pattern("PB ").pattern("P  ").pattern("   ").define('P', ModItems.FIRM_PLANT_FIBER.get()).define('B', ModItems.BASALT_ROCK.get()).unlockedBy("has_basalt_rock", has(ModItems.BASALT_ROCK.get())).save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FLINT_BASALT_PICKAXE_BODY.get(), 1).pattern("PP ").pattern("S  ").pattern("   ").define('P', ModItems.FIRM_PLANT_FIBER.get()).define('S', ModItems.STIFF_STICK.get()).unlockedBy("has_stiff_stick", has(ModItems.STIFF_STICK.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FLINT_BASALT_AXE_BODY.get(), 1).pattern("P  ").pattern("S  ").pattern("   ").define('P', ModItems.FIRM_PLANT_FIBER.get()).define('S', ModItems.STIFF_STICK.get()).unlockedBy("has_stiff_stick", has(ModItems.STIFF_STICK.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FLINT_BASALT_SHOVEL_HOE_BODY.get(), 1).pattern("S  ").pattern("S  ").pattern("   ").define('S', ModItems.STIFF_STICK.get()).unlockedBy("has_stiff_stick", has(ModItems.STIFF_STICK.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BASALT_HAMMER_BODY.get(), 1).pattern("SP ").pattern("SP ").pattern("   ").define('S', ModItems.STIFF_STICK.get()).define('P', ModItems.FIRM_PLANT_FIBER.get()).unlockedBy("has_stiff_stick", has(ModItems.STIFF_STICK.get())).save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FLINT_PICKAXE.get(), 1).pattern("SS ").pattern("s  ").pattern("   ").define('S', ModItems.FLINT_PICKAXE_HEAD.get()).define('s', ModItems.FLINT_BASALT_PICKAXE_BODY.get()).unlockedBy("has_stiff_stick", has(ModItems.STIFF_STICK.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FLINT_KNIFE.get(), 1).pattern("FP ").pattern("S  ").pattern("   ").define('P', ModItems.FIRM_PLANT_FIBER.get()).define('S', ModItems.STIFF_STICK.get()).define('F', ModItems.SHARPENED_FLINT.get()).unlockedBy("has_stiff_stick", has(ModItems.STIFF_STICK.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FLINT_AXE.get(), 1).pattern("S  ").pattern("s  ").pattern("   ").define('S', ModItems.FLINT_AXE_HEAD.get()).define('s', ModItems.FLINT_BASALT_AXE_BODY.get()).unlockedBy("has_stiff_stick", has(ModItems.STIFF_STICK.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FLINT_SHOVEL.get(), 1).pattern("S  ").pattern("s  ").pattern("   ").define('S', ModItems.FLINT_SHOVEL_HEAD.get()).define('s', ModItems.FLINT_BASALT_SHOVEL_HOE_BODY.get()).unlockedBy("has_stiff_stick", has(ModItems.STIFF_STICK.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.FLINT_HOE.get(), 1).pattern("S  ").pattern("s  ").pattern("   ").define('S', ModItems.FLINT_HOE_HEAD.get()).define('s', ModItems.FLINT_BASALT_SHOVEL_HOE_BODY.get()).unlockedBy("has_stiff_stick", has(ModItems.STIFF_STICK.get())).save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BASALT_PICKAXE.get(), 1).pattern("SS ").pattern("s  ").pattern("   ").define('S', ModItems.BASALT_PICKAXE_HEAD.get()).define('s', ModItems.FLINT_BASALT_PICKAXE_BODY.get()).unlockedBy("has_stiff_stick", has(ModItems.STIFF_STICK.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BASALT_KNIFE.get(), 1).pattern("BP ").pattern("S  ").pattern("   ").define('P', ModItems.FIRM_PLANT_FIBER.get()).define('S', ModItems.STIFF_STICK.get()).define('B', ModItems.SHARPENED_BASALT.get()).unlockedBy("has_stiff_stick", has(ModItems.STIFF_STICK.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BASALT_AXE.get(), 1).pattern("S  ").pattern("s  ").pattern("   ").define('S', ModItems.BASALT_AXE_HEAD.get()).define('s', ModItems.FLINT_BASALT_AXE_BODY.get()).unlockedBy("has_stiff_stick", has(ModItems.STIFF_STICK.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BASALT_SHOVEL.get(), 1).pattern("S  ").pattern("s  ").pattern("   ").define('S', ModItems.BASALT_SHOVEL_HEAD.get()).define('s', ModItems.FLINT_BASALT_SHOVEL_HOE_BODY.get()).unlockedBy("has_stiff_stick", has(ModItems.STIFF_STICK.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BASALT_HOE.get(), 1).pattern("S  ").pattern("s  ").pattern("   ").define('S', ModItems.BASALT_HOE_HEAD.get()).define('s', ModItems.FLINT_BASALT_SHOVEL_HOE_BODY.get()).unlockedBy("has_stiff_stick", has(ModItems.STIFF_STICK.get())).save(pWriter);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BASALT_HAMMER.get(), 1).pattern("B  ").pattern("s  ").pattern("   ").define('B', ModBlocks.BASALT_BLOCK.get()).define('s', ModItems.BASALT_HAMMER_BODY.get()).unlockedBy("has_basalt_block", has(ModBlocks.BASALT_BLOCK.get())).save(pWriter);
+
+        //METALLURGY RECIPES
         quickHeatedMetalSetup(RecipeCategory.MISC, ModItems.RAW_TIN.get(), ModBlocks.TIN_ORE.get(), ModItems.HEATED_INGOT.get(), "tin", 1800,50, 1200, pWriter, "tin");
         quickHeatedMetalSetup(RecipeCategory.MISC, ModItems.RAW_ZINC.get(), ModBlocks.ZINC_ORE.get(), ModItems.HEATED_INGOT.get(), "zinc", 1800, 70, 1200, pWriter, "zinc");
         quickHeatedMetalSetup(RecipeCategory.MISC, ModItems.RAW_SILVER.get(), ModBlocks.SILVER_ORE.get(), ModItems.HEATED_INGOT.get(), "silver", 1800, 70, 1200, pWriter, "silver");
@@ -138,7 +119,6 @@ public class ModRecipeProiver extends RecipeProvider {
 
             metalShapingSheetBasedRecipe(ModItems.HEATED_RING.get(), ModTags.Items.HAMMERS, ModTags.Items.HOLLOW_CONES, 32,metalType, 40, pWriter);
 
-            Minetorio.LOGGER.info("" + ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_ingot")));
             heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_sheet")), ModItems.HEATED_SHEET.get(), 1, metalType, 1200, 0, 300, pWriter, metalType);
             heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_bar")), ModItems.HEATED_BAR.get(), 1, metalType, 800, 0, 200, pWriter, metalType);
             heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_stripe")), ModItems.HEATED_STRIPE.get(), 1, metalType, 800, 0, 200, pWriter, metalType);
@@ -150,12 +130,16 @@ public class ModRecipeProiver extends RecipeProvider {
             heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_ring")), ModItems.HEATED_RING.get(), 1, metalType, 40, 0, 20, pWriter, metalType);
             if(!(metalType == "iron" || metalType == "gold" || metalType == "copper")){
                 heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_ingot")), ModItems.HEATED_INGOT.get(), 1, metalType, 1800, 0, 400, pWriter, metalType);
+                nuggetByHammering(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_nugget")), 9, ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, metalType + "_ingot")), metalType, pWriter);
             }
-
         }
+
         heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", Items.IRON_INGOT, ModItems.HEATED_INGOT.get(), 1, "iron", 1800, 0, 400, pWriter, "iron");
         heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", Items.GOLD_INGOT, ModItems.HEATED_INGOT.get(), 1, "gold", 1800, 0, 400, pWriter, "gold");
         heatedIngotFromBlastingBuilder(RecipeCategory.MISC, "_from_reheating", Items.COPPER_INGOT, ModItems.HEATED_INGOT.get(), 1, "copper", 1800, 0, 400, pWriter, "copper");
+        nuggetByHammering(Items.IRON_NUGGET, 9, Items.IRON_INGOT, "iron", pWriter);
+        nuggetByHammering(Items.GOLD_NUGGET, 9, Items.IRON_INGOT, "gold", pWriter);
+        nuggetByHammering(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, "copper_nugget")), 9, Items.COPPER_INGOT, "copper", pWriter);
 
     }
 
@@ -175,6 +159,11 @@ public class ModRecipeProiver extends RecipeProvider {
                     .unlockedBy(getHasName(itemlike), has(itemlike))
                     .save(pFinishedRecipeConsumer, Minetorio.MOD_ID + ":" + getItemName(pResult) + pRecipeName + "_" + getItemName(itemlike));
         }
+    }
+
+    private static void nuggetByHammering(ItemLike pResult, int pCount, ItemLike pIngredient, String pGroup, Consumer<FinishedRecipe> pWriter){
+        new ShapelessRecipeBuilder(RecipeCategory.MISC, pResult, pCount)
+                .requires(ModTags.Items.HAMMERS).requires(pIngredient).unlockedBy("has_" + pGroup + "_ingot", has(pIngredient)).group(pGroup).save(pWriter);
     }
 
     private static void quickHeatedMetalSetup(RecipeCategory pCategory, ItemLike pIngredient_1, ItemLike pIngredient_2, Item pResult, String pType, int pCoolingTime, float pExperience, int pCookingTime, Consumer<FinishedRecipe> FinishedRecipeConsumer, String pGroup){

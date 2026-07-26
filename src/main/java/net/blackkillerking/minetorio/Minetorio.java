@@ -7,6 +7,7 @@ import net.blackkillerking.minetorio.fluid.ModFluidTypes;
 import net.blackkillerking.minetorio.fluid.ModFluids;
 import net.blackkillerking.minetorio.item.ModCreativeModTabs;
 import net.blackkillerking.minetorio.item.ModItems;
+import net.blackkillerking.minetorio.loot.ModLootModifiers;
 import net.blackkillerking.minetorio.particle.ModParticals;
 import net.blackkillerking.minetorio.recipe.ModRecipes;
 import net.blackkillerking.minetorio.screen.MetalShapingStationScreen;
@@ -51,6 +52,7 @@ public class Minetorio
         ModSound.register(modEventBus);
 
         ModParticals.register(modEventBus);
+        ModLootModifiers.register(modEventBus);
 
         ModFluidTypes.register(modEventBus);
         ModFluids.register(modEventBus);
@@ -102,6 +104,9 @@ public class Minetorio
             event.enqueueWork(() -> {
                 ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_CRUDE_OIL.get(), RenderType.solid());
                 ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_CRUDE_OIL.get(), RenderType.solid());
+
+                ItemBlockRenderTypes.setRenderLayer(ModFluids.SOURCE_TANNIN.get(), RenderType.solid());
+                ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_TANNIN.get(), RenderType.solid());
 
                 MenuScreens.register(ModMenuTypes.METAL_SHAPING_STATION_MENU.get(), MetalShapingStationScreen::new);
             });

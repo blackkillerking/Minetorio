@@ -19,6 +19,11 @@ public class ModToolTiers {
                     ModTags.Blocks.NEEDS_COPPER_TOOL, () -> Ingredient.of(Items.COPPER_INGOT)),
             new ResourceLocation(Minetorio.MOD_ID, "copper"), List.of(), List.of(Tiers.IRON));
 
+    public static final Tier FLINT = TierSortingRegistry.registerTier(
+            new ForgeTier(2, 40, 1f, 1f, 4,
+                    ModTags.Blocks.NEEDS_FLINT_TOOL, () -> Ingredient.of(ModItems.SHARPENED_FLINT.get())),
+            new ResourceLocation(Minetorio.MOD_ID, "flint"), List.of(), List.of(Tiers.WOOD));
+
 
 }
 

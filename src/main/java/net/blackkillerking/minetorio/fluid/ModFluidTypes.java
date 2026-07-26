@@ -18,9 +18,18 @@ public class ModFluidTypes {
                     new ResourceLocation(Minetorio.MOD_ID, "block/crude_oil_still"),
                     new ResourceLocation(Minetorio.MOD_ID, "block/crude_oil_flow"),
                     new ResourceLocation(Minetorio.MOD_ID, "block/crude_oil_overlay"),
-                    808080,
+                    0x808080,
                     new Vector3f(0.5F,0.5F,0.5F),
-                    FluidType.Properties.create().canDrown(false).density(1500).lightLevel(0).canSwim(false).viscosity(2000)));
+                    FluidType.Properties.create().canDrown(true).density(1500).lightLevel(0).canSwim(false).viscosity(2000)));
+
+    public static final RegistryObject<FluidType> TANNIN_FLUID_TYPE =
+            registerFluid("tannin_fluid", new BaseFluidType(
+                    new ResourceLocation(Minetorio.MOD_ID, "block/tannin_still"),
+                    new ResourceLocation(Minetorio.MOD_ID, "block/tannin_flow"),
+                    new ResourceLocation(Minetorio.MOD_ID, "block/tannin_overlay"),
+                    0x895129,
+                    new Vector3f(0F,0F,0F),
+                    FluidType.Properties.create().canDrown(true).density(20).lightLevel(0).canSwim(true).viscosity(20)));
 
 
 

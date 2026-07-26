@@ -1,6 +1,56 @@
 {
+  "item.minetorio.wood_bark": "Wood Bark",
+
+  "item.minetorio.olive": "Olive",
+  "item.minetorio.olive_oil": "Olive Oil",
+  "item.minetorio.olive_seeds": "Olive Seeds",
+
+  "item.minetorio.animal_hide": "Animal Hide",
+  "item.minetorio.hide": "Hide",
+  "item.minetorio.soaked_hide": "Soaked Hide",
+  "item.minetorio.dried_hide": "Dried Hide",
+  "item.minetorio.treated_hide": "Treated Hide",
+
+  "item.minetorio.plant_fiber": "Plant Fiber",
+  "item.minetorio.firm_plant_fiber": "Firm Plant Fiber",
+  "item.minetorio.stiff_stick": "Stiff Stick",
+
+  "item.minetorio.flint_fragment": "Flint Fragment",
+  "item.minetorio.basalt_rock": "Basalt Rock",
+  "item.minetorio.sharpened_flint": "Sharpened Flint",
+  "item.minetorio.sharpened_basalt": "Sharpened Basalt",
+
+  "item.minetorio.flint_pickaxe_head": "Flint Pickaxe Head",
+  "item.minetorio.flint_axe_head": "Flint Axe Head",
+  "item.minetorio.flint_shovel_head": "Flint Shovel Head",
+  "item.minetorio.flint_hoe_head": "Flint Hoe Head",
+  "item.minetorio.basalt_pickaxe_head": "Basalt Pickaxe Head",
+  "item.minetorio.basalt_axe_head": "Basalt Axe Head",
+  "item.minetorio.basalt_shovel_head": "Basalt Shovel Head",
+  "item.minetorio.basalt_hoe_head": "Basalt Hoe Head",
+  "item.minetorio.wooden_axe_head": "Wooden Axe Head",
+
+  "item.minetorio.flint_basalt_pickaxe_body": "Pickaxe Handel",
+  "item.minetorio.flint_basalt_axe_body": "Axe Handel",
+  "item.minetorio.flint_basalt_shovel_hoe_body": "Digger Handel",
+  "item.minetorio.basalt_hammer_body": "Hammer Handel",
+
+  "item.minetorio.flint_pickaxe": "Flint Pickaxe",
+  "item.minetorio.flint_knife": "Flint Knife",
+  "item.minetorio.flint_axe": "Flint Axe",
+  "item.minetorio.flint_shovel": "Flint Shovel",
+  "item.minetorio.flint_hoe": "Flint Hoe",
+  "item.minetorio.basalt_pickaxe": "Basalt Pickaxe",
+  "item.minetorio.basalt_knife": "Basalt Knife",
+  "item.minetorio.basalt_axe": "Basalt Axe",
+  "item.minetorio.basalt_shovel": "Basalt Shovel",
+  "item.minetorio.basat_hoe": "Basalt Hoe",
+  "item.minetorio.basalt_hammer": "Basalt Hammer",
+  "item.minetorio.cracked_basalt_hammer": "Cracked Basalt Hammer",
+
   "item.minetorio.raw_tin": "Raw Tin",
   "item.minetorio.tin_ingot": "Tin Ingot",
+  "item.minetorio.tin_nugget": "Tin Nugget",
 
   "item.minetorio.tin_sheet": "Tin Sheet",
   "item.minetorio.tin_bar": "Tin Bar",
@@ -14,6 +64,7 @@
 
   "item.minetorio.raw_zinc": "Raw Zinc",
   "item.minetorio.zinc_ingot": "Zinc Ingot",
+  "item.minetorio.zinc_nugget": "Zinc Nugget",
 
   "item.minetorio.zinc_sheet": "Zinc Sheet",
   "item.minetorio.zinc_bar": "Zinc Bar",
@@ -27,6 +78,7 @@
 
   "item.minetorio.raw_silver": "Raw Silver",
   "item.minetorio.silver_ingot": "Silver Ingot",
+  "item.minetorio.silver_nugget": "Silver Nugget",
 
   "item.minetorio.silver_sheet": "Silver Sheet",
   "item.minetorio.silver_bar": "Silver Bar",
@@ -47,6 +99,8 @@
   "item.minetorio.iron_screws": "Iron Screws",
   "item.minetorio.iron_column": "Iron Column",
   "item.minetorio.iron_ring": "Iron Ring",
+
+  "item.minetorio.copper_nugget": "Copper Nugget",
 
   "item.minetorio.copper_sheet": "Copper Sheet",
   "item.minetorio.copper_bar": "Copper Bar",
@@ -77,6 +131,12 @@
   "item.minetorio.copper_roller": "Copper Roller",
   "item.minetorio.blunt_copper_roller": "Blunt Copper Roller",
 
+  "item.minetorio.copper_solid_cone": "Copper Solid Cone",
+  "item.minetorio.blunt_copper_solid_cone": "Blunt Copper Solid Cone",
+
+  "item.minetorio.copper_hollow_cone": "Copper Hollow Cone",
+  "item.minetorio.blunt_copper_hollow_cone": "Blunt Copper Hollow Cone",
+
   "item.minetorio.heated_ingot": "Heated Ingot",
 
   "item.minetorio.heated_sheet": "Heated Sheet",
@@ -101,14 +161,22 @@
   "block.minetorio.zinc_block": "Zinc Block",
   "block.minetorio.silver_block": "Silver Block",
 
+  "block.minetorio.old_log": "Old Log",
+  "block.minetorio.flint_block": "Flint Block",
+  "block.minetorio.basalt_block": "Basalt Block",
+
   "block.minetorio.polisher": "Polisher",
+  "block.minetorio.broken_polisher": "Broken Polisher",
   "block.minetorio.metal_shaping_station": "Metal Shaping Station",
 
   "item.minetorio.crude_oil_bucket": "Crude Oil Bucket",
+  "item.minetorio.tannin_bucket": "Tannin Bucket",
 
   "creativetab.minetorio_ingredients": "Minetorio Ingredients",
 
   "tooltip.minetorio.abstract_heated_metal.no_shift_tooltip": "Press §eSHIFT§7 for info",
+  "tooltip.minetorio.soaked_hide.no_shift_tooltip": "Press §eSHIFT§7 for info",
+  "tooltip.minetorio.dried_hide.no_shift_tooltip": "Press §eSHIFT§7 for info",
 
   "sounds.minetorio.hammer_crafting": "Hammer crafting Metal Sheets"
 

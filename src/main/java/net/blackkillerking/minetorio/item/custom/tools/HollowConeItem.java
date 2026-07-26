@@ -1,18 +1,16 @@
-package net.blackkillerking.minetorio.item.custom;
+package net.blackkillerking.minetorio.item.custom.tools;
 
-import net.blackkillerking.minetorio.item.ModItems;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 
-public class CopperClipperItem extends Item {
+public class HollowConeItem extends Item {
 
-    public CopperClipperItem(Properties pProperties) {
-        super(pProperties
-                .durability(32));
+    private final Item bluntVariant;
+
+    public HollowConeItem(Item bluntVariant, Properties pProperties) {
+        super(pProperties);
+        this.bluntVariant = bluntVariant;
     }
-
 
     @Override
     public boolean hasCraftingRemainingItem(ItemStack stack) {
@@ -25,11 +23,10 @@ public class CopperClipperItem extends Item {
         int newDamage = currentClipper.getDamageValue() + 1;
 
         if (currentClipper.getMaxDamage() <= newDamage){
-            return new ItemStack(ModItems.BLUNT_COPPER_CLIPPER.get());
+            return new ItemStack(bluntVariant);
         }
 
         currentClipper.setDamageValue(newDamage);
         return currentClipper;
     }
-
 }

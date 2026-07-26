@@ -22,5 +22,8 @@ public class ModFluidTagsProvider extends FluidTagsProvider {
         tag(FluidTags.LAVA)
                 .add(ModFluids.SOURCE_CRUDE_OIL.get())
                 .add(ModFluids.FLOWING_CRUDE_OIL.get());
+        tag(FluidTags.WATER)
+                .add(ModFluids.SOURCE_TANNIN.get())
+                .add(ModFluids.FLOWING_TANNIN.get());
     }
 }

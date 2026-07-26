@@ -1,7 +1,6 @@
 package net.blackkillerking.minetorio.item.custom;
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.item.ModItems;
 import net.blackkillerking.minetorio.particle.ModParticals;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
@@ -9,33 +8,22 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Map;
 
-public class AbstractHeatedMetal extends Item {
+public class HeatedMetalItem extends Item {
 
-    public AbstractHeatedMetal(Properties pProperties) {
+    public HeatedMetalItem(Properties pProperties) {
         super(pProperties);
     }
-
-    public static Map<String, ItemLike> getItem = Map.of(
-            "tin_ingot", ModItems.TIN_INGOT.get(),
-            "tin_rod", ModItems.TIN_ROD.get(),
-            "tin_sheet", ModItems.TIN_SHEET.get()
-    );
 
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {

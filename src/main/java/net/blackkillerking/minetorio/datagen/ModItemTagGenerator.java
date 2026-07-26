@@ -6,6 +6,7 @@ import net.blackkillerking.minetorio.utils.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -22,13 +23,10 @@ public class ModItemTagGenerator extends ItemTagsProvider {
         this.tag(ModTags.Items.POLISHABLE_TOOLS)
                 .add(
                         ModItems.BLUNT_COPPER_CLIPPER.get(),
-                        ModItems.BLUNT_COPPER_HAMMER.get()
-                );
-        this.tag(ModTags.Items.CLIPPER_ABLE_INGOTS)
-                .add(
-                        ModItems.TIN_INGOT.get(),
-                        ModItems.ZINC_INGOT.get(),
-                        ModItems.SILVER_INGOT.get()
+                        ModItems.BLUNT_COPPER_HAMMER.get(),
+                        ModItems.BLUNT_COPPER_ROLLER.get(),
+                        ModItems.BLUNT_COPPER_SOLID_CONE.get(),
+                        ModItems.BLUNT_COPPER_HOLLOW_CONE.get()
                 );
         this.tag(ModTags.Items.CLIPPERS)
                 .add(
@@ -36,7 +34,8 @@ public class ModItemTagGenerator extends ItemTagsProvider {
                 );
         this.tag(ModTags.Items.HAMMERS)
                 .add(
-                        ModItems.COPPER_HAMMER.get()
+                        ModItems.COPPER_HAMMER.get(),
+                        ModItems.BASALT_HAMMER.get()
                 );
         this.tag(ModTags.Items.ROLLERS)
                 .add(
@@ -50,20 +49,13 @@ public class ModItemTagGenerator extends ItemTagsProvider {
                 .add(
                         ModItems.COPPER_HOLLOW_CONE.get()
                 );
-        this.tag(ModTags.Items.SHEET)
-                .add(
-                        ModItems.TIN_SHEET.get(),
-                        ModItems.ZINC_SHEET.get(),
-                        ModItems.SILVER_SHEET.get()
-                );
         this.tag(ModTags.Items.METAL_WORKING_TOOLS)
-                .add(
-                        ModItems.COPPER_CLIPPER.get(),
-                        ModItems.COPPER_HAMMER.get(),
-                        ModItems.COPPER_ROLLER.get(),
-                        ModItems.COPPER_SOLID_CONE.get(),
-                        ModItems.COPPER_HOLLOW_CONE.get()
-                );
+                .addTag(ModTags.Items.HAMMERS)
+                .addTag(ModTags.Items.CLIPPERS)
+                .addTag(ModTags.Items.ROLLERS)
+                .addTag(ModTags.Items.SOLID_CONES)
+                .addTag(ModTags.Items.HOLLOW_CONES);
+
         this.tag(ModTags.Items.HEATED_METALS)
                 .add(
                       ModItems.HEATED_INGOT.get(),
@@ -76,6 +68,14 @@ public class ModItemTagGenerator extends ItemTagsProvider {
                       ModItems.HEATED_SCREWS.get(),
                       ModItems.HEATED_COLUMN.get(),
                       ModItems.HEATED_RING.get()
+                );
+        this.tag(ModTags.Items.PLANT_FIBERS)
+                .add(
+                        Items.WHEAT,
+                        Items.GRASS,
+                        Items.TALL_GRASS,
+                        Items.SEAGRASS,
+                        ModItems.PLANT_FIBER.get()
                 );
     }
 

@@ -6,6 +6,7 @@ import net.blackkillerking.minetorio.utils.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -38,6 +39,13 @@ public class ModBlockTagGenerator extends BlockTagsProvider
                         ModBlocks.ZINC_BLOCK.get(),
                         ModBlocks.SILVER_BLOCK.get(),
                         ModBlocks.SILVER_ORE.get()
+                );
+        this.tag(ModTags.Blocks.NON_SOLID)
+                .add(
+                        ModBlocks.CRUDE_OIL_BLOCK.get(),
+                        Blocks.AIR,
+                        Blocks.WATER,
+                        Blocks.LAVA
                 );
 
 

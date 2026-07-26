@@ -1,12 +1,17 @@
 package net.blackkillerking.minetorio.datagen.loot;
 
 import net.blackkillerking.minetorio.block.ModBlocks;
+import net.blackkillerking.minetorio.block.crops.OliveCropBlock;
 import net.blackkillerking.minetorio.item.ModItems;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLootSubProvider;
-import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.flag.FeatureFlags;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Set;
@@ -31,8 +36,21 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.add(ModBlocks.ZINC_ORE.get(), block -> createOreDrop(ModBlocks.ZINC_ORE.get(), ModItems.RAW_ZINC.get()));
         this.add(ModBlocks.SILVER_ORE.get(), block -> createOreDrop(ModBlocks.SILVER_ORE.get(), ModItems.RAW_SILVER.get()));
 
+        this.add(ModBlocks.FLINT_BLOCK.get(), block -> createSingleItemTable(ModItems.FLINT_FRAGMENT.get()));
+        this.add(ModBlocks.BASALT_BLOCK.get(), block -> createSingleItemTable(ModItems.BASALT_ROCK.get()));
+
+        this.add(ModBlocks.ANIMAL_HIDE.get(), block -> createSingleItemTable(ModItems.ANIMAL_HIDE.get()));
+        this.add(ModBlocks.HIDE.get(), block -> createSingleItemTable(ModItems.HIDE.get()));
+        this.add(ModBlocks.TREATED_HIDE.get(), block -> createSingleItemTable(ModItems.TREATED_HIDE.get()));
+        this.add(ModBlocks.LEATHER.get(), block -> createSingleItemTable(Items.LEATHER));
+
         this.dropSelf(ModBlocks.POLISHER.get());
+        this.dropSelf(ModBlocks.BROKEN_POLISHER.get());
+
         this.dropSelf(ModBlocks.METAL_SHAPING_STATION.get());
+
+        LootItemCondition.Builder lootitemcondition$builder1 = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.OLIVE_CROP.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(OliveCropBlock.AGE, 3));
+        this.add(ModBlocks.OLIVE_CROP.get(), this.createCropDrops(ModBlocks.OLIVE_CROP.get(), ModItems.OLIVE.get(), ModItems.OLIVE_SEEDS.get(), lootitemcondition$builder1));
 
     }
 

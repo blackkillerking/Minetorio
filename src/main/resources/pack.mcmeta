@@ -4,5 +4,16 @@
       "text": "${mod_id} resources"
     },
     "pack_format": 15
-  }
+  },
+  "filter": {
+      "block": [
+        {"namespace": "minecraft","path": "recipes/copper_ingot_from_smelting_.*"},
+        {"namespace": "minecraft","path": "recipes/copper_ingot_from_blasting_.*"},
+        {"namespace": "minecraft","path": "recipes/iron_ingot_from_smelting_.*"},
+        {"namespace": "minecraft","path": "recipes/iron_ingot_from_blasting_.*"},
+        {"namespace": "minecraft","path": "recipes/gold_ingot_from_smelting_.*"},
+        {"namespace": "minecraft","path": "recipes/gold_ingot_from_blasting_.*"},
+        {"namespace": "minecraft","path": "recipes/anvil"}
+      ]
+    }
 }

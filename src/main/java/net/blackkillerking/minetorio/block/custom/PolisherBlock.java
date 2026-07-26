@@ -1,6 +1,7 @@
 package net.blackkillerking.minetorio.block.custom;
 
 import com.google.common.base.Suppliers;
+import net.blackkillerking.minetorio.block.ModBlocks;
 import net.blackkillerking.minetorio.item.ModItems;
 import net.blackkillerking.minetorio.utils.ModTags;
 import net.minecraft.core.BlockPos;
@@ -25,46 +26,40 @@ import java.util.function.Supplier;
 
 public class PolisherBlock extends Block {
 
-    public static final BooleanProperty BROKEN = BooleanProperty.create("broken");
     private int uses = 0;
     public int maxUses = 10;
 
-
     public PolisherBlock(Properties pProperties) {
         super(pProperties);
-        this.registerDefaultState(this.defaultBlockState().setValue(BROKEN, false));
     }
-
-
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-
-        if (pState.getValue(BROKEN)){
-            if(pHand == InteractionHand.MAIN_HAND && !pPlayer.isCrouching()){
-                if(!pLevel.isClientSide){
-                    if(pPlayer.getMainHandItem().getItem() == Items.STONE){
-                        pPlayer.getMainHandItem().shrink(1);
-                        uses = 0;
-                        pLevel.setBlock(pPos, pState.setValue(BROKEN, false), 3);
-                        return InteractionResult.CONSUME;
-                    }
-                }
-            }
+        if(pLevel.isClientSide()){
+            return InteractionResult.FAIL;
         }
-        else{
-            if(pHand == InteractionHand.MAIN_HAND && !pPlayer.isCrouching()){
-                if(!pLevel.isClientSide){
-                    if(pPlayer.getMainHandItem().is(ModTags.Items.POLISHABLE_TOOLS)){
-                        pPlayer.getInventory().add(getTool(pPlayer.getMainHandItem().getItem()));
-                        uses++;
-                        if (uses == maxUses){
-                            pPlayer.getMainHandItem().shrink(1);
-                            pLevel.setBlock(pPos, pState.setValue(BROKEN, true), 3);
-                        }
-                        return InteractionResult.SUCCESS;
-                    }
+        Block block = pState.getBlock();
+        boolean isMainHand = pHand.equals(InteractionHand.MAIN_HAND);
+        boolean isPolishable = pPlayer.getMainHandItem().is(ModTags.Items.POLISHABLE_TOOLS);
+        boolean isStone = pPlayer.getMainHandItem().is(Items.STONE);
+        boolean isNotSneaking = !pPlayer.isCrouching();
+        if(block == ModBlocks.POLISHER.get()){
+            if(uses < maxUses && isMainHand && isPolishable && isNotSneaking){
+                uses++;
+                if(uses >= maxUses){
+                    pLevel.setBlock(pPos, ModBlocks.BROKEN_POLISHER.get().defaultBlockState(), 3);
+                    uses = 0;
+                    return InteractionResult.FAIL;
                 }
+                pPlayer.getInventory().add(getTool(pPlayer.getMainHandItem().getItem()));
+                pPlayer.getMainHandItem().shrink(1);
+                return InteractionResult.SUCCESS;
+            }
+        } else if (block == ModBlocks.BROKEN_POLISHER.get()){
+            if(isMainHand && isStone && isNotSneaking){
+                pPlayer.getMainHandItem().shrink(1);
+                pLevel.setBlock(pPos, ModBlocks.POLISHER.get().defaultBlockState(), 3);
+                return InteractionResult.CONSUME;
             }
         }
         return InteractionResult.FAIL;
@@ -72,7 +67,10 @@ public class PolisherBlock extends Block {
 
     private static final Supplier<Map<Item, Item>> TOOL_SWAP = Suppliers.memoize(() -> Map.of(
             ModItems.BLUNT_COPPER_CLIPPER.get(), ModItems.COPPER_CLIPPER.get(),
-            ModItems.BLUNT_COPPER_HAMMER.get(), ModItems.COPPER_HAMMER.get()
+            ModItems.BLUNT_COPPER_HAMMER.get(), ModItems.COPPER_HAMMER.get(),
+            ModItems.BLUNT_COPPER_ROLLER.get(), ModItems.COPPER_ROLLER.get(),
+            ModItems.BLUNT_COPPER_SOLID_CONE.get(), ModItems.COPPER_SOLID_CONE.get(),
+            ModItems.BLUNT_COPPER_HOLLOW_CONE.get(), ModItems.COPPER_HOLLOW_CONE.get()
     ));
 
     private ItemStack getTool(Item bluntTool) {
@@ -83,10 +81,5 @@ public class PolisherBlock extends Block {
         ItemStack newTool = new ItemStack(swapedTool, 1);
         newTool.setDamageValue(swapedTool.getMaxDamage()/2);
         return newTool;
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(BROKEN);
     }
 }

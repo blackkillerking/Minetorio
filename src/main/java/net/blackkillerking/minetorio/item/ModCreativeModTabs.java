@@ -19,8 +19,59 @@ public class ModCreativeModTabs {
                     .icon(() -> new ItemStack(ModItems.SILVER_INGOT.get()))
                     .title(Component.translatable("creativetab.minetorio_ingredients"))
                     .displayItems((itemDisplayParameters, output) -> {
+
+                        output.accept(ModItems.WOOD_BARK.get());
+
+                        output.accept(ModItems.OLIVE.get());
+                        output.accept(ModItems.OLIVE_OIL.get());
+                        output.accept(ModItems.OLIVE_SEEDS.get());
+
+                        output.accept(ModItems.FLINT_FRAGMENT.get());
+                        output.accept(ModItems.SHARPENED_FLINT.get());
+                        output.accept(ModItems.BASALT_ROCK.get());
+                        output.accept(ModItems.SHARPENED_BASALT.get());
+
+                        output.accept(ModItems.ANIMAL_HIDE.get());
+                        output.accept(ModItems.HIDE.get());
+                        output.accept(ModItems.SOAKED_HIDE.get());
+                        output.accept(ModItems.DRIED_HIDE.get());
+                        output.accept(ModItems.TREATED_HIDE.get());
+
+                        output.accept(ModItems.PLANT_FIBER.get());
+                        output.accept(ModItems.FIRM_PLANT_FIBER.get());
+                        output.accept(ModItems.STIFF_STICK.get());
+
+                        output.accept(ModItems.WOODEN_AXE_HEAD.get());
+                        output.accept(ModItems.FLINT_PICKAXE_HEAD.get());
+                        output.accept(ModItems.FLINT_AXE_HEAD.get());
+                        output.accept(ModItems.FLINT_SHOVEL_HEAD.get());
+                        output.accept(ModItems.FLINT_HOE_HEAD.get());
+                        output.accept(ModItems.BASALT_PICKAXE_HEAD.get());
+                        output.accept(ModItems.BASALT_AXE_HEAD.get());
+                        output.accept(ModItems.BASALT_SHOVEL_HEAD.get());
+                        output.accept(ModItems.BASALT_HOE_HEAD.get());
+
+                        output.accept(ModItems.FLINT_BASALT_PICKAXE_BODY.get());
+                        output.accept(ModItems.FLINT_BASALT_AXE_BODY.get());
+                        output.accept(ModItems.FLINT_BASALT_SHOVEL_HOE_BODY.get());
+                        output.accept(ModItems.BASALT_HAMMER_BODY.get());
+
+                        output.accept(ModItems.FLINT_PICKAXE.get());
+                        output.accept(ModItems.FLINT_AXE.get());
+                        output.accept(ModItems.FLINT_SHOVEL.get());
+                        output.accept(ModItems.FLINT_HOE.get());
+                        output.accept(ModItems.FLINT_KNIFE.get());
+                        output.accept(ModItems.BASALT_PICKAXE.get());
+                        output.accept(ModItems.BASALT_AXE.get());
+                        output.accept(ModItems.BASALT_SHOVEL.get());
+                        output.accept(ModItems.BASALT_HOE.get());
+                        output.accept(ModItems.BASALT_KNIFE.get());
+                        output.accept(ModItems.BASALT_HAMMER.get());
+                        output.accept(ModItems.CRACKED_BASALT_HAMMER.get());
+
                         output.accept(ModItems.RAW_TIN.get());
                         output.accept(ModItems.TIN_INGOT.get());
+                        output.accept(ModItems.TIN_NUGGET.get());
 
                         output.accept(ModItems.TIN_SHEET.get());
                         output.accept(ModItems.TIN_BAR.get());
@@ -34,6 +85,7 @@ public class ModCreativeModTabs {
 
                         output.accept(ModItems.RAW_ZINC.get());
                         output.accept(ModItems.ZINC_INGOT.get());
+                        output.accept(ModItems.ZINC_NUGGET.get());
 
                         output.accept(ModItems.ZINC_SHEET.get());
                         output.accept(ModItems.ZINC_BAR.get());
@@ -47,6 +99,7 @@ public class ModCreativeModTabs {
 
                         output.accept(ModItems.RAW_SILVER.get());
                         output.accept(ModItems.SILVER_INGOT.get());
+                        output.accept(ModItems.SILVER_NUGGET.get());
 
                         output.accept(ModItems.SILVER_SHEET.get());
                         output.accept(ModItems.SILVER_BAR.get());
@@ -67,6 +120,8 @@ public class ModCreativeModTabs {
                         output.accept(ModItems.IRON_SCREWS.get());
                         output.accept(ModItems.IRON_COLUMN.get());
                         output.accept(ModItems.IRON_RING.get());
+
+                        output.accept(ModItems.COPPER_NUGGET.get());
 
                         output.accept(ModItems.COPPER_SHEET.get());
                         output.accept(ModItems.COPPER_BAR.get());
@@ -127,10 +182,15 @@ public class ModCreativeModTabs {
                         output.accept(ModBlocks.ZINC_BLOCK.get());
                         output.accept(ModBlocks.SILVER_BLOCK.get());
 
+                        output.accept(ModBlocks.OLD_LOG.get());
+                        output.accept(ModBlocks.FLINT_BLOCK.get());
+                        output.accept(ModBlocks.BASALT_BLOCK.get());
+
                         output.accept(ModBlocks.POLISHER.get());
                         output.accept(ModBlocks.METAL_SHAPING_STATION.get());
 
                         output.accept(ModItems.CRUDE_OIL_BUCKET.get());
+                        output.accept(ModItems.TANNIN_BUCKET.get());
 
 
                     })
