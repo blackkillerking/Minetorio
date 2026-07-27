@@ -77,6 +77,11 @@ public class ModBlocks {
     public static final RegistryObject<Block> OLIVE_CROP = BLOCKS.register(
             "olive_crop", () -> new OliveCropBlock(BlockBehaviour.Properties.copy(Blocks.BEETROOTS).noOcclusion().noCollission()));
 
+    public static final RegistryObject<Block> MUD_LAYER_BLOCK = registerBlock(
+            "mud_layer_block", () -> new MudLayerBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+    public static final RegistryObject<Block> MUD_BLOCK = registerBlock(
+            "mud_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
 
 
 

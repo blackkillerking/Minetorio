@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "layers=1": {
+      "model": "minetorio:block/mud_layer_height4"
+    },
+    "layers=2": {
+      "model": "minetorio:block/mud_layer_height8"
+    },
+    "layers=3": {
+      "model": "minetorio:block/mud_layer_height12"
+    },
+    "layers=4": {
+      "model": "minetorio:block/mud_block"
+    }
+  }
+}

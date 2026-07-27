@@ -45,6 +45,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.OLD_LOG);
         blockWithItem(ModBlocks.BASALT_BLOCK);
         blockWithItem(ModBlocks.FLINT_BLOCK);
+        blockWithItem(ModBlocks.MUD_BLOCK);
 
         simpleBlock(ModBlocks.POLISHER.get(),
                 new ModelFile.UncheckedModelFile(modLoc("block/polisher")));

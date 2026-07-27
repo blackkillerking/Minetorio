@@ -95,6 +95,11 @@ public class ModItems {
 
     /** NEW ITEMS, DON'T FORGET MODELS, TEXTURES, AND TOOL FUNCTIONALITY (DONE)*/
 
+    public static final RegistryObject<Item> MUD_BALLS = ITEMS.register("mud_balls", () -> new Item(new Item.Properties()));
+
+    // END OF NEW ITEMS //
+
+
     public static final RegistryObject<Item> WOOD_BARK = ITEMS.register("wood_bark", () -> new WoodBarkItem(new Item.Properties()));
     public static final RegistryObject<Item> ANIMAL_HIDE = ITEMS.register("animal_hide", () -> new AnimalHideItem(new Item.Properties()));
     public static final RegistryObject<Item> HIDE = ITEMS.register("hide", () -> new HideItem(new Item.Properties()));
@@ -155,8 +160,6 @@ public class ModItems {
 //    public static final RegistryObject<Item> COPPER_AXE = ITEMS.register("copper_axe", () -> new AxeItem(ModToolTiers.COPPER, 1, 1, new Item.Properties().durability(512)));
 //    public static final RegistryObject<Item> COPPER_SHOVEL = ITEMS.register("copper_shovel", () -> new ShovelItem(ModToolTiers.COPPER, 1, 1, new Item.Properties().durability(512)));
 //    public static final RegistryObject<Item> COPPER_HOE = ITEMS.register("copper_hoe", () -> new HoeItem(ModToolTiers.COPPER, 1, 1, new Item.Properties().durability(512)));
-
-    // END OF NEW ITEMS //
 
     public static final RegistryObject<Item> BLUNT_COPPER_HAMMER = ITEMS.register("blunt_copper_hammer", () -> new Item((new Item.Properties())));
     public static final RegistryObject<Item> COPPER_HAMMER = ITEMS.register("copper_hammer", () -> new HammerItem(ModToolTiers.COPPER, 1, 1, 1, ModItems.BLUNT_COPPER_HAMMER.get(), new Item.Properties().durability(512)));

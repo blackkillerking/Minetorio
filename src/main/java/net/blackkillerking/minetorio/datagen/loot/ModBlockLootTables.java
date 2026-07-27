@@ -32,6 +32,8 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.ZINC_BLOCK.get());
         this.dropSelf(ModBlocks.SILVER_BLOCK.get());
 
+        this.dropSelf(ModBlocks.MUD_LAYER_BLOCK.get());
+
         this.add(ModBlocks.TIN_ORE.get(), block -> createOreDrop(ModBlocks.TIN_ORE.get(), ModItems.RAW_TIN.get()));
         this.add(ModBlocks.ZINC_ORE.get(), block -> createOreDrop(ModBlocks.ZINC_ORE.get(), ModItems.RAW_ZINC.get()));
         this.add(ModBlocks.SILVER_ORE.get(), block -> createOreDrop(ModBlocks.SILVER_ORE.get(), ModItems.RAW_SILVER.get()));
@@ -43,6 +45,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.add(ModBlocks.HIDE.get(), block -> createSingleItemTable(ModItems.HIDE.get()));
         this.add(ModBlocks.TREATED_HIDE.get(), block -> createSingleItemTable(ModItems.TREATED_HIDE.get()));
         this.add(ModBlocks.LEATHER.get(), block -> createSingleItemTable(Items.LEATHER));
+        this.add(ModBlocks.MUD_BLOCK.get(), block -> createSingleItemTable(ModItems.MUD_BALLS.get()));
 
         this.dropSelf(ModBlocks.POLISHER.get());
         this.dropSelf(ModBlocks.BROKEN_POLISHER.get());
