@@ -13,6 +13,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -68,6 +69,8 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> METAL_SHAPING_STATION = registerBlock(
             "metal_shaping_station", () -> new MetalShapingStationBlock(BlockBehaviour.Properties.copy(Blocks.ANVIL).noOcclusion()));
+    public static final RegistryObject<Block> PRIMITIVE_OVEN = registerBlock(
+            "primitive_oven", () -> new PrimitiveOvenBlock(BlockBehaviour.Properties.copy(Blocks.ANVIL).noOcclusion()));
 
     public static final RegistryObject<LiquidBlock> CRUDE_OIL_BLOCK = BLOCKS.register(
             "crude_oil_block", () -> new LiquidBlock(ModFluids.SOURCE_CRUDE_OIL, BlockBehaviour.Properties.copy(Blocks.LAVA).noLootTable()));
@@ -78,9 +81,10 @@ public class ModBlocks {
             "olive_crop", () -> new OliveCropBlock(BlockBehaviour.Properties.copy(Blocks.BEETROOTS).noOcclusion().noCollission()));
 
     public static final RegistryObject<Block> MUD_LAYER_BLOCK = registerBlock(
-            "mud_layer_block", () -> new MudLayerBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
+            "mud_layer_block", () -> new MudLayerBlock(BlockBehaviour.Properties.of().instabreak().friction(1).mapColor(MapColor.COLOR_BROWN)));
     public static final RegistryObject<Block> MUD_BLOCK = registerBlock(
             "mud_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+
 
 
 

@@ -1,0 +1,100 @@
+{
+  "variants": {
+    "layers=1,drying=0,supported=true": {
+      "model": "minetorio:block/mud_height4"
+    },
+    "layers=1,drying=1,supported=true": {
+      "model": "minetorio:block/mud_height4"
+    },
+    "layers=1,drying=2,supported=true": {
+      "model": "minetorio:block/mud_height4"
+    },
+    "layers=1,drying=3,supported=true": {
+      "model": "minetorio:block/mud_height4"
+    },
+    "layers=2,drying=0,supported=true": {
+      "model": "minetorio:block/mud_layer_height8"
+    },
+    "layers=2,drying=1,supported=true": {
+      "model": "minetorio:block/mud_layer_height8"
+    },
+    "layers=2,drying=2,supported=true": {
+      "model": "minetorio:block/mud_layer_height8"
+    },
+    "layers=2,drying=3,supported=true": {
+      "model": "minetorio:block/mud_layer_height8"
+    },
+    "layers=3,drying=0,supported=true": {
+      "model": "minetorio:block/mud_layer_height12"
+    },
+    "layers=3,drying=1,supported=true": {
+      "model": "minetorio:block/mud_layer_height12"
+    },
+    "layers=3,drying=2,supported=true": {
+      "model": "minetorio:block/mud_layer_height12"
+    },
+    "layers=3,drying=3,supported=true": {
+      "model": "minetorio:block/mud_layer_height12"
+    },
+    "layers=4,drying=0,supported=true": {
+      "model": "minetorio:block/mud_block"
+    },
+    "layers=4,drying=1,supported=true": {
+      "model": "minetorio:block/mud_block"
+    },
+    "layers=4,drying=2,supported=true": {
+      "model": "minetorio:block/mud_block"
+    },
+    "layers=4,drying=3,supported=true": {
+      "model": "minetorio:block/mud_block"
+    },
+    "layers=1,drying=0,supported=false": {
+      "model": "minetorio:block/mud_height4"
+    },
+    "layers=1,drying=1,supported=false": {
+      "model": "minetorio:block/mud_height4"
+    },
+    "layers=1,drying=2,supported=false": {
+      "model": "minetorio:block/mud_height4"
+    },
+    "layers=1,drying=3,supported=false": {
+      "model": "minetorio:block/mud_height4"
+    },
+    "layers=2,drying=0,supported=false": {
+      "model": "minetorio:block/mud_layer_height8"
+    },
+    "layers=2,drying=1,supported=false": {
+      "model": "minetorio:block/mud_layer_height8"
+    },
+    "layers=2,drying=2,supported=false": {
+      "model": "minetorio:block/mud_layer_height8"
+    },
+    "layers=2,drying=3,supported=false": {
+      "model": "minetorio:block/mud_layer_height8"
+    },
+    "layers=3,drying=0,supported=false": {
+      "model": "minetorio:block/mud_layer_height12"
+    },
+    "layers=3,drying=1,supported=false": {
+      "model": "minetorio:block/mud_layer_height12"
+    },
+    "layers=3,drying=2,supported=false": {
+      "model": "minetorio:block/mud_layer_height12"
+    },
+    "layers=3,drying=3,supported=false": {
+      "model": "minetorio:block/mud_layer_height12"
+    },
+    "layers=4,drying=0,supported=false": {
+      "model": "minetorio:block/mud_block"
+    },
+    "layers=4,drying=1,supported=false": {
+      "model": "minetorio:block/mud_block"
+    },
+    "layers=4,drying=2,supported=false": {
+      "model": "minetorio:block/mud_block"
+    },
+    "layers=4,drying=3,supported=false": {
+      "model": "minetorio:block/mud_block"
+    }
+  }
+}
