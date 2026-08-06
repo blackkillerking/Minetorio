@@ -77,6 +77,15 @@ public class ModItemTagGenerator extends ItemTagsProvider {
                         Items.SEAGRASS,
                         ModItems.PLANT_FIBER.get()
                 );
+        this.tag(ModTags.Items.ORES)
+                .add(
+                        Items.RAW_COPPER,
+                        Items.RAW_IRON,
+                        Items.RAW_GOLD,
+                        ModItems.RAW_TIN.get(),
+                        ModItems.RAW_ZINC.get(),
+                        ModItems.RAW_SILVER.get()
+                );
     }
 
     @Override

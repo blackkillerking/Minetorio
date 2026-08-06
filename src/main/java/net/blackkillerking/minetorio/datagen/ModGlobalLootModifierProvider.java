@@ -3,12 +3,14 @@ package net.blackkillerking.minetorio.datagen;
 import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.item.ModItems;
 import net.blackkillerking.minetorio.loot.AddItemModifier;
+import net.blackkillerking.minetorio.loot.EntityLootModifier;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
+import net.minecraft.world.level.storage.loot.predicates.*;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;
+import net.minecraftforge.common.loot.LootTableIdCondition;
 
 public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
 
@@ -25,6 +27,10 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
         add("plant_strings_from_tall_grass", new AddItemModifier(new LootItemCondition[]{
                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.TALL_GRASS).build(),
                 LootItemRandomChanceCondition.randomChance(0.4f).build()}, ModItems.PLANT_FIBER.get()));
+        add("animal_hide_from_cow", new EntityLootModifier(
+                new LootItemCondition[] {
+                        LootTableIdCondition.builder(new ResourceLocation("minecraft", "entities/cow")).build()
+                },ModItems.ANIMAL_HIDE.get(),1,3));
 
     }
 }

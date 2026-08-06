@@ -185,6 +185,10 @@ public class MudLayerBlock extends Block {
             new BlockPos(1, 4, -2)
     );
 
+    public static final List<BlockPos> SOUTH_BLOCK_PATTERN = NORTH_BLOCK_PATTERN.stream().map(offset -> rotate(offset, Direction.SOUTH)).toList();
+    public static final List<BlockPos> EAST_BLOCK_PATTERN = NORTH_BLOCK_PATTERN.stream().map(offset -> rotate(offset, Direction.EAST)).toList();
+    public static final List<BlockPos> WEST_BLOCK_PATTERN = NORTH_BLOCK_PATTERN.stream().map(offset -> rotate(offset, Direction.WEST)).toList();
+
     private static List<BlockPos> getPatternForFacing(Direction facing) {
         return NORTH_BLOCK_PATTERN.stream()
                 .map(offset -> rotate(offset, facing))
@@ -207,7 +211,6 @@ public class MudLayerBlock extends Block {
 
         for(Direction facing : Direction.Plane.HORIZONTAL){
             if(matchesStructure(pLevel, pPos, facing)){
-                pLevel.setBlock(pPos, ModBlocks.PRIMITIVE_OVEN.get().defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, facing), 3);
                 return;
             }
         }

@@ -23,7 +23,9 @@ public class ModTags {
         public static final TagKey<Item> HEATED_METALS = tag("heated_metals");
 
         public static final TagKey<Item> PLANT_FIBERS = tag("plant_fibers");
-        public static final TagKey<Item> STICK_BARK = tag("plant_fibers");
+        public static final TagKey<Item> STICK_BARK = tag("stick_bark");
+
+        public static final TagKey<Item> ORES = tag("ores");
 
         private static TagKey<Item> tag(String name){
             return ItemTags.create(new ResourceLocation(Minetorio.MOD_ID, name));

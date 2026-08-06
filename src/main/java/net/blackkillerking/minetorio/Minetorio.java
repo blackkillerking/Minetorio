@@ -10,10 +10,10 @@ import net.blackkillerking.minetorio.item.ModItems;
 import net.blackkillerking.minetorio.loot.ModLootModifiers;
 import net.blackkillerking.minetorio.particle.ModParticals;
 import net.blackkillerking.minetorio.recipe.ModRecipes;
-import net.blackkillerking.minetorio.screen.MetalShapingStationScreen;
+import net.blackkillerking.minetorio.screen.MetalShapingStation.MetalShapingStationScreen;
 import net.blackkillerking.minetorio.screen.ModMenuTypes;
+import net.blackkillerking.minetorio.screen.PrimitiveOven.PrimitiveOvenScreen;
 import net.blackkillerking.minetorio.sound.ModSound;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -109,6 +109,7 @@ public class Minetorio
                 ItemBlockRenderTypes.setRenderLayer(ModFluids.FLOWING_TANNIN.get(), RenderType.solid());
 
                 MenuScreens.register(ModMenuTypes.METAL_SHAPING_STATION_MENU.get(), MetalShapingStationScreen::new);
+                MenuScreens.register(ModMenuTypes.PRIMITIVE_OVEN_MENU.get(), PrimitiveOvenScreen::new);
             });
         }
     }

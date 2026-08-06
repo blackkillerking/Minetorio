@@ -1,4 +1,4 @@
-package net.blackkillerking.minetorio.screen;
+package net.blackkillerking.minetorio.screen.PrimitiveOven;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.blackkillerking.minetorio.Minetorio;
@@ -9,18 +9,19 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MetalShapingStationScreen extends AbstractContainerScreen<MetalShapingStationMenu> {
+public class PrimitiveOvenScreen extends AbstractContainerScreen<PrimitiveOvenMenu> {
 
     private static final ResourceLocation TEXTURE =
-            new ResourceLocation(Minetorio.MOD_ID, "textures/gui/metal_shaping_station_gui.png");
+            new ResourceLocation(Minetorio.MOD_ID, "textures/gui/primitive_oven_gui.png");
 
-
-    public MetalShapingStationScreen(MetalShapingStationMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
+    public PrimitiveOvenScreen(PrimitiveOvenMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
     }
 
     @Override
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
+        this.imageHeight = 210;
+        this.titleLabelY = -16;
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1f,1f,1f,1f);
         RenderSystem.setShaderTexture(0, TEXTURE);
@@ -37,5 +38,4 @@ public class MetalShapingStationScreen extends AbstractContainerScreen<MetalShap
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         renderTooltip(pGuiGraphics, pMouseX, pMouseY);
     }
-
 }

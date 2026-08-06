@@ -1,6 +1,8 @@
 package net.blackkillerking.minetorio.screen;
 
 import net.blackkillerking.minetorio.Minetorio;
+import net.blackkillerking.minetorio.screen.MetalShapingStation.MetalShapingStationMenu;
+import net.blackkillerking.minetorio.screen.PrimitiveOven.PrimitiveOvenMenu;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeMenuType;
@@ -17,6 +19,9 @@ public class ModMenuTypes {
 
     public static final RegistryObject<MenuType<MetalShapingStationMenu>> METAL_SHAPING_STATION_MENU =
             registerMenuType(MetalShapingStationMenu::new, "metal_shaping_station_menu");
+
+    public static final RegistryObject<MenuType<PrimitiveOvenMenu>> PRIMITIVE_OVEN_MENU =
+            registerMenuType(PrimitiveOvenMenu::new, "primitive_oven_menu");
 
 
 

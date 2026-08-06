@@ -12,6 +12,7 @@ import net.blackkillerking.minetorio.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.MudBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -81,9 +82,9 @@ public class ModBlocks {
             "olive_crop", () -> new OliveCropBlock(BlockBehaviour.Properties.copy(Blocks.BEETROOTS).noOcclusion().noCollission()));
 
     public static final RegistryObject<Block> MUD_LAYER_BLOCK = registerBlock(
-            "mud_layer_block", () -> new MudLayerBlock(BlockBehaviour.Properties.of().instabreak().friction(1).mapColor(MapColor.COLOR_BROWN)));
+            "mud_layer_block", () -> new MudLayerBlock(BlockBehaviour.Properties.of().instabreak().friction(0.4f).mapColor(MapColor.COLOR_BROWN)));
     public static final RegistryObject<Block> MUD_BLOCK = registerBlock(
-            "mud_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
+            "mud_block", () -> new MudBlockBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
 
 
 

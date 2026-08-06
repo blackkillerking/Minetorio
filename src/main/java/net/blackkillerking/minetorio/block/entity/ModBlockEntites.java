@@ -19,6 +19,11 @@ public class ModBlockEntites {
                     BlockEntityType.Builder.of(MetalShapingStationBlockEntity::new,
                     ModBlocks.METAL_SHAPING_STATION.get()).build(null));
 
+    public final static RegistryObject<BlockEntityType<PrimitiveOvenBlockEntity>> PRIMITIVE_OVEN_BE =
+            BLOCK_ENTITIES.register("primitive_oven_be", () ->
+                    BlockEntityType.Builder.of(PrimitiveOvenBlockEntity::new,
+                            ModBlocks.PRIMITIVE_OVEN.get()).build(null));
+
     public static void register (IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);
     }
