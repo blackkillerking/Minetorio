@@ -267,6 +267,7 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
         }
         return false;
     }
+    // this is a test comment
 
     private void takeFuelOrOre(Direction pFacing, Level pLevel) {
         if(this.level.isClientSide()) return;
@@ -289,6 +290,7 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
         AABB holeBox = new AABB(bottom, top);
         return pLevel.getEntitiesOfClass(ItemEntity.class, holeBox);
     }
+    //this is a test comment
 
     private List<BlockPos> getHolePosition(Direction facing){
         return switch (facing) {
