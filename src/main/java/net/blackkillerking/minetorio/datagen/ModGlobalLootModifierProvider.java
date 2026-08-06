@@ -27,8 +27,12 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
         add("plant_strings_from_tall_grass", new AddItemModifier(new LootItemCondition[]{
                 LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.TALL_GRASS).build(),
                 LootItemRandomChanceCondition.randomChance(0.4f).build()}, ModItems.PLANT_FIBER.get()));
-        add("animal_hide_from_cow", new EntityLootModifier(new LootItemCondition[] {
-                        LootTableIdCondition.builder(new ResourceLocation("minecraft", "entities/cow")).build()
-                }, ModItems.ANIMAL_HIDE.get(), 1,3));
+        add("entity_add", new EntityLootModifier(
+                new LootItemCondition[] {
+                        AnyOfCondition.anyOf(
+                                LootTableIdCondition.builder(new ResourceLocation("minecraft", "entities/cow")),
+                                LootTableIdCondition.builder(new ResourceLocation("minecraft", "entities/pig")),
+                                LootTableIdCondition.builder(new ResourceLocation("minecraft", "entities/sheep"))
+                        ).build()}, ModItems.ANIMAL_HIDE.get(), 1, 3));
     }
 }

@@ -5,6 +5,8 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -16,6 +18,9 @@ import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.Set;
 
 public class EntityLootModifier extends LootModifier {
     public static final Codec<EntityLootModifier> CODEC = RecordCodecBuilder.create(inst ->
@@ -33,11 +38,16 @@ public class EntityLootModifier extends LootModifier {
         this.min = min;
         this.max = max;
     }
+
+    private static final Set<EntityType<?>> FARM_ANIMALS = Set.of(
+            EntityType.COW, EntityType.PIG, EntityType.SHEEP
+    );
+
     @NotNull
     @Override
     protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
         Entity entity = context.getParamOrNull(LootContextParams.THIS_ENTITY);
-        if (entity instanceof Cow) {
+        if (entity != null && FARM_ANIMALS.contains(entity.getType())) {
             generatedLoot.add(new ItemStack(item));
             generatedLoot.removeIf(stack -> stack.is(Items.LEATHER));
 
