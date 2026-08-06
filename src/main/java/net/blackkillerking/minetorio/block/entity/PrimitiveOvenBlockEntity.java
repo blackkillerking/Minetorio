@@ -24,7 +24,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -69,61 +71,12 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
         }
     };
 
-    private static BlockPos rotate(BlockPos offset, Direction facing) {
-        return switch (facing) {
-            case NORTH -> offset;
-            case SOUTH -> new BlockPos(-offset.getX(), offset.getY(), -offset.getZ());
-            case WEST  -> new BlockPos(offset.getZ(), offset.getY(), -offset.getX());
-            case EAST  -> new BlockPos(-offset.getZ(), offset.getY(), offset.getX());
-            default -> offset;
-        };
-    }
+
 
     private List<ItemStack> INSERTED_ITEMS = new ArrayList<>();
     private int DISPLAYED_ITEMS = 0;
     private List<ItemStack> QUEUED_ITEMS = new ArrayList<>();
     private List<Integer> INPUT_SLOTS = List.of(INPUT_FUEL,INPUT_ORE_ONE,INPUT_ORE_TWO);
-
-    public static final List<BlockPos> NORTH_BLOCK_PATTERN = List.of(
-            new BlockPos(-1, 0, -1),
-            new BlockPos(0, 0, -1),
-            new BlockPos(1, 0, -1),
-            new BlockPos(-1, 0, -2),
-            new BlockPos(0, 0, -2),
-            new BlockPos(1, 0, -2),
-            new BlockPos(-1, 0, -3),
-            new BlockPos(0, 0, -3),
-            new BlockPos(1, 0, -3),
-
-            new BlockPos(0, 1, -1),
-            new BlockPos(0, 1, -3),
-            new BlockPos(-1, 1, -2),
-            new BlockPos(1, 1, -2),
-
-            new BlockPos(0, 2, -1),
-            new BlockPos(0, 2, -3),
-            new BlockPos(-1, 2, -2),
-            new BlockPos(1, 2, -2),
-
-            new BlockPos(0, 3, -1),
-            new BlockPos(0, 3, -3),
-            new BlockPos(-1, 3, -2),
-            new BlockPos(1, 3, -2)
-    );
-
-    public static final List<BlockPos> NORTH_HOLE = List.of(
-            new BlockPos(0, 1, -2),
-            new BlockPos(0, 2, -2),
-            new BlockPos(0, 3, -2)
-    );
-
-    public static final List<BlockPos> SOUTH_BLOCK_PATTERN = NORTH_BLOCK_PATTERN.stream().map(offset -> rotate(offset, Direction.SOUTH)).toList();
-    public static final List<BlockPos> EAST_BLOCK_PATTERN = NORTH_BLOCK_PATTERN.stream().map(offset -> rotate(offset, Direction.EAST)).toList();
-    public static final List<BlockPos> WEST_BLOCK_PATTERN = NORTH_BLOCK_PATTERN.stream().map(offset -> rotate(offset, Direction.WEST)).toList();
-
-    public static final List<BlockPos> SOUTH_HOLE = NORTH_HOLE.stream().map(offset -> rotate(offset, Direction.SOUTH)).toList();
-    public static final List<BlockPos> EAST_HOLE = NORTH_HOLE.stream().map(offset -> rotate(offset, Direction.EAST)).toList();
-    public static final List<BlockPos> WEST_HOLE = NORTH_HOLE.stream().map(offset -> rotate(offset, Direction.WEST)).toList();
 
     private static final int INPUT_FUEL = 0;
     private static final int INPUT_ORE_ONE = 1;
@@ -224,8 +177,9 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
     }
 
     public void tick(Level level, BlockPos pos, BlockState state) {
-        Direction blockDir = state.getValue(HorizontalDirectionalBlock.FACING);
-        if(!isValidStructure(blockDir, level, pos) && level.isClientSide()){
+        Direction facing = state.getValue(HorizontalDirectionalBlock.FACING);
+
+        if(!isValidStructure(facing, level, pos)){
             Minetorio.LOGGER.info("Primitive oven not complete");
             level.setBlock(pos, ModBlocks.MUD_BLOCK.get().defaultBlockState(), 3);
             drops();
@@ -237,8 +191,8 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
             extractFuelOrOre(changedSlot);
         }
 
-        if(isFuelOrOre(blockDir, level)){
-            takeFuelOrOre(blockDir, level);
+        if(isFuelOrOre(facing, level)){
+            takeFuelOrOre(facing, level);
         }
     }
 
@@ -267,7 +221,6 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
         }
         return false;
     }
-    // this is a test comment
 
     private void takeFuelOrOre(Direction pFacing, Level pLevel) {
         if(this.level.isClientSide()) return;
@@ -290,7 +243,6 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
         AABB holeBox = new AABB(bottom, top);
         return pLevel.getEntitiesOfClass(ItemEntity.class, holeBox);
     }
-    //this is a test comment
 
     private List<BlockPos> getHolePosition(Direction facing){
         return switch (facing) {
@@ -302,7 +254,7 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
         };
     }
 
-    public void addOreOrFuel(int slot, ItemStack pStack, ItemEntity item){
+    private void addOreOrFuel(int slot, ItemStack pStack, ItemEntity item){
         if(pStack.getCount() == 1){
             item.kill();
         } else {
@@ -318,17 +270,93 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
         setChanged();
     }
 
+    private static final List<BlockPos> NORTH_BLOCK_PATTERN = List.of(
+            new BlockPos(-1, 0, -1),
+            new BlockPos(0, 0, -1),
+            new BlockPos(1, 0, -1),
+            new BlockPos(-1, 0, -2),
+            new BlockPos(0, 0, -2),
+            new BlockPos(1, 0, -2),
+            new BlockPos(-1, 0, -3),
+            new BlockPos(0, 0, -3),
+            new BlockPos(1, 0, -3),
+
+            new BlockPos(0, 1, -1),
+            new BlockPos(0, 1, -3),
+            new BlockPos(-1, 1, -2),
+            new BlockPos(1, 1, -2),
+
+            new BlockPos(0, 2, -1),
+            new BlockPos(0, 2, -3),
+            new BlockPos(-1, 2, -2),
+            new BlockPos(1, 2, -2),
+
+            new BlockPos(0, 3, -1),
+            new BlockPos(0, 3, -3),
+            new BlockPos(-1, 3, -2),
+            new BlockPos(1, 3, -2)
+    );
+
+    private static final List<BlockPos> NORTH_HOLE = List.of(
+            new BlockPos(0, 1, -2),
+            new BlockPos(0, 2, -2),
+            new BlockPos(0, 3, -2)
+    );
+
+    private static final List<BlockPos> NORTH_EMPTY_PATTERN = List.of(
+            new BlockPos(1, 1, -1),
+            new BlockPos(-1, 1, -1),
+            new BlockPos(1, 1, -3),
+            new BlockPos(-1, 1, -3),
+            NORTH_HOLE.get(0),
+            NORTH_HOLE.get(1),
+            NORTH_HOLE.get(2)
+    );
+
+    private static final List<BlockPos> SOUTH_BLOCK_PATTERN = NORTH_BLOCK_PATTERN.stream().map(offset -> rotate(offset, Direction.SOUTH)).toList();
+    private static final List<BlockPos> EAST_BLOCK_PATTERN = NORTH_BLOCK_PATTERN.stream().map(offset -> rotate(offset, Direction.EAST)).toList();
+    private static final List<BlockPos> WEST_BLOCK_PATTERN = NORTH_BLOCK_PATTERN.stream().map(offset -> rotate(offset, Direction.WEST)).toList();
+
+    private static final List<BlockPos> SOUTH_HOLE = NORTH_HOLE.stream().map(offset -> rotate(offset, Direction.SOUTH)).toList();
+    private static final List<BlockPos> EAST_HOLE = NORTH_HOLE.stream().map(offset -> rotate(offset, Direction.EAST)).toList();
+    private static final List<BlockPos> WEST_HOLE = NORTH_HOLE.stream().map(offset -> rotate(offset, Direction.WEST)).toList();
+
+    private static final List<BlockPos> SOUTH_EMPTY_PATTERN = NORTH_EMPTY_PATTERN.stream().map(offset -> rotate(offset, Direction.SOUTH)).toList();
+    private static final List<BlockPos> EAST_EMPTY_PATTERN = NORTH_EMPTY_PATTERN.stream().map(offset -> rotate(offset, Direction.EAST)).toList();
+    private static final List<BlockPos> WEST_EMPTY_PATTERN = NORTH_EMPTY_PATTERN.stream().map(offset -> rotate(offset, Direction.WEST)).toList();
+
+    private static BlockPos rotate(BlockPos offset, Direction facing) {
+        return switch (facing) {
+            case NORTH -> offset;
+            case SOUTH -> new BlockPos(-offset.getX(), offset.getY(), -offset.getZ());
+            case WEST  -> new BlockPos(offset.getZ(), offset.getY(), -offset.getX());
+            case EAST  -> new BlockPos(-offset.getZ(), offset.getY(), offset.getX());
+            default -> offset;
+        };
+    }
+
     private boolean isValidStructure(Direction pDirection, Level pLevel, BlockPos pPos){
             return switch (pDirection){
-                case NORTH -> matchesStructure(pLevel, pPos, NORTH_BLOCK_PATTERN);
-                case SOUTH -> matchesStructure(pLevel, pPos, SOUTH_BLOCK_PATTERN);
-                case EAST -> matchesStructure(pLevel, pPos, EAST_BLOCK_PATTERN);
-                case WEST -> matchesStructure(pLevel, pPos, WEST_BLOCK_PATTERN);
+                case NORTH -> matchesMudStructure(pLevel, pPos, NORTH_BLOCK_PATTERN) && matchesAirStructure(pLevel, pPos, NORTH_EMPTY_PATTERN);
+                case SOUTH -> matchesMudStructure(pLevel, pPos, SOUTH_BLOCK_PATTERN) && matchesAirStructure(pLevel, pPos, SOUTH_EMPTY_PATTERN);
+                case EAST -> matchesMudStructure(pLevel, pPos, EAST_BLOCK_PATTERN) && matchesAirStructure(pLevel, pPos, EAST_EMPTY_PATTERN);
+                case WEST -> matchesMudStructure(pLevel, pPos, WEST_BLOCK_PATTERN) && matchesAirStructure(pLevel, pPos, WEST_EMPTY_PATTERN);
                 default -> false;
             };
     }
 
-    private boolean matchesStructure(Level level, BlockPos anchor, List<BlockPos> pattern) {
+
+    private boolean matchesAirStructure(Level level, BlockPos anchor, List<BlockPos> emptyPattern){
+        for (BlockPos offset : emptyPattern) {
+            BlockPos check = anchor.offset(offset);
+            if (!level.getBlockState(check).is(Blocks.AIR)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean matchesMudStructure(Level level, BlockPos anchor, List<BlockPos> pattern) {
         for (BlockPos offset : pattern) {
             BlockPos check = anchor.offset(offset);
             if (!level.getBlockState(check).is(ModBlocks.MUD_BLOCK.get())) {

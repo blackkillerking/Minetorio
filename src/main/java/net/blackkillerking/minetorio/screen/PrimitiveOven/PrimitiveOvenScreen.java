@@ -22,6 +22,7 @@ public class PrimitiveOvenScreen extends AbstractContainerScreen<PrimitiveOvenMe
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
         this.imageHeight = 210;
         this.titleLabelY = -16;
+        this.inventoryLabelY = 90;
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1f,1f,1f,1f);
         RenderSystem.setShaderTexture(0, TEXTURE);
