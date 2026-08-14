@@ -3,11 +3,14 @@ package net.blackkillerking.minetorio;
 import com.mojang.logging.LogUtils;
 import net.blackkillerking.minetorio.block.ModBlocks;
 import net.blackkillerking.minetorio.block.entity.ModBlockEntites;
+import net.blackkillerking.minetorio.block.entity.PrimitiveOvenBlockEntity;
+import net.blackkillerking.minetorio.block.multiblock.MultiBlockPatternRegistry;
 import net.blackkillerking.minetorio.fluid.ModFluidTypes;
 import net.blackkillerking.minetorio.fluid.ModFluids;
 import net.blackkillerking.minetorio.item.ModCreativeModTabs;
 import net.blackkillerking.minetorio.item.ModItems;
 import net.blackkillerking.minetorio.loot.ModLootModifiers;
+import net.blackkillerking.minetorio.network.ModNetwork;
 import net.blackkillerking.minetorio.particle.ModParticals;
 import net.blackkillerking.minetorio.recipe.ModRecipes;
 import net.blackkillerking.minetorio.screen.MetalShapingStation.MetalShapingStationScreen;
@@ -42,6 +45,8 @@ public class Minetorio
     public Minetorio(FMLJavaModLoadingContext context)
     {
         IEventBus modEventBus = context.getModEventBus();
+
+        ModNetwork.register();
 
         ModItems.register(modEventBus);
 

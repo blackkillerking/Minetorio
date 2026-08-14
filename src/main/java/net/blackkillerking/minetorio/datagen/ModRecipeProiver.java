@@ -4,6 +4,7 @@ import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.block.ModBlocks;
 import net.blackkillerking.minetorio.datagen.builders.HeatedMetalCookingBuilder;
 import net.blackkillerking.minetorio.datagen.builders.MetalShapingRecipeBuilder;
+import net.blackkillerking.minetorio.datagen.builders.PrimitiveSmeltingRecipeBuilder;
 import net.blackkillerking.minetorio.item.ModItems;
 import net.blackkillerking.minetorio.utils.ModTags;
 import net.minecraft.data.PackOutput;
@@ -140,6 +141,16 @@ public class ModRecipeProiver extends RecipeProvider {
         nuggetByHammering(Items.IRON_NUGGET, 9, Items.IRON_INGOT, "iron", pWriter);
         nuggetByHammering(Items.GOLD_NUGGET, 9, Items.IRON_INGOT, "gold", pWriter);
         nuggetByHammering(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, "copper_nugget")), 9, Items.COPPER_INGOT, "copper", pWriter);
+
+        List<Ingredient> testRecipe = new ArrayList<>();
+        testRecipe.add(Ingredient.of(Items.COAL));
+        testRecipe.add(Ingredient.of(Items.COAL));
+        testRecipe.add(Ingredient.of(Items.COAL));
+        testRecipe.add(Ingredient.of(ModItems.RAW_ZINC.get()));
+
+        new PrimitiveSmeltingRecipeBuilder(testRecipe, 1, 400, "zinc", ModItems.HEATED_INGOT.get(), 40, 30)
+                .unlockedBy("has_raw_zinc", has(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, "raw_zinc"))))
+                .save(pWriter);
 
     }
 

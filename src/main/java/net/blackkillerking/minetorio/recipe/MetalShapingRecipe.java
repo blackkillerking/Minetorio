@@ -27,7 +27,6 @@ public class MetalShapingRecipe implements Recipe<SimpleContainer> {
     private final NonNullList<Ingredient> ingredients;
     private final ItemStack result;
     private final ResourceLocation id;
-    public Logger logger= Minetorio.LOGGER;
 
     public MetalShapingRecipe(NonNullList<Ingredient> ingredients, ItemStack result, ResourceLocation id) {
         this.ingredients = ingredients;

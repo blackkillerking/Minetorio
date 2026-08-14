@@ -36,6 +36,19 @@ public class PrimitiveOvenBlock extends BaseEntityBlock {
     }
 
     @Override
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
+
+        if (pLevel.isClientSide){
+            return null;
+        }
+
+        return createTickerHelper(
+                pBlockEntityType,
+                ModBlockEntites.PRIMITIVE_OVEN_BE.get(),
+                (pLevel1, pPos, pState1, pBlockEntity) -> pBlockEntity.tick(pLevel1, pPos, pState1));
+    }
+
+    @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
         if (pState.getBlock() != pNewState.getBlock()){
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
@@ -64,18 +77,6 @@ public class PrimitiveOvenBlock extends BaseEntityBlock {
         return new PrimitiveOvenBlockEntity(pPos, pState);
     }
 
-    @Override
-    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-
-        if (pLevel.isClientSide){
-            return null;
-        }
-
-        return createTickerHelper(
-                pBlockEntityType,
-                ModBlockEntites.PRIMITIVE_OVEN_BE.get(),
-                (pLevel1, pPos, pState1, pBlockEntity) -> pBlockEntity.tick(pLevel1, pPos, pState1));
-    }
 
     @Override
     public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {

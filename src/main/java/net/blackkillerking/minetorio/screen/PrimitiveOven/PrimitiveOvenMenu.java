@@ -1,51 +1,74 @@
 package net.blackkillerking.minetorio.screen.PrimitiveOven;
 
-import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.block.ModBlocks;
-import net.blackkillerking.minetorio.block.entity.MetalShapingStationBlockEntity;
 import net.blackkillerking.minetorio.block.entity.PrimitiveOvenBlockEntity;
 import net.blackkillerking.minetorio.screen.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
-import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PrimitiveOvenMenu extends AbstractContainerMenu {
 
-    public final PrimitiveOvenBlockEntity blockEntity1;
+    public final PrimitiveOvenBlockEntity blockEntity;
     private final Level level;
+    private final ContainerData data;
 
     public PrimitiveOvenMenu (int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()));
+        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
     }
 
-    public PrimitiveOvenMenu(int pContainerId, Inventory inv, BlockEntity blockEntity){
+    public PrimitiveOvenMenu(int pContainerId, Inventory inv, BlockEntity blockEntity, ContainerData data){
         super(ModMenuTypes.PRIMITIVE_OVEN_MENU.get(), pContainerId);
-        checkContainerSize(inv, 5);
-        blockEntity1 = ((PrimitiveOvenBlockEntity) blockEntity);
+        checkContainerSize(inv, 16);
+        this.blockEntity = ((PrimitiveOvenBlockEntity) blockEntity);
         this.level = inv.player.level();
+        this.data = data;
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
 
-        this.blockEntity1.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
+        this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
             this.addSlot(new SlotItemHandler(iItemHandler, 0, 8, 72));
             this.addSlot(new SlotItemHandler(iItemHandler, 1, 8, 31));
-            this.addSlot(new SlotItemHandler(iItemHandler, 2, 8, 1));
-            this.addSlot(new SlotItemHandler(iItemHandler, 3, 113, 23));
-            this.addSlot(new SlotItemHandler(iItemHandler, 4, 147, 23));
+            this.addSlot(new SlotItemHandler(iItemHandler, 2, 113, 23));
+            this.addSlot(new SlotItemHandler(iItemHandler, 3, 147, 23));
+            for (int i = 0; i < 12; i++) {
+                this.addSlot(new SlotItemHandler(iItemHandler, i+4, 0, 500));
+            }
+
         });
 
+        addDataSlots(data);
+    }
+
+    public boolean isCrafting() {
+        return data.get(0) > 0;
+    }
+
+    public int getScaledProgress() {
+        int progress = data.get(0);
+        int maxProgress = data.get(1);
+        int progressArrowSize = 13;
+
+        return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
+    }
+
+    public List<ItemStack> getInputList(){
+        List<ItemStack> input_list = new ArrayList<>();
+        for (int i = 4; i < 16; i++) {
+            input_list.add(blockEntity.getItemInSlot(i));
+        }
+        return input_list;
     }
 
     private static final int HOTBAR_SLOT_COUNT = 9;
@@ -55,7 +78,7 @@ public class PrimitiveOvenMenu extends AbstractContainerMenu {
     private static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
     private static final int VANILLA_FIRST_SLOT_INDEX = 0;
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
-    private static final int TE_INVENTORY_SLOT_COUNT = 5;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = 16;  // must be the number of slots you have!
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int pIndex) {
@@ -107,7 +130,7 @@ public class PrimitiveOvenMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player pPlayer) {
-        return stillValid(ContainerLevelAccess.create(level, blockEntity1.getBlockPos()),
+        return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
                 pPlayer, ModBlocks.PRIMITIVE_OVEN.get());
     }
 }

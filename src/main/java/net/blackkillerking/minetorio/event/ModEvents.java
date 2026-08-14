@@ -2,6 +2,8 @@ package net.blackkillerking.minetorio.event;
 
 
 import net.blackkillerking.minetorio.Minetorio;
+import net.blackkillerking.minetorio.block.entity.PrimitiveOvenBlockEntity;
+import net.blackkillerking.minetorio.block.multiblock.MultiBlockPatternRegistry;
 import net.blackkillerking.minetorio.comand.ReturnHomeCommand;
 import net.blackkillerking.minetorio.comand.SetHomeCommand;
 import net.blackkillerking.minetorio.item.ModItems;
@@ -21,6 +23,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.server.command.ConfigCommand;
 
 import java.util.*;
@@ -31,7 +34,12 @@ public class ModEvents {
 
     private static final Set<BlockPos> BROKEN_BLOCKS = new HashSet<>();
 
-
+    @SubscribeEvent
+    public static void onCommonSetup(FMLCommonSetupEvent event){
+        event.enqueueWork(() -> {
+            MultiBlockPatternRegistry.register("primitive_oven", PrimitiveOvenBlockEntity.STRUCTURE);
+        });
+    }
 
     @SubscribeEvent
     public static void onHammerUsage (BlockEvent.BreakEvent event){
@@ -55,7 +63,6 @@ public class ModEvents {
                 BROKEN_BLOCKS.remove(blockpos);
             }
         }
-
     }
 
     @SubscribeEvent
