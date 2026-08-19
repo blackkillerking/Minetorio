@@ -35,7 +35,7 @@ public class PrimitiveSmeltingRecipe implements Recipe<SimpleContainer> {
     public boolean matches(SimpleContainer pContainer, Level pLevel) {
         if(pLevel.isClientSide()) return false;
         for (int i = 0; i < 4; i++) {
-            if(!this.ingredients.get(i).getItems()[0].is(pContainer.getItem(i).getItem())) return false;
+            if(!this.ingredients.get(i).test(pContainer.getItem(i))) return false;
         }
         return true;
     }
@@ -93,10 +93,11 @@ public class PrimitiveSmeltingRecipe implements Recipe<SimpleContainer> {
         @Override
         public PrimitiveSmeltingRecipe fromJson(ResourceLocation id, JsonObject json) {
 
-            JsonArray ingredients = GsonHelper.getAsJsonArray(json, "ingredients");
+            JsonArray ingredientsJson = GsonHelper.getAsJsonArray(json, "ingredients");
             NonNullList<Ingredient> inputs = NonNullList.withSize(4, Ingredient.EMPTY);
-            for (int i = 0; i < 4; i++) {
-                inputs.set(i, Ingredient.fromJson(ingredients.get(i)));
+            int count = Math.min(ingredientsJson.size(), 4);
+            for (int i = 0; i < count; i++) {
+                inputs.set(i, Ingredient.fromJson(ingredientsJson.get(i)));
             }
 
             ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));

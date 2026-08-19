@@ -11,6 +11,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ServerboundContainerButtonClickPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Item;
@@ -31,9 +32,10 @@ public class PrimitiveOvenScreen extends AbstractContainerScreen<PrimitiveOvenMe
             Items.RAW_COPPER, 1,
             ModItems.RAW_TIN.get(), 2,
             Items.RAW_IRON, 3,
-            //ModItems.BRONZE_INGOT.get(), 5,
+            //ModItems.BRONZE_INGOT.get(), 4,
             ModItems.RAW_ZINC.get(), 5,
-            ModItems.RAW_SILVER.get(), 6
+            ModItems.RAW_SILVER.get(), 6,
+            Items.RAW_GOLD, 7
     );
 
     public PrimitiveOvenScreen(PrimitiveOvenMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
@@ -43,12 +45,6 @@ public class PrimitiveOvenScreen extends AbstractContainerScreen<PrimitiveOvenMe
     private int getIndex(Item item){
         return renderableIndex.getOrDefault(item, 1);
     }
-
-    private static final int LIST_X = 35;   // relative to leftPos — right edge of main texture
-    private static final int LIST_Y = 18;     // relative to topPos — matches red box's vertical start
-    private static final int ROW_HEIGHT = 6;
-    private static final int ROW_WIDTH = 68; // adjust to match red box's actual width
-    private static final int MAX_ROWS = 7;
 
     @Override
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
@@ -71,17 +67,17 @@ public class PrimitiveOvenScreen extends AbstractContainerScreen<PrimitiveOvenMe
     private void renderInputLayers(GuiGraphics pGuiGraphics, int x, int y) {
         List<ItemStack> input_list = menu.getInputList();
         if(input_list.isEmpty()) return;
-        for(int i = 0; i < input_list.size()-1; i++){
+        for(int i = 0; i < input_list.size(); i++){
             ItemStack stack = input_list.get(i);
             if(stack.isEmpty()) break;
-            pGuiGraphics.blit(TEXTURE, x + 35, y + 86 - 6 * i, x + 176, y + 31 + 6 * getIndex(stack.getItem()), 68, 6);
+            pGuiGraphics.blit(TEXTURE, x + 35, y + 86 - 6 * i,176, 16 + 6 * getIndex(stack.getItem()), 68, 6);
         }
     }
 
     private void renderFireProgress(GuiGraphics pGuiGraphics, int x, int y) {
         if(menu.isCrafting()){
             for (int i = 0; i < 4; i++) {
-                pGuiGraphics.blit(TEXTURE, x + 34 + 16 * i, y + 95, x + 176, 0, 13,menu.getScaledProgress());
+                pGuiGraphics.blit(TEXTURE, x + 34 + 20 * i, y + 95, 176, 13, 13,-menu.getScaledProgress());
             }
 
         }
@@ -101,14 +97,9 @@ public class PrimitiveOvenScreen extends AbstractContainerScreen<PrimitiveOvenMe
         int x = leftPos;
         int y = topPos;
 
-
         addRenderableWidget(Button.builder(
                 Component.literal("Start fire"),
-                button -> onButtonPress(0)
+                button -> this.minecraft.player.connection.send(new ServerboundContainerButtonClickPacket(menu.containerId, 0))
         ).bounds(x + 112, y + 51, 60, 20).build());
-    }
-
-    private void onButtonPress(int id) {
-        ModNetwork.INSTANCE.sendToServer(new ButtonPacket(menu.blockEntity.getBlockPos(), id));
     }
 }

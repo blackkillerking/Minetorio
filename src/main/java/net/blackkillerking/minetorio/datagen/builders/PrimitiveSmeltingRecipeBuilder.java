@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.recipe.PrimitiveSmeltingRecipe;
+import net.blackkillerking.minetorio.utils.ModTags;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.CriterionTriggerInstance;
@@ -13,6 +14,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -27,13 +29,13 @@ public class PrimitiveSmeltingRecipeBuilder implements RecipeBuilder {
     private final int coolingTime;
     private final String type;
     private final Item result;
-    private final int experience;
+    private final float experience;
     private final int cookingTime;
     private final Advancement.Builder advancement = Advancement.Builder.recipeAdvancement();
     @Nullable
     private String group;
 
-    public PrimitiveSmeltingRecipeBuilder(List<Ingredient> ingredients, int count, int coolingTime, String type, Item result, int experience, int cookingTime) {
+    public PrimitiveSmeltingRecipeBuilder(List<Ingredient> ingredients, int count, int coolingTime, String type, Item result, float experience, int cookingTime) {
         this.ingredients = ingredients;
         this.count = count;
         this.coolingTime = coolingTime;
@@ -82,12 +84,12 @@ public class PrimitiveSmeltingRecipeBuilder implements RecipeBuilder {
         private final int coolingTime;
         private final String type;
         private final Item result;
-        private final int experience;
+        private final float experience;
         private final int cookingTime;
         private final Advancement.Builder advancement;
         private final ResourceLocation advancementId;
 
-        private Result(ResourceLocation id, String group, List<Ingredient> ingredients, int count, int coolingTime, String type, Item result, int experience, int cookingTime, Advancement.Builder advancement, ResourceLocation advancementId) {
+        private Result(ResourceLocation id, String group, List<Ingredient> ingredients, int count, int coolingTime, String type, Item result, float experience, int cookingTime, Advancement.Builder advancement, ResourceLocation advancementId) {
             this.id = id;
             this.group = group;
             this.ingredients = ingredients;
@@ -129,7 +131,7 @@ public class PrimitiveSmeltingRecipeBuilder implements RecipeBuilder {
 
         @Override
         public ResourceLocation getId() {
-            return new ResourceLocation(Minetorio.MOD_ID, ForgeRegistries.ITEMS.getKey(this.result).getPath() + "_from_primitive_smelting");
+            return this.id;
         }
 
         @Override

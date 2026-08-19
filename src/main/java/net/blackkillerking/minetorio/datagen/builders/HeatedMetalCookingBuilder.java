@@ -60,9 +60,6 @@ public class HeatedMetalCookingBuilder implements RecipeBuilder {
         return new HeatedMetalCookingBuilder(pCategory, determineBlastingRecipeCategory(pResult),pIngredient, pResult, pCount, pValue, pCoolingTime, pExperience, pCookingTime, RecipeSerializer.SMELTING_RECIPE);
     }
 
-    private static CookingBookCategory determineSmeltingRecipeCategory(ItemLike pResult) {
-        return pResult.asItem() instanceof BlockItem ? CookingBookCategory.BLOCKS : CookingBookCategory.MISC;
-    }
     private static CookingBookCategory determineBlastingRecipeCategory(ItemLike pResult) {
         return pResult.asItem() instanceof BlockItem ? CookingBookCategory.BLOCKS : CookingBookCategory.MISC;
     }

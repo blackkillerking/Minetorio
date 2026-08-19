@@ -1,100 +1,100 @@
 {
   "variants": {
     "layers=1,drying=0,supported=true": {
-      "model": "minetorio:block/mud_height4"
+      "model": "minetorio:block/mud_layer_height4_dried0_supportedtrue"
     },
     "layers=1,drying=1,supported=true": {
-      "model": "minetorio:block/mud_height4"
+      "model": "minetorio:block/mud_layer_height4_dried1_supportedtrue"
     },
     "layers=1,drying=2,supported=true": {
-      "model": "minetorio:block/mud_height4"
+      "model": "minetorio:block/mud_layer_height4_dried2_supportedtrue"
     },
     "layers=1,drying=3,supported=true": {
-      "model": "minetorio:block/mud_height4"
+      "model": "minetorio:block/mud_layer_height4_dried3_supportedtrue"
     },
     "layers=2,drying=0,supported=true": {
-      "model": "minetorio:block/mud_layer_height8"
+      "model": "minetorio:block/mud_layer_height8_dried0_supportedtrue"
     },
     "layers=2,drying=1,supported=true": {
-      "model": "minetorio:block/mud_layer_height8"
+      "model": "minetorio:block/mud_layer_height8_dried1_supportedtrue"
     },
     "layers=2,drying=2,supported=true": {
-      "model": "minetorio:block/mud_layer_height8"
+      "model": "minetorio:block/mud_layer_height8_dried2_supportedtrue"
     },
     "layers=2,drying=3,supported=true": {
-      "model": "minetorio:block/mud_layer_height8"
+      "model": "minetorio:block/mud_layer_height8_dried3_supportedtrue"
     },
     "layers=3,drying=0,supported=true": {
-      "model": "minetorio:block/mud_layer_height12"
+      "model": "minetorio:block/mud_layer_height12_dried0_supportedtrue"
     },
     "layers=3,drying=1,supported=true": {
-      "model": "minetorio:block/mud_layer_height12"
+      "model": "minetorio:block/mud_layer_height12_dried1_supportedtrue"
     },
     "layers=3,drying=2,supported=true": {
-      "model": "minetorio:block/mud_layer_height12"
+      "model": "minetorio:block/mud_layer_height12_dried2_supportedtrue"
     },
     "layers=3,drying=3,supported=true": {
-      "model": "minetorio:block/mud_layer_height12"
+      "model": "minetorio:block/mud_layer_height12_dried3_supportedtrue"
     },
     "layers=4,drying=0,supported=true": {
-      "model": "minetorio:block/mud_block"
+      "model": "minetorio:block/mud_layer_height16_dried0_supportedtrue"
     },
     "layers=4,drying=1,supported=true": {
-      "model": "minetorio:block/mud_block"
+      "model": "minetorio:block/mud_layer_height16_dried1_supportedtrue"
     },
     "layers=4,drying=2,supported=true": {
-      "model": "minetorio:block/mud_block"
+      "model": "minetorio:block/mud_layer_height16_dried2_supportedtrue"
     },
     "layers=4,drying=3,supported=true": {
-      "model": "minetorio:block/mud_block"
+      "model": "minetorio:block/mud_layer_height16_dried3_supportedtrue"
     },
     "layers=1,drying=0,supported=false": {
-      "model": "minetorio:block/mud_height4"
+      "model": "minetorio:block/mud_layer_height4_dried0_supportedfalse"
     },
     "layers=1,drying=1,supported=false": {
-      "model": "minetorio:block/mud_height4"
+      "model": "minetorio:block/mud_layer_height4_dried1_supportedfalse"
     },
     "layers=1,drying=2,supported=false": {
-      "model": "minetorio:block/mud_height4"
+      "model": "minetorio:block/mud_layer_height4_dried2_supportedfalse"
     },
     "layers=1,drying=3,supported=false": {
-      "model": "minetorio:block/mud_height4"
+      "model": "minetorio:block/mud_layer_height4_dried3_supportedfalse"
     },
     "layers=2,drying=0,supported=false": {
-      "model": "minetorio:block/mud_layer_height8"
+      "model": "minetorio:block/mud_layer_height8_dried0_supportedfalse"
     },
     "layers=2,drying=1,supported=false": {
-      "model": "minetorio:block/mud_layer_height8"
+      "model": "minetorio:block/mud_layer_height8_dried1_supportedfalse"
     },
     "layers=2,drying=2,supported=false": {
-      "model": "minetorio:block/mud_layer_height8"
+      "model": "minetorio:block/mud_layer_height8_dried2_supportedfalse"
     },
     "layers=2,drying=3,supported=false": {
-      "model": "minetorio:block/mud_layer_height8"
+      "model": "minetorio:block/mud_layer_height8_dried3_supportedfalse"
     },
     "layers=3,drying=0,supported=false": {
-      "model": "minetorio:block/mud_layer_height12"
+      "model": "minetorio:block/mud_layer_height12_dried0_supportedfalse"
     },
     "layers=3,drying=1,supported=false": {
-      "model": "minetorio:block/mud_layer_height12"
+      "model": "minetorio:block/mud_layer_height12_dried1_supportedfalse"
     },
     "layers=3,drying=2,supported=false": {
-      "model": "minetorio:block/mud_layer_height12"
+      "model": "minetorio:block/mud_layer_height12_dried2_supportedfalse"
     },
     "layers=3,drying=3,supported=false": {
-      "model": "minetorio:block/mud_layer_height12"
+      "model": "minetorio:block/mud_layer_height12_dried3_supportedfalse"
     },
     "layers=4,drying=0,supported=false": {
-      "model": "minetorio:block/mud_block"
+      "model": "minetorio:block/mud_layer_height16_dried0_supportedfalse"
     },
     "layers=4,drying=1,supported=false": {
-      "model": "minetorio:block/mud_block"
+      "model": "minetorio:block/mud_layer_height16_dried1_supportedfalse"
     },
     "layers=4,drying=2,supported=false": {
-      "model": "minetorio:block/mud_block"
+      "model": "minetorio:block/mud_layer_height16_dried2_supportedfalse"
     },
     "layers=4,drying=3,supported=false": {
-      "model": "minetorio:block/mud_block"
+      "model": "minetorio:block/mud_layer_height16_dried3_supportedfalse"
     }
   }
 }

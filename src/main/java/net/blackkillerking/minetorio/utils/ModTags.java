@@ -21,6 +21,7 @@ public class ModTags {
 
         public static final TagKey<Item> METAL_WORKING_TOOLS = tag("metal_working_tools");
         public static final TagKey<Item> HEATED_METALS = tag("heated_metals");
+        public static final TagKey<Item> METAL_DERIVATIVES = tag("metal_derivatives");
 
         public static final TagKey<Item> PLANT_FIBERS = tag("plant_fibers");
         public static final TagKey<Item> STICK_BARK = tag("stick_bark");

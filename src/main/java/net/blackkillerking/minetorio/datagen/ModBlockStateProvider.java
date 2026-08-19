@@ -4,10 +4,13 @@ import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.block.ModBlocks;
 import net.blackkillerking.minetorio.block.crops.OliveCropBlock;
 import net.blackkillerking.minetorio.block.custom.PolisherBlock;
+import net.blackkillerking.minetorio.block.custom.PrimitiveOvenBlock;
+import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -45,7 +48,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.OLD_LOG);
         blockWithItem(ModBlocks.BASALT_BLOCK);
         blockWithItem(ModBlocks.FLINT_BLOCK);
-        blockWithItem(ModBlocks.MUD_BLOCK);
 
         simpleBlock(ModBlocks.POLISHER.get(),
                 new ModelFile.UncheckedModelFile(modLoc("block/polisher")));
@@ -65,6 +67,18 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 new ModelFile.UncheckedModelFile(modLoc("block/leather_block")));
 
         makeCropModel((CropBlock) ModBlocks.OLIVE_CROP.get(), "olive_crop_stage", "olive_crop_stage");
+
+        ResourceLocation top_and_side = modLoc("block/mud_block");
+        ResourceLocation front_off = modLoc("block/primitive_oven_front_off");
+        ResourceLocation front_on = modLoc("block/primitive_oven_front_on");
+
+        ModelFile off = models().orientable("primitive_oven", top_and_side, front_off, top_and_side);
+        ModelFile on = models().orientable("primitive_oven_lit", top_and_side, front_on, top_and_side);
+
+        horizontalBlock(ModBlocks.PRIMITIVE_OVEN.get(), state ->
+                state.getValue(PrimitiveOvenBlock.ON) ? on : off);
+
+        itemModels().withExistingParent("primitive_oven", modLoc("block/primitive_oven"));
     }
 
     private void makeCropModel(CropBlock block, String modelName, String textureName){

@@ -86,6 +86,74 @@ public class ModItemTagGenerator extends ItemTagsProvider {
                         ModItems.RAW_ZINC.get(),
                         ModItems.RAW_SILVER.get()
                 );
+        this.tag(ModTags.Items.METAL_DERIVATIVES)
+                .add(
+                ModItems.TIN_INGOT.get(),
+                ModItems.TIN_SHEET.get(),
+                ModItems.TIN_BAR.get(),
+                ModItems.TIN_STRIPE.get(),
+                ModItems.TIN_ROD.get(),
+                ModItems.TIN_PANEL.get(),
+                ModItems.TIN_WIRE.get(),
+                ModItems.TIN_SCREWS.get(),
+                ModItems.TIN_COLUMN.get(),
+                ModItems.TIN_RING.get(),
+
+                ModItems.ZINC_INGOT.get(),
+                ModItems.ZINC_SHEET.get(),
+                ModItems.ZINC_BAR.get(),
+                ModItems.ZINC_STRIPE.get(),
+                ModItems.ZINC_ROD.get(),
+                ModItems.ZINC_PANEL.get(),
+                ModItems.ZINC_WIRE.get(),
+                ModItems.ZINC_SCREWS.get(),
+                ModItems.ZINC_COLUMN.get(),
+                ModItems.ZINC_RING.get(),
+
+                ModItems.SILVER_INGOT.get(),
+                ModItems.SILVER_SHEET.get(),
+                ModItems.SILVER_BAR.get(),
+                ModItems.SILVER_STRIPE.get(),
+                ModItems.SILVER_ROD.get(),
+                ModItems.SILVER_PANEL.get(),
+                ModItems.SILVER_WIRE.get(),
+                ModItems.SILVER_SCREWS.get(),
+                ModItems.SILVER_COLUMN.get(),
+                ModItems.SILVER_RING.get(),
+
+                Items.IRON_INGOT,
+                ModItems.IRON_SHEET.get(),
+                ModItems.IRON_BAR.get(),
+                ModItems.IRON_STRIPE.get(),
+                ModItems.IRON_ROD.get(),
+                ModItems.IRON_PANEL.get(),
+                ModItems.IRON_WIRE.get(),
+                ModItems.IRON_SCREWS.get(),
+                ModItems.IRON_COLUMN.get(),
+                ModItems.IRON_RING.get(),
+
+                Items.COPPER_INGOT,
+                ModItems.COPPER_SHEET.get(),
+                ModItems.COPPER_BAR.get(),
+                ModItems.COPPER_STRIPE.get(),
+                ModItems.COPPER_ROD.get(),
+                ModItems.COPPER_PANEL.get(),
+                ModItems.COPPER_WIRE.get(),
+                ModItems.COPPER_SCREWS.get(),
+                ModItems.COPPER_COLUMN.get(),
+                ModItems.COPPER_RING.get(),
+
+                Items.GOLD_INGOT,
+                ModItems.GOLD_SHEET.get(),
+                ModItems.GOLD_BAR.get(),
+                ModItems.GOLD_STRIPE.get(),
+                ModItems.GOLD_ROD.get(),
+                ModItems.GOLD_PANEL.get(),
+                ModItems.GOLD_WIRE.get(),
+                ModItems.GOLD_SCREWS.get(),
+                ModItems.GOLD_COLUMN.get(),
+                ModItems.GOLD_RING.get()
+                );
     }
 
     @Override

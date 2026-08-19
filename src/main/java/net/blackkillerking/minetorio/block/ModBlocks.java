@@ -83,15 +83,6 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> MUD_LAYER_BLOCK = registerBlock(
             "mud_layer_block", () -> new MudLayerBlock(BlockBehaviour.Properties.of().instabreak().friction(0.4f).mapColor(MapColor.COLOR_BROWN)));
-    public static final RegistryObject<Block> MUD_BLOCK = registerBlock(
-            "mud_block", () -> new MudBlockBlock(BlockBehaviour.Properties.copy(Blocks.STONE)));
-
-
-
-
-
-
-
 
     private static <T extends Block> RegistryObject<T> registerBlock (String name, Supplier<T> block){
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
@@ -102,7 +93,6 @@ public class ModBlocks {
     private static  <T extends Block> RegistryObject<Item> registerBlockItem (String name, RegistryObject<T> block){
         return ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
-
 
     public static void register(IEventBus eventBus){
         BLOCKS.register(eventBus);

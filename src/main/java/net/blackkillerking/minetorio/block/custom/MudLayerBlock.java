@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -35,7 +36,6 @@ import java.util.List;
 
 public class MudLayerBlock extends Block {
 
-    public static final int MAX_HEIGHT = 4;
     public static final IntegerProperty LAYERS = IntegerProperty.create("layers", 1, 4);
     public static final IntegerProperty DRYING = IntegerProperty.create("drying", 0, 3);
     public static final BooleanProperty SUPPORTED = BooleanProperty.create("supported");
@@ -60,7 +60,13 @@ public class MudLayerBlock extends Block {
 
     public boolean canSurvive(BlockState pState, LevelReader pLevel, BlockPos pPos) {
         BlockState blockstate = pLevel.getBlockState(pPos.below());
-        return Block.isFaceFull(blockstate.getCollisionShape(pLevel, pPos.below()), Direction.UP) || blockstate.is(this) && blockstate.getValue(LAYERS) == 4;
+        if (blockstate.is(BlockTags.SNOW_LAYER_CANNOT_SURVIVE_ON)) {
+            return false;
+        } else if (blockstate.is(BlockTags.SNOW_LAYER_CAN_SURVIVE_ON)) {
+            return true;
+        } else {
+            return Block.isFaceFull(blockstate.getCollisionShape(pLevel, pPos.below()), Direction.UP) || blockstate.is(this) && blockstate.getValue(LAYERS) == 4;
+        }
     }
 
     public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
@@ -101,7 +107,7 @@ public class MudLayerBlock extends Block {
             boolean maxLayers = layers == 4;
 
             if(maxLayers && isDried && supported){
-                BlockState blockState = ModBlocks.MUD_BLOCK.get().defaultBlockState();
+                BlockState blockState = Blocks.MUD.defaultBlockState();
                 pLevel.setBlock(pPos, blockState, 3);
             }
             return;

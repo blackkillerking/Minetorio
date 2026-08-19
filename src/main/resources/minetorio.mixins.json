@@ -1,0 +1,8 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "compatibility": "JAVA_17",
+  "package": "net.blackkillerking.minetorio.mixin",
+  "refmap": "minetorio.refmap.json",
+  "mixins": []
+}

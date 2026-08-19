@@ -169,9 +169,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.CRUDE_OIL_BUCKET);
         simpleItem(ModItems.TANNIN_BUCKET);
 
+        withExistingParent("mud_layer_block", modLoc("block/mud_layer_height4_dried0_supportedfalse"));
+
         customBBBlock(ModBlocks.POLISHER.get());
         customBBBlock(ModBlocks.BROKEN_POLISHER.get());
         customBBBlock(ModBlocks.METAL_SHAPING_STATION.get());
+        customBBBlock(ModBlocks.PRIMITIVE_OVEN.get());
     }
 
     private ItemModelBuilder simpleItem (RegistryObject<Item> item){

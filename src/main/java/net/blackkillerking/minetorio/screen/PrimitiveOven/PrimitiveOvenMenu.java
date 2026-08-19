@@ -4,6 +4,7 @@ import net.blackkillerking.minetorio.block.ModBlocks;
 import net.blackkillerking.minetorio.block.entity.PrimitiveOvenBlockEntity;
 import net.blackkillerking.minetorio.screen.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -78,12 +79,12 @@ public class PrimitiveOvenMenu extends AbstractContainerMenu {
     private static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
     private static final int VANILLA_FIRST_SLOT_INDEX = 0;
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
-    private static final int TE_INVENTORY_SLOT_COUNT = 16;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = 4;  // must be the number of slots you have!
 
     @Override
     public ItemStack quickMoveStack(Player playerIn, int pIndex) {
         Slot sourceSlot = slots.get(pIndex);
-        if (sourceSlot == null || !sourceSlot.hasItem()) return ItemStack.EMPTY;  //EMPTY_ITEM
+        if (sourceSlot == null || !sourceSlot.hasItem()) return ItemStack.EMPTY;
         ItemStack sourceStack = sourceSlot.getItem();
         ItemStack copyOfSourceStack = sourceStack.copy();
 
@@ -112,6 +113,15 @@ public class PrimitiveOvenMenu extends AbstractContainerMenu {
     @Override
     public void slotsChanged(Container pContainer) {
         super.slotsChanged(pContainer);
+    }
+
+    @Override
+    public boolean clickMenuButton(Player player, int id) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            blockEntity.handleButtonPress(id, serverPlayer);
+            return true;
+        }
+        return super.clickMenuButton(player, id);
     }
 
     private void addPlayerInventory(Inventory playerInventory) {

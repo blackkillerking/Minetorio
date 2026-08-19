@@ -2,6 +2,7 @@ package net.blackkillerking.minetorio.block.entity;
 
 import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.block.ModBlocks;
+import net.blackkillerking.minetorio.block.custom.PrimitiveOvenBlock;
 import net.blackkillerking.minetorio.block.multiblock.MultiBlockPatternPart;
 import net.blackkillerking.minetorio.block.multiblock.MultiBlockPattern;
 import net.blackkillerking.minetorio.recipe.PrimitiveSmeltingRecipe;
@@ -9,6 +10,10 @@ import net.blackkillerking.minetorio.screen.PrimitiveOven.PrimitiveOvenMenu;
 import net.blackkillerking.minetorio.utils.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleGroup;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -30,6 +35,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -42,6 +48,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jline.utils.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -119,7 +126,7 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
     );
 
     public static final MultiBlockPattern STRUCTURE = new MultiBlockPattern(
-            new MultiBlockPatternPart(BLOCK_PATTERN, state -> state.is(ModBlocks.MUD_BLOCK.get())),
+            new MultiBlockPatternPart(BLOCK_PATTERN, state -> state.is(Blocks.MUD)),
             new MultiBlockPatternPart(EMPTY_PATTERN, state -> state.isAir())
     );
 
@@ -181,7 +188,7 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        return new PrimitiveOvenMenu(pContainerId, pPlayerInventory, this, this.data);
+        return new PrimitiveOvenMenu(pContainerId, pPlayerInventory, this, data);
     }
 
     @Override
@@ -246,7 +253,7 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
     }
 
     public void drops() {
-        if(this.level.isClientSide){
+        if(level.isClientSide){
             return;
         }
         SimpleContainer container = new SimpleContainer(itemHandler.getSlots());
@@ -254,7 +261,7 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
             container.setItem(i, itemHandler.getStackInSlot(i));
         }
 
-        Containers.dropContents(this.level, this.worldPosition, container);
+        Containers.dropContents(level, worldPosition, container);
         displayed_items = 0;
         result_item_count = 0;
         result_item = ItemStack.EMPTY;
@@ -316,7 +323,7 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
                 LOGGER.info("Primitive oven not complete");
                 drops();
                 setChanged();
-                level.setBlock(pos, ModBlocks.MUD_BLOCK.get().defaultBlockState(), 3);
+                level.setBlock(pos, Blocks.MUD.defaultBlockState(), 3);
                 return;
             }
         } else {
@@ -334,6 +341,11 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
 
         if(max_progress > 0){
             increaseProgress();
+            if((int) level.getGameTime() % 20 == 0){
+                LOGGER.info(level.getGameTime() + "");
+                List<BlockPos> hole = getHolePosition(facing, pos);
+                spawnParticles(hole.get(hole.size() - 1));
+            }
             if(isFinished()){
                 finishCraft();
             }
@@ -408,6 +420,7 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
 
     /// Start the smelting process
     private void smeltingHandler(ServerPlayer player) {
+        if(player.level().isClientSide()) return;
         if(this.progress != 0){
             LOGGER.info("Another recipe is in progress, please wait");
             return;
@@ -430,6 +443,7 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
 
     private boolean startCraftOfSize(int size){
         if(!foundRecipeOfSize(size)) return false;
+        LOGGER.info(getRecipeOfSize(size).get().getIngredients().toString());
         consumeRecipeOfSize(size, getRecipeOfSize(size));
 
         for (int i = 0; i < 12/size; i++) {
@@ -440,12 +454,15 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
     }
 
     private void finishCraft(){
-        CompoundTag data = new CompoundTag();
-        data.putString("metal_type", result_item.getTag().getString("metal_type"));
-        data.putInt("cooling_time", result_item.getTag().getInt("cooling_time"));
-
         ItemStack resultStack = new ItemStack(result_item.getItem(), result_item_count);
-        resultStack.setTag(data);
+
+        if(result_item.hasTag()){
+            CompoundTag data = new CompoundTag();
+            data.putString("metal_type", result_item.getTag().getString("metal_type"));
+            data.putInt("cooling_time", result_item.getTag().getInt("cooling_time"));
+            resultStack.setTag(data);
+        }
+
         resultStack.grow(itemHandler.getStackInSlot(OUTPUT_METAL).getCount());
         itemHandler.setStackInSlot(OUTPUT_METAL, resultStack);
 
@@ -458,16 +475,21 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
         experience = 0;
         max_progress = 0;
         resetProgress();
+        if (getBlockState().getValue(PrimitiveOvenBlock.ON)) {
+            level.setBlock(worldPosition, getBlockState().setValue(PrimitiveOvenBlock.ON, false), 3);
+        }
         setChanged();
         level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
     }
 
     private boolean foundRecipeOfSize(int size){
         Optional<PrimitiveSmeltingRecipe> recipe = getRecipeOfSize(size);
+        LOGGER.info("Getting recipe");
         return !recipe.isEmpty();
     }
 
     private void consumeRecipeOfSize(int size, Optional<PrimitiveSmeltingRecipe> recipe){
+        LOGGER.info("Consuming recipe");
         for (int i = 4; i < 4 + size; i++) {
             itemHandler.setStackInSlot(i, ItemStack.EMPTY);
         }
@@ -483,6 +505,9 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
         max_progress += recipe.get().getCookingTime();
         experience += recipe.get().getExperience();
         result_item = recipe.get().getResultItem(getLevel().registryAccess());
+        if (!getBlockState().getValue(PrimitiveOvenBlock.ON)) {
+            level.setBlock(worldPosition, getBlockState().setValue(PrimitiveOvenBlock.ON, true), 3);
+        }
         setChanged();
         level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
     }
@@ -498,14 +523,19 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
 
     private Optional<PrimitiveSmeltingRecipe> getRecipeOfSize(int size) {
         SimpleContainer inv = new SimpleContainer(4);
-        int temp = 0;
         for (int i = 0; i < size; i++) {
             inv.setItem(i, itemHandler.getStackInSlot(4+i));
-            temp++;
         }
-        for (int i = temp; i < size; i++) {
-            inv.setItem(temp, ItemStack.EMPTY);
+        if(size < 4){
+            if(size == 3){
+                inv.setItem(3, ItemStack.EMPTY);
+            }
+            if(size == 2){
+                inv.setItem(2, ItemStack.EMPTY);
+                inv.setItem(3, ItemStack.EMPTY);
+            }
         }
+
         return level.getRecipeManager().getRecipeFor(PrimitiveSmeltingRecipe.Type.INSTANCE, inv, level);
     }
 
@@ -521,6 +551,11 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
 
     private void resetProgress(){
         progress = 0;
+    }
+
+    private void spawnParticles(BlockPos pPos){
+        if(level.isClientSide()) return;
+        level.addParticle(ParticleTypes.LAVA, pPos.getX() + 0.1, pPos.getY() + 0.5, pPos.getZ() + 0.1, 0.02, 0.05, 0.02);
     }
 
 

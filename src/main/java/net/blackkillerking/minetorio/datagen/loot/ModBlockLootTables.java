@@ -45,13 +45,12 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.add(ModBlocks.HIDE.get(), block -> createSingleItemTable(ModItems.HIDE.get()));
         this.add(ModBlocks.TREATED_HIDE.get(), block -> createSingleItemTable(ModItems.TREATED_HIDE.get()));
         this.add(ModBlocks.LEATHER.get(), block -> createSingleItemTable(Items.LEATHER));
-        this.add(ModBlocks.MUD_BLOCK.get(), block -> createSingleItemTable(ModItems.MUD_BALLS.get()));
 
         this.dropSelf(ModBlocks.POLISHER.get());
         this.dropSelf(ModBlocks.BROKEN_POLISHER.get());
 
         this.dropSelf(ModBlocks.METAL_SHAPING_STATION.get());
-        this.add(ModBlocks.PRIMITIVE_OVEN.get(), block -> createSingleItemTable(ModBlocks.MUD_BLOCK.get()));
+        this.add(ModBlocks.PRIMITIVE_OVEN.get(), block -> createSingleItemTable(Blocks.MUD));
 
         LootItemCondition.Builder lootitemcondition$builder1 = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.OLIVE_CROP.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(OliveCropBlock.AGE, 3));
         this.add(ModBlocks.OLIVE_CROP.get(), this.createCropDrops(ModBlocks.OLIVE_CROP.get(), ModItems.OLIVE.get(), ModItems.OLIVE_SEEDS.get(), lootitemcondition$builder1));

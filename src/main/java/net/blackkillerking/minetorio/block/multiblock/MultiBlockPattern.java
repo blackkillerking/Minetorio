@@ -1,5 +1,6 @@
 package net.blackkillerking.minetorio.block.multiblock;
 
+import net.blackkillerking.minetorio.Minetorio;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -21,10 +22,10 @@ public class MultiBlockPattern {
 
     public BlockPos rotate(BlockPos offset, Direction facing){
         return switch (facing){
-            case NORTH -> offset;
-            case SOUTH -> new BlockPos(-offset.getX(), offset.getY(), -offset.getZ());
-            case EAST -> new BlockPos(offset.getZ(), offset.getY(), -offset.getX());
+            case SOUTH -> offset;
+            case NORTH -> new BlockPos(-offset.getX(), offset.getY(), -offset.getZ());
             case WEST -> new BlockPos(-offset.getZ(), offset.getY(), offset.getX());
+            case EAST -> new BlockPos(offset.getZ(), offset.getY(), offset.getX());
             default -> offset;
         };
     }
