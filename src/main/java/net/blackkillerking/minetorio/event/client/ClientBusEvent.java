@@ -1,4 +1,4 @@
-package net.blackkillerking.minetorio.event;
+package net.blackkillerking.minetorio.event.client;
 
 
 import net.blackkillerking.minetorio.Minetorio;
@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod.EventBusSubscriber(modid = Minetorio.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ModEventClientBusEvent {
+public class ClientBusEvent {
 
     @SubscribeEvent
     public static void registerParticleFactories(RegisterParticleProvidersEvent event){
@@ -23,7 +23,7 @@ public class ModEventClientBusEvent {
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event){
         event.enqueueWork(() -> {
-            MultiBlockPatternRegistry.register("primitive_oven", PrimitiveOvenBlockEntity.STRUCTURE);
+            MultiBlockPatternRegistry.register("primitive_oven", PrimitiveOvenBlockEntity.PRIMITIVE_OVEN_BASE_STRUCTURE);
         });
     }
 }

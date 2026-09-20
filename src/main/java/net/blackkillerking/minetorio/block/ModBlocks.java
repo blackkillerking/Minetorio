@@ -48,6 +48,9 @@ public class ModBlocks {
     public static final RegistryObject<Block> SILVER_BLOCK = registerBlock(
             "silver_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK)));
 
+    public static final RegistryObject<Block> ASH_BLOCK = registerBlock(
+            "ash_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BASALT)));
+
     public static final RegistryObject<Block> FLINT_BLOCK = registerBlock(
             "flint_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
     public static final RegistryObject<Block> BASALT_BLOCK = registerBlock(
@@ -72,6 +75,8 @@ public class ModBlocks {
             "metal_shaping_station", () -> new MetalShapingStationBlock(BlockBehaviour.Properties.copy(Blocks.ANVIL).noOcclusion()));
     public static final RegistryObject<Block> PRIMITIVE_OVEN = registerBlock(
             "primitive_oven", () -> new PrimitiveOvenBlock(BlockBehaviour.Properties.copy(Blocks.ANVIL).noOcclusion()));
+    public static final RegistryObject<Block> KILN_CONTROLLER = registerBlock(
+            "kiln_controller", () -> new KilnControllerBlock(BlockBehaviour.Properties.copy(Blocks.ANVIL).noOcclusion()));
 
     public static final RegistryObject<LiquidBlock> CRUDE_OIL_BLOCK = BLOCKS.register(
             "crude_oil_block", () -> new LiquidBlock(ModFluids.SOURCE_CRUDE_OIL, BlockBehaviour.Properties.copy(Blocks.LAVA).noLootTable()));

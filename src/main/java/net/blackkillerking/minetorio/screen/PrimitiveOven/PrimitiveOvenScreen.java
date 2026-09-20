@@ -70,16 +70,16 @@ public class PrimitiveOvenScreen extends AbstractContainerScreen<PrimitiveOvenMe
         for(int i = 0; i < input_list.size(); i++){
             ItemStack stack = input_list.get(i);
             if(stack.isEmpty()) break;
-            pGuiGraphics.blit(TEXTURE, x + 35, y + 86 - 6 * i,176, 16 + 6 * getIndex(stack.getItem()), 68, 6);
+            pGuiGraphics.blit(TEXTURE, x + 35, y + 86 - 6 * i,176, 14 + 6 * getIndex(stack.getItem()), 68, 6);
         }
     }
 
     private void renderFireProgress(GuiGraphics pGuiGraphics, int x, int y) {
         if(menu.isCrafting()){
             for (int i = 0; i < 4; i++) {
-                pGuiGraphics.blit(TEXTURE, x + 34 + 20 * i, y + 95, 176, 13, 13,-menu.getScaledProgress());
+                int j = menu.getScaledProgress();
+                pGuiGraphics.blit(TEXTURE, x + 36 + 18 * i, y + 96 + 13 - j, 176, 13-j, 13,j);
             }
-
         }
     }
 

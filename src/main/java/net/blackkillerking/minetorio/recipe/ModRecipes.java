@@ -15,6 +15,8 @@ public class ModRecipes {
             RECIPE_SERIALIZERS.register("metal_shaping", () -> MetalShapingRecipe.Serializer.INSTANCE);
     public static final RegistryObject<RecipeSerializer<PrimitiveSmeltingRecipe>> PRIMITIVE_SMELTING_SERIALIZER =
             RECIPE_SERIALIZERS.register("primitive_smelting", () -> PrimitiveSmeltingRecipe.Serializer.INSTANCE);
+    public static final RegistryObject<RecipeSerializer<KilnSmeltingRecipe>> KILN_SMELTING_SERIALIZER =
+            RECIPE_SERIALIZERS.register("kiln_smelting", () -> KilnSmeltingRecipe.Serializer.INSTANCE);
 
 
     public static void register (IEventBus eventBus){

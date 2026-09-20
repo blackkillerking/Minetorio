@@ -13,33 +13,24 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.crafting.PartialNBTIngredient;
-import org.jetbrains.annotations.Nullable;
 
-public class PrimitiveSmeltingRecipe implements Recipe<SimpleContainer> {
+public class KilnSmeltingRecipe implements Recipe<SimpleContainer> {
 
     private final NonNullList<Ingredient> ingredients;
     private final ItemStack result;
     private final int cookingTime;
-    private final float experience;
-    private final boolean needBellow;
     private final ResourceLocation id;
 
-    public PrimitiveSmeltingRecipe(NonNullList<Ingredient> ingredients, ItemStack result, int cookingTime, float experience,boolean needBellow, ResourceLocation id) {
+    public KilnSmeltingRecipe(NonNullList<Ingredient> ingredients, ItemStack result, int cookingTime, ResourceLocation id) {
         this.ingredients = ingredients;
         this.result = result;
         this.cookingTime = cookingTime;
-        this.experience = experience;
-        this.needBellow = needBellow;
         this.id = id;
     }
 
     @Override
     public boolean matches(SimpleContainer pContainer, Level pLevel) {
-        if(pLevel.isClientSide()) return false;
-        for (int i = 0; i < 4; i++) {
-            if(!this.ingredients.get(i).test(pContainer.getItem(i))) return false;
-        }
-        return true;
+        return false;
     }
 
     @Override
@@ -54,18 +45,13 @@ public class PrimitiveSmeltingRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public ItemStack getResultItem(RegistryAccess pRegistryAccess) {
-        return result.copy();
+        return result;
     }
 
-    public int getCookingTime(){
-        return this.cookingTime;
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return ingredients;
     }
-
-    public float getExperience(){
-        return this.experience;
-    }
-
-    public boolean doesNeedBellow(){return this.needBellow;}
 
     @Override
     public ResourceLocation getId() {
@@ -82,52 +68,46 @@ public class PrimitiveSmeltingRecipe implements Recipe<SimpleContainer> {
         return Type.INSTANCE;
     }
 
-    public static class Type implements RecipeType<PrimitiveSmeltingRecipe>{
+    public static class Type implements RecipeType<KilnSmeltingRecipe>{
         private Type() {}
-        public static final PrimitiveSmeltingRecipe.Type INSTANCE = new PrimitiveSmeltingRecipe.Type();
-        public static final String ID = "primitive_smelting";
+        public static final KilnSmeltingRecipe.Type INSTANCE = new KilnSmeltingRecipe.Type();
+        public static final String ID = "kiln_smelting";
     }
 
-    public static class Serializer implements RecipeSerializer<PrimitiveSmeltingRecipe>{
-
-        public static final PrimitiveSmeltingRecipe.Serializer INSTANCE = new PrimitiveSmeltingRecipe.Serializer();
+    public static class Serializer implements RecipeSerializer<KilnSmeltingRecipe> {
+        public static final KilnSmeltingRecipe.Serializer INSTANCE = new KilnSmeltingRecipe.Serializer();
         public static final ResourceLocation ID =
-                new ResourceLocation(Minetorio.MOD_ID,"primitive_smelting");
+                new ResourceLocation(Minetorio.MOD_ID,"kiln_smelting");
 
         @Override
-        public PrimitiveSmeltingRecipe fromJson(ResourceLocation id, JsonObject json) {
+        public KilnSmeltingRecipe fromJson(ResourceLocation id, JsonObject json) {
 
             JsonArray ingredientsJson = GsonHelper.getAsJsonArray(json, "ingredients");
-            NonNullList<Ingredient> inputs = NonNullList.withSize(4, Ingredient.EMPTY);
-            int count = Math.min(ingredientsJson.size(), 4);
-            for (int i = 0; i < count; i++) {
+            NonNullList<Ingredient> inputs = NonNullList.withSize(2, Ingredient.EMPTY);
+            for (int i = 0; i < 2; i++) {
                 inputs.set(i, Ingredient.fromJson(ingredientsJson.get(i)));
             }
 
             ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
             int cookingTime = GsonHelper.getAsInt(json, "cooking_time", 200);
-            float experience = GsonHelper.getAsFloat(json, "experience", 0.0f);
-            boolean needBellow = GsonHelper.getAsBoolean(json,"need_bellow", false);
-            return new PrimitiveSmeltingRecipe(inputs, result, cookingTime, experience, needBellow, id);
+            return new KilnSmeltingRecipe(inputs, result, cookingTime, id);
         }
 
         @Override
-        public PrimitiveSmeltingRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+        public KilnSmeltingRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
             NonNullList<Ingredient> inputs = NonNullList.withSize(buf.readInt(), Ingredient.EMPTY);
-            int count = Math.min(inputs.size(), 4);
-            for (int i = 0; i < count; i++) {
+
+            for (int i = 0; i < 2; i++) {
                 inputs.set(i, Ingredient.fromNetwork(buf));
             }
 
             ItemStack result = buf.readItem();
             int cookingTime = buf.readVarInt();
-            float experience = buf.readFloat();
-            boolean needBellow = buf.readBoolean();
-            return new PrimitiveSmeltingRecipe(inputs, result, cookingTime, experience, needBellow, id);
+            return new KilnSmeltingRecipe(inputs, result, cookingTime, id);
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf buf, PrimitiveSmeltingRecipe recipe) {
+        public void toNetwork(FriendlyByteBuf buf, KilnSmeltingRecipe recipe) {
             buf.writeInt(recipe.getIngredients().size());
 
             for (Ingredient ing : recipe.getIngredients()) {
@@ -135,8 +115,7 @@ public class PrimitiveSmeltingRecipe implements Recipe<SimpleContainer> {
             }
             buf.writeItemStack(recipe.getResultItem(null), false);
             buf.writeInt(recipe.cookingTime);
-            buf.writeFloat(recipe.experience);
-            buf.writeBoolean(recipe.needBellow);
         }
+
     }
 }

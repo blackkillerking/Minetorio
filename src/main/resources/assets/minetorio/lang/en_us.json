@@ -11,6 +11,8 @@
   "item.minetorio.dried_hide": "Dried Hide",
   "item.minetorio.treated_hide": "Treated Hide",
 
+  "item.minetorio.mud_ball": "Mud Ball",
+
   "item.minetorio.plant_fiber": "Plant Fiber",
   "item.minetorio.firm_plant_fiber": "Firm Plant Fiber",
   "item.minetorio.stiff_stick": "Stiff Stick",
@@ -168,6 +170,7 @@
   "block.minetorio.polisher": "Polisher",
   "block.minetorio.broken_polisher": "Broken Polisher",
   "block.minetorio.metal_shaping_station": "Metal Shaping Station",
+  "block.minetorio.mud_layer_block": "Mud Layer Block",
 
   "item.minetorio.crude_oil_bucket": "Crude Oil Bucket",
   "item.minetorio.tannin_bucket": "Tannin Bucket",

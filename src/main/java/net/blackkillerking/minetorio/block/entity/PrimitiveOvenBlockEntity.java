@@ -1,7 +1,6 @@
 package net.blackkillerking.minetorio.block.entity;
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.block.ModBlocks;
 import net.blackkillerking.minetorio.block.custom.PrimitiveOvenBlock;
 import net.blackkillerking.minetorio.block.multiblock.MultiBlockPatternPart;
 import net.blackkillerking.minetorio.block.multiblock.MultiBlockPattern;
@@ -10,9 +9,6 @@ import net.blackkillerking.minetorio.screen.PrimitiveOven.PrimitiveOvenMenu;
 import net.blackkillerking.minetorio.utils.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleGroup;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -48,7 +44,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jline.utils.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,19 +57,18 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
     public Logger LOGGER = Minetorio.LOGGER;
     protected final ContainerData data;
 
-    private boolean isContentsChanged = false;
-    private int changedSlot;
-
     private int displayed_items = 0;
     private int result_item_count = 0;
     private ItemStack result_item = ItemStack.EMPTY;
     private int progress = 0;
     private int max_progress = 0;
     private float experience = 0;
+    private boolean is_upgraded = false;
 
     private int structure_check_cd = 0;
+    private List<Integer> changed_slots = new ArrayList<>();
 
-    private static final int INPUT_FUEL = 0;
+    private static final int INPUT_FUEL = 0;    
     private static final int INPUT_ORE = 1;
     private static final int INPUT_FIRE_STARTER = 2;
     private static final int OUTPUT_METAL = 3;
@@ -119,30 +113,57 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
             new BlockPos(0, 3, -2)
     );
 
+    private static final List<BlockPos> BELLOW_MUD_BLOCK_PATTERN = List.of(
+            new BlockPos(0, 0, -6),
+            new BlockPos(0, 0, -8),
+            new BlockPos(1, 0, -7),
+            new BlockPos(-1, 0, -7),
+            new BlockPos(0, -1, -7)
+    );
+
+    private static final List<BlockPos> BELLOW_EMPTY_PATTERN = List.of(
+            new BlockPos(1, 0, -6),
+            new BlockPos(-1, 0, -6),
+            new BlockPos(1, 0, -7),
+            new BlockPos(-1, 0, -7)
+    );
+
+    private static final List<BlockPos> BELLOW_PADDED_LEATHER_PATTERN = List.of(
+            new BlockPos(0, 1, -6),
+            new BlockPos(0, 1, -8),
+            new BlockPos(1, 1, -7),
+            new BlockPos(-1, 1, -7)
+    );
+
     private static final List<BlockPos> NORTH_HOLE = List.of(
             EMPTY_PATTERN.get(4),
             EMPTY_PATTERN.get(5),
             EMPTY_PATTERN.get(6)
     );
 
-    public static final MultiBlockPattern STRUCTURE = new MultiBlockPattern(
+    public static final MultiBlockPattern PRIMITIVE_OVEN_BASE_STRUCTURE = new MultiBlockPattern(
             new MultiBlockPatternPart(BLOCK_PATTERN, state -> state.is(Blocks.MUD)),
-            new MultiBlockPatternPart(EMPTY_PATTERN, state -> state.isAir())
+            new MultiBlockPatternPart(EMPTY_PATTERN, state -> !state.is(Blocks.MUD))
+    );
+
+    public static final MultiBlockPattern PRIMITIVE_OVEN_BELLOW_UPGRADE_STRUCTURE = new MultiBlockPattern(
+            new MultiBlockPatternPart(BELLOW_MUD_BLOCK_PATTERN, state -> state.is(Blocks.MUD)),
+            new MultiBlockPatternPart(BELLOW_EMPTY_PATTERN, state -> !state.is(Blocks.MUD)),
+            new MultiBlockPatternPart(BELLOW_PADDED_LEATHER_PATTERN, state -> state.is(Blocks.OAK_SLAB))
     );
 
     private final ItemStackHandler itemHandler = new ItemStackHandler(16){
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
-            isContentsChanged = true;
-            changedSlot = slot;
+            changed_slots.add(0, slot);
         }
 
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return switch (slot){
                 case 0 -> stack.is(Items.COAL); // Fuel
-                case 1 -> stack.is(ModTags.Items.ORES); // Ores
+                case 1 -> stack.is(ModTags.Items.ORES) || stack.is(ModTags.Items.METAL_DERIVATIVES); // Ores
                 case 2 -> stack.is(Items.STICK); // Fire starter
                 case 3,4,5,6,7,8,9,10,11,12,13,14,15 -> false; // output and test slots
                 default -> super.isItemValid(slot, stack);
@@ -220,6 +241,7 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
         pTag.putInt("max_progress", max_progress);
         pTag.putFloat("experience", experience);
         pTag.put("result_item", result_item.save(new CompoundTag()));
+        pTag.putBoolean("is_upgraded", is_upgraded);
     }
 
     @Override
@@ -232,6 +254,7 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
         max_progress = pTag.getInt("max_progress");
         experience = pTag.getFloat("experience");
         result_item = ItemStack.of(pTag.getCompound("result_item"));
+        is_upgraded = pTag.getBoolean("is_upgraded");
     }
 
     @Override
@@ -268,7 +291,6 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
         progress = 0;
         max_progress = 0;
         experience = 0;
-        isContentsChanged = false;
     }
 
 
@@ -283,8 +305,12 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
         };
     }
 
-    private boolean isValidStructure(Direction pDirection, Level pLevel, BlockPos pPos){
-        return STRUCTURE.structureMatches(pLevel, pPos, pDirection);
+    private boolean isValidStructure(Level pLevel, BlockPos pPos, Direction pDirection){
+        return PRIMITIVE_OVEN_BASE_STRUCTURE.structureMatches(pLevel, pPos, pDirection);
+    }
+
+    private boolean isUpgraded(Level pLevel, BlockPos pPos, Direction pDirection){
+        return PRIMITIVE_OVEN_BELLOW_UPGRADE_STRUCTURE.structureMatches(pLevel, pPos, pDirection);
     }
 
 
@@ -315,23 +341,29 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
 
     /// Primitive Oven logic
     public void tick(Level level, BlockPos pos, BlockState state) {
+        if(level.isClientSide()) return;
         Direction facing = state.getValue(HorizontalDirectionalBlock.FACING);
 
         if(structure_check_cd <= 0){
             structure_check_cd = STRUCTURE_CHECK_INTERVAL;
-            if(!isValidStructure(facing, level, pos)){
+            if(!isValidStructure(level, pos, facing)){
                 LOGGER.info("Primitive oven not complete");
                 drops();
                 setChanged();
                 level.setBlock(pos, Blocks.MUD.defaultBlockState(), 3);
                 return;
             }
+            is_upgraded = isUpgraded(level, pos, facing);
         } else {
             structure_check_cd--;
         }
 
-        if(isContentsChanged){
-            extractFuelOrOre(changedSlot);
+        if(!changed_slots.isEmpty() && displayed_items<12){
+            for(int slot : changed_slots){
+                if(!INPUT_SLOTS.contains(slot)) continue;
+                extractFuelOrOre(slot);
+            }
+            changed_slots.clear();
         }
 
         List<ItemEntity> item_entities = getItemEntitiesInHole(facing, level, pos);
@@ -396,14 +428,8 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
 
     /// Extract 1 item every tick
     private void extractFuelOrOre(int slot) {
-        if(displayed_items >= 12) return;
-        if(level.isClientSide()) return;
         ItemStack pStack = itemHandler.getStackInSlot(slot);
-        if((pStack.isEmpty() || pStack.is(Items.AIR)) || !(INPUT_SLOTS.contains(slot))){
-            isContentsChanged = false;
-            changedSlot = -1;
-            return;
-        }
+        if(pStack.isEmpty() || !INPUT_SLOTS.contains(slot)) return;
         itemHandler.setStackInSlot(slot, pStack.getCount()-1 <= 0 ? ItemStack.EMPTY : new ItemStack(pStack.getItem(), pStack.getCount() - 1));
         for (int i = 4; i < 16; i++) {
             if(!itemHandler.getStackInSlot(i).isEmpty()){
@@ -434,22 +460,21 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
             return;
         }
 
-        if(startCraftOfSize(2)) return;
-        if(startCraftOfSize(3)) return;
-        if(startCraftOfSize(4)) return;
+        if(accumulateRecipeOfSize(2)) return;
+        if(accumulateRecipeOfSize(3)) return;
+        if(accumulateRecipeOfSize(4)) return;
 
         LOGGER.info("No recipe was found");
     }
 
-    private boolean startCraftOfSize(int size){
+    private boolean accumulateRecipeOfSize(int size){
         if(!foundRecipeOfSize(size)) return false;
-        LOGGER.info(getRecipeOfSize(size).get().getIngredients().toString());
-        consumeRecipeOfSize(size, getRecipeOfSize(size));
-
+        if(!canOutput(getRecipeOfSize(size))) return false;
         for (int i = 0; i < 12/size; i++) {
             if(!foundRecipeOfSize(size) || !canOutput()) break;
             consumeRecipeOfSize(size, getRecipeOfSize(size));
         }
+        switchLit(getBlockState());
         return true;
     }
 
@@ -465,19 +490,14 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
 
         resultStack.grow(itemHandler.getStackInSlot(OUTPUT_METAL).getCount());
         itemHandler.setStackInSlot(OUTPUT_METAL, resultStack);
-
-        if(level instanceof ServerLevel serverLevel){
-            ExperienceOrb.award(serverLevel, Vec3.atCenterOf(getBlockPos()), Mth.ceil(experience));
-        }
+        awardExperience();
 
         result_item = ItemStack.EMPTY;
         result_item_count = 0;
         experience = 0;
         max_progress = 0;
         resetProgress();
-        if (getBlockState().getValue(PrimitiveOvenBlock.ON)) {
-            level.setBlock(worldPosition, getBlockState().setValue(PrimitiveOvenBlock.ON, false), 3);
-        }
+        switchLit(getBlockState());
         setChanged();
         level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
     }
@@ -485,7 +505,9 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
     private boolean foundRecipeOfSize(int size){
         Optional<PrimitiveSmeltingRecipe> recipe = getRecipeOfSize(size);
         LOGGER.info("Getting recipe");
-        return !recipe.isEmpty();
+        if(recipe.isEmpty()) return false;
+        if(recipe.get().doesNeedBellow()) return is_upgraded;
+        return true;
     }
 
     private void consumeRecipeOfSize(int size, Optional<PrimitiveSmeltingRecipe> recipe){
@@ -505,20 +527,22 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
         max_progress += recipe.get().getCookingTime();
         experience += recipe.get().getExperience();
         result_item = recipe.get().getResultItem(getLevel().registryAccess());
-        if (!getBlockState().getValue(PrimitiveOvenBlock.ON)) {
-            level.setBlock(worldPosition, getBlockState().setValue(PrimitiveOvenBlock.ON, true), 3);
-        }
         setChanged();
         level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
     }
 
     private boolean canOutput(){
         ItemStack outputSlotStack = itemHandler.getStackInSlot(OUTPUT_METAL);
-
         if(outputSlotStack.isEmpty()) return true;
-        if(!(ItemStack.isSameItemSameTags(result_item, outputSlotStack))) return false;
+        if(!ItemStack.isSameItemSameTags(result_item, outputSlotStack)) return false;
+        return outputSlotStack.getCount() + result_item_count < outputSlotStack.getMaxStackSize();
+    }
 
-        return outputSlotStack.getCount() + result_item_count + 1 <= outputSlotStack.getMaxStackSize();
+    private boolean canOutput(Optional<PrimitiveSmeltingRecipe> recipe){
+        ItemStack outputSlotStack = itemHandler.getStackInSlot(OUTPUT_METAL);
+        if(outputSlotStack.isEmpty()) return true;
+        if(!ItemStack.isSameItemSameTags(recipe.get().getResultItem(getLevel().registryAccess()), outputSlotStack)) return false;
+        return outputSlotStack.getCount() + recipe.get().getResultItem(getLevel().registryAccess()).getCount() < outputSlotStack.getMaxStackSize();
     }
 
     private Optional<PrimitiveSmeltingRecipe> getRecipeOfSize(int size) {
@@ -535,7 +559,6 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
                 inv.setItem(3, ItemStack.EMPTY);
             }
         }
-
         return level.getRecipeManager().getRecipeFor(PrimitiveSmeltingRecipe.Type.INSTANCE, inv, level);
     }
 
@@ -554,10 +577,16 @@ public class PrimitiveOvenBlockEntity extends BlockEntity implements MenuProvide
     }
 
     private void spawnParticles(BlockPos pPos){
-        if(level.isClientSide()) return;
-        level.addParticle(ParticleTypes.LAVA, pPos.getX() + 0.1, pPos.getY() + 0.5, pPos.getZ() + 0.1, 0.02, 0.05, 0.02);
+        if((level instanceof ServerLevel serverLevel)) serverLevel.sendParticles(ParticleTypes.LAVA, pPos.getX() + 0.1, pPos.getY() + 0.5, pPos.getZ() + 0.1, 3, 0.05, 0.02, 0.05, 0.02);
     }
 
+    private void awardExperience(){
+        if(level instanceof ServerLevel serverLevel) ExperienceOrb.award(serverLevel, Vec3.atCenterOf(getBlockPos()), Mth.ceil(experience));
+    }
+
+    private void switchLit(BlockState currentState){
+        level.setBlock(getBlockPos(), getBlockState().setValue(PrimitiveOvenBlock.ON, !currentState.getValue(PrimitiveOvenBlock.ON)), 3);
+    }
 
     public ItemStack getItemInSlot(int slot){
         return itemHandler.getStackInSlot(slot);

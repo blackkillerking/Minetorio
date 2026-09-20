@@ -37,6 +37,8 @@ public class ModCreativeModTabs {
                         output.accept(ModItems.DRIED_HIDE.get());
                         output.accept(ModItems.TREATED_HIDE.get());
 
+                        output.accept(ModItems.MUD_BALLS.get());
+
                         output.accept(ModItems.PLANT_FIBER.get());
                         output.accept(ModItems.FIRM_PLANT_FIBER.get());
                         output.accept(ModItems.STIFF_STICK.get());
@@ -188,6 +190,8 @@ public class ModCreativeModTabs {
 
                         output.accept(ModBlocks.POLISHER.get());
                         output.accept(ModBlocks.METAL_SHAPING_STATION.get());
+
+                        output.accept(ModBlocks.MUD_LAYER_BLOCK.get());
 
                         output.accept(ModItems.CRUDE_OIL_BUCKET.get());
                         output.accept(ModItems.TANNIN_BUCKET.get());

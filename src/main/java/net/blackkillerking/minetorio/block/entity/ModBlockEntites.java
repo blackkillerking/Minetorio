@@ -24,6 +24,11 @@ public class ModBlockEntites {
                     BlockEntityType.Builder.of(PrimitiveOvenBlockEntity::new,
                             ModBlocks.PRIMITIVE_OVEN.get()).build(null));
 
+    public final static RegistryObject<BlockEntityType<KilnControllerBlockEntity>> KILN_CONTROLLER_BE =
+            BLOCK_ENTITIES.register("kiln_controller_be", () ->
+                    BlockEntityType.Builder.of(KilnControllerBlockEntity::new,
+                            ModBlocks.KILN_CONTROLLER.get()).build(null));
+
     public static void register (IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);
     }

@@ -31,11 +31,12 @@ public class PrimitiveSmeltingRecipeBuilder implements RecipeBuilder {
     private final Item result;
     private final float experience;
     private final int cookingTime;
+    private final boolean needBellow;
     private final Advancement.Builder advancement = Advancement.Builder.recipeAdvancement();
     @Nullable
     private String group;
 
-    public PrimitiveSmeltingRecipeBuilder(List<Ingredient> ingredients, int count, int coolingTime, String type, Item result, float experience, int cookingTime) {
+    public PrimitiveSmeltingRecipeBuilder(List<Ingredient> ingredients, int count, int coolingTime, String type, Item result, float experience, int cookingTime, boolean needBellow) {
         this.ingredients = ingredients;
         this.count = count;
         this.coolingTime = coolingTime;
@@ -43,6 +44,7 @@ public class PrimitiveSmeltingRecipeBuilder implements RecipeBuilder {
         this.result = result;
         this.experience = experience;
         this.cookingTime = cookingTime;
+        this.needBellow = needBellow;
     }
 
     @Override
@@ -66,7 +68,7 @@ public class PrimitiveSmeltingRecipeBuilder implements RecipeBuilder {
     public void save(Consumer<FinishedRecipe> pFinishedRecipeConsumer, ResourceLocation pRecipeId) {
         this.ensureValid(pRecipeId);
         this.advancement.parent(ROOT_RECIPE_ADVANCEMENT).addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(pRecipeId)).rewards(AdvancementRewards.Builder.recipe(pRecipeId)).requirements(RequirementsStrategy.OR);
-        pFinishedRecipeConsumer.accept(new PrimitiveSmeltingRecipeBuilder.Result(pRecipeId, this.group == null ? "" : this.group, this.ingredients,  this.count, this.coolingTime, this.type, this.result, this.experience, this.cookingTime, this.advancement, new ResourceLocation(pRecipeId.getNamespace(), "recipes/" + pRecipeId.getPath())));
+        pFinishedRecipeConsumer.accept(new PrimitiveSmeltingRecipeBuilder.Result(pRecipeId, this.group == null ? "" : this.group, this.ingredients,  this.count, this.coolingTime, this.type, this.result, this.experience, this.cookingTime, this.needBellow, this.advancement, new ResourceLocation(pRecipeId.getNamespace(), "recipes/" + pRecipeId.getPath())));
 
     }
 
@@ -86,10 +88,11 @@ public class PrimitiveSmeltingRecipeBuilder implements RecipeBuilder {
         private final Item result;
         private final float experience;
         private final int cookingTime;
+        private final boolean needBellow;
         private final Advancement.Builder advancement;
         private final ResourceLocation advancementId;
 
-        private Result(ResourceLocation id, String group, List<Ingredient> ingredients, int count, int coolingTime, String type, Item result, float experience, int cookingTime, Advancement.Builder advancement, ResourceLocation advancementId) {
+        private Result(ResourceLocation id, String group, List<Ingredient> ingredients, int count, int coolingTime, String type, Item result, float experience, int cookingTime, boolean needBellow, Advancement.Builder advancement, ResourceLocation advancementId) {
             this.id = id;
             this.group = group;
             this.ingredients = ingredients;
@@ -99,6 +102,7 @@ public class PrimitiveSmeltingRecipeBuilder implements RecipeBuilder {
             this.result = result;
             this.experience = experience;
             this.cookingTime = cookingTime;
+            this.needBellow = needBellow;
             this.advancement = advancement;
             this.advancementId = advancementId;
         }
@@ -127,6 +131,7 @@ public class PrimitiveSmeltingRecipeBuilder implements RecipeBuilder {
             pJson.add("result", resultJsonObject);
             pJson.addProperty("experience", this.experience);
             pJson.addProperty("cooking_time", this.cookingTime);
+            pJson.addProperty("need_bellow", this.needBellow);
         }
 
         @Override

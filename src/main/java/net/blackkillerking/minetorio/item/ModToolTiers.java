@@ -24,6 +24,11 @@ public class ModToolTiers {
                     ModTags.Blocks.NEEDS_FLINT_TOOL, () -> Ingredient.of(ModItems.SHARPENED_FLINT.get())),
             new ResourceLocation(Minetorio.MOD_ID, "flint"), List.of(), List.of(Tiers.WOOD));
 
+    public static final Tier BASALT = TierSortingRegistry.registerTier(
+            new ForgeTier(2, 80, 1f, 1f, 4,
+                    ModTags.Blocks.NEEDS_FLINT_TOOL, () -> Ingredient.of(ModItems.SHARPENED_BASALT.get())),
+            new ResourceLocation(Minetorio.MOD_ID, "basalt"), List.of(), List.of(Tiers.WOOD));
+
 
 }
 

@@ -3,8 +3,6 @@ package net.blackkillerking.minetorio;
 import com.mojang.logging.LogUtils;
 import net.blackkillerking.minetorio.block.ModBlocks;
 import net.blackkillerking.minetorio.block.entity.ModBlockEntites;
-import net.blackkillerking.minetorio.block.entity.PrimitiveOvenBlockEntity;
-import net.blackkillerking.minetorio.block.multiblock.MultiBlockPatternRegistry;
 import net.blackkillerking.minetorio.fluid.ModFluidTypes;
 import net.blackkillerking.minetorio.fluid.ModFluids;
 import net.blackkillerking.minetorio.item.ModCreativeModTabs;
@@ -13,6 +11,8 @@ import net.blackkillerking.minetorio.loot.ModLootModifiers;
 import net.blackkillerking.minetorio.network.ModNetwork;
 import net.blackkillerking.minetorio.particle.ModParticals;
 import net.blackkillerking.minetorio.recipe.ModRecipes;
+import net.blackkillerking.minetorio.screen.KilnController.DefaultKilnControllerScreen;
+import net.blackkillerking.minetorio.screen.KilnController.FormedKilnControllerScreen;
 import net.blackkillerking.minetorio.screen.MetalShapingStation.MetalShapingStationScreen;
 import net.blackkillerking.minetorio.screen.ModMenuTypes;
 import net.blackkillerking.minetorio.screen.PrimitiveOven.PrimitiveOvenScreen;
@@ -115,6 +115,8 @@ public class Minetorio
 
                 MenuScreens.register(ModMenuTypes.METAL_SHAPING_STATION_MENU.get(), MetalShapingStationScreen::new);
                 MenuScreens.register(ModMenuTypes.PRIMITIVE_OVEN_MENU.get(), PrimitiveOvenScreen::new);
+                MenuScreens.register(ModMenuTypes.FORMED_KILN_CONTROLLER_MENU.get(), FormedKilnControllerScreen::new);
+                MenuScreens.register(ModMenuTypes.DEFAULT_KILN_CONTROLLER_MENU.get(), DefaultKilnControllerScreen::new);
             });
         }
     }

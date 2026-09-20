@@ -42,6 +42,8 @@ public class ModTags {
         public static final TagKey<Block> NEEDS_COPPER_TOOL = tag("need_copper_tool");
         public static final TagKey<Block> NEEDS_FLINT_TOOL = tag("need_flint_tool");
 
+        public static final TagKey<Block> KILN_INPUTS = tag("kiln_inputs");
+
         public static final TagKey<Block> NON_SOLID = tag("non_solid");
 
         private static TagKey<Block> tag(String name){
