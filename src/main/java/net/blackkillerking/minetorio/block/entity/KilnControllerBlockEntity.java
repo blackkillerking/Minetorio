@@ -6,8 +6,7 @@ import net.blackkillerking.minetorio.block.custom.KilnControllerBlock;
 import net.blackkillerking.minetorio.block.multiblock.MultiBlockPattern;
 import net.blackkillerking.minetorio.block.multiblock.MultiBlockPatternPart;
 import net.blackkillerking.minetorio.recipe.KilnSmeltingRecipe;
-import net.blackkillerking.minetorio.screen.KilnController.DefaultKilnControllerMenu;
-import net.blackkillerking.minetorio.screen.KilnController.FormedKilnControllerMenu;
+import net.blackkillerking.minetorio.screen.KilnController.KilnControllerMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -17,10 +16,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -29,10 +31,12 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -52,13 +56,15 @@ public class KilnControllerBlockEntity extends BlockEntity implements MenuProvid
     protected final ContainerData data;
 
     private int progress = 0;
-    private boolean is_formed = false;
+    public int is_formed = 0;
 
     private int structure_check_cd = 0;
     private List<ItemStack> result_blocks = new ArrayList<>();
+    private List<ItemStack> original_blocks = new ArrayList<>();
+    private int max_progress;
+    private float experience;
 
     private static final int INPUT_FIRE_STARTER = 0;
-    private final int MAX_PROGRESS = 4800;
 
     private final int STRUCTURE_CHECK_INTERVAL = 5;
 
@@ -125,7 +131,7 @@ public class KilnControllerBlockEntity extends BlockEntity implements MenuProvid
 
     );
 
-    private static final List<BlockPos> EXAHST_PATTERN = List.of(
+    private static final List<BlockPos> EXHAUST_PATTERN = List.of(
             new BlockPos(0, 4, -3)
     );
 
@@ -172,19 +178,20 @@ public class KilnControllerBlockEntity extends BlockEntity implements MenuProvid
             new BlockPos(1, 1, -4)
     );
 
+    /// Base MultiBlock BE logic
+
     public static final MultiBlockPattern KILN_BASE_STRUCTURE = new MultiBlockPattern(
             new MultiBlockPatternPart(BLOCK_PATTERN, state -> state.is(Blocks.BRICKS)),
-            new MultiBlockPatternPart(EXAHST_PATTERN, state -> state.isAir()),
+            new MultiBlockPatternPart(EXHAUST_PATTERN, state -> state.isAir()),
             new MultiBlockPatternPart(WOOL_PATTERN, state -> state.is(Blocks.WHITE_WOOL)),
             new MultiBlockPatternPart(BRICK_DOOR_OR_BRICK_PATTERN, state -> state.is(Blocks.BRICKS) || state.is(Blocks.CRIMSON_DOOR))
     );
 
-    private final ItemStackHandler itemHandler = new ItemStackHandler(3){
+    private final ItemStackHandler itemHandler = new ItemStackHandler(1){
         @Override
         public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return switch (slot){
                 case 0 -> stack.is(Items.STICK); // Fire starter
-                case 1,2 -> false; // test slots
                 default -> super.isItemValid(slot, stack);
             };
         }
@@ -199,6 +206,7 @@ public class KilnControllerBlockEntity extends BlockEntity implements MenuProvid
             public int get(int pIndex) {
                 return switch (pIndex){
                     case 0 -> KilnControllerBlockEntity.this.progress;
+                    case 1 -> KilnControllerBlockEntity.this.is_formed;
                     default -> 0;
                 };
             }
@@ -207,6 +215,7 @@ public class KilnControllerBlockEntity extends BlockEntity implements MenuProvid
             public void set(int pIndex, int pValue) {
                 switch (pIndex){
                     case 0 -> KilnControllerBlockEntity.this.progress = pValue;
+                    case 1 -> KilnControllerBlockEntity.this.is_formed = pValue;
                 }
             }
 
@@ -224,12 +233,11 @@ public class KilnControllerBlockEntity extends BlockEntity implements MenuProvid
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        if(is_formed){
+        if(!isCrafting() && is_formed == 1){
+            LOGGER.info(getInputBox(this.getBlockState().getValue(HorizontalDirectionalBlock.FACING), this.getBlockPos()).toString());
             getRecipes(getInputBox(this.getBlockState().getValue(HorizontalDirectionalBlock.FACING), this.getBlockPos()));
-            return new FormedKilnControllerMenu(pContainerId, pPlayerInventory, this);
-        } else {
-            return new DefaultKilnControllerMenu(pContainerId, pPlayerInventory, this);
         }
+        return new KilnControllerMenu(pContainerId, pPlayerInventory, this, data);
     }
 
     @Override
@@ -256,7 +264,7 @@ public class KilnControllerBlockEntity extends BlockEntity implements MenuProvid
     protected void saveAdditional(CompoundTag pTag) {
         pTag.put("inv", itemHandler.serializeNBT());
         pTag.putInt("progress", progress);
-        pTag.putBoolean("is_formed", is_formed);
+        pTag.putInt("is_formed", is_formed);
 
         ListTag listTag = new ListTag();
         for (ItemStack stack : result_blocks) {
@@ -264,7 +272,15 @@ public class KilnControllerBlockEntity extends BlockEntity implements MenuProvid
             stack.save(itemTag);
             listTag.add(itemTag);
         }
-        pTag.put("recipe_blocks", listTag);
+        pTag.put("result_blocks", listTag);
+
+        listTag.clear();
+        for (ItemStack stack : original_blocks) {
+            CompoundTag itemTag = new CompoundTag();
+            stack.save(itemTag);
+            listTag.add(itemTag);
+        }
+        pTag.put("original_blocks", listTag);
     }
 
     @Override
@@ -272,13 +288,20 @@ public class KilnControllerBlockEntity extends BlockEntity implements MenuProvid
         super.load(pTag);
         itemHandler.deserializeNBT(pTag.getCompound( "inv"));
         progress = pTag.getInt("progress");
-        is_formed = pTag.getBoolean("is_formed");
+        is_formed = pTag.getInt("is_formed");
 
         result_blocks.clear();
         ListTag listTag = pTag.getList("result_blocks", Tag.TAG_COMPOUND);
         for (int i = 0; i < listTag.size(); i++) {
             CompoundTag itemTag = listTag.getCompound(i);
             result_blocks.add(ItemStack.of(itemTag));
+        }
+
+        original_blocks.clear();
+        listTag = pTag.getList("original_blocks", Tag.TAG_COMPOUND);
+        for (int i = 0; i < listTag.size(); i++) {
+            CompoundTag itemTag = listTag.getCompound(i);
+            original_blocks.add(ItemStack.of(itemTag));
         }
     }
 
@@ -296,7 +319,7 @@ public class KilnControllerBlockEntity extends BlockEntity implements MenuProvid
 
     public void handleButtonPress(int id, ServerPlayer player) {
         switch (id) {
-            case 0 -> startRecipes();
+            case 0 -> startRecipes(getInputBox(this.getBlockState().getValue(HorizontalDirectionalBlock.FACING), this.getBlockPos()));
         }
     }
 
@@ -333,90 +356,153 @@ public class KilnControllerBlockEntity extends BlockEntity implements MenuProvid
         return box;
     }
 
-    private void getRecipes(List<BlockPos> box){
-        result_blocks.clear();
-        SimpleContainer testInv = new SimpleContainer(2);
-        for (int i = 0; i < box.size(); i+=2) {
-            testInv.setItem(1, new ItemStack(level.getBlockState(box.get(i)).getBlock()));
-            testInv.setItem(2, new ItemStack(level.getBlockState(box.get(i+1)).getBlock()));
-            Optional<KilnSmeltingRecipe> recipe = level.getRecipeManager().getRecipeFor(KilnSmeltingRecipe.Type.INSTANCE, testInv, level);
-            if(recipe.isEmpty()){
-                testInv.clearContent();
-                result_blocks.add(new ItemStack(ModBlocks.ASH_BLOCK.get()));
-                result_blocks.add(new ItemStack(ModBlocks.ASH_BLOCK.get()));
-                continue;
-            }
-            testInv.clearContent();
-            result_blocks.add(new ItemStack(ModBlocks.ASH_BLOCK.get()));
-            result_blocks.add(recipe.get().getResultItem(level.registryAccess()));
-
-        }
-        setChanged();
-    }
-
-    private void startRecipes(){
-        if(getBlockState().getValue(KilnControllerBlock.ON)) return;
-        if(itemHandler.getStackInSlot(INPUT_FIRE_STARTER).isEmpty()) return;
-
-        itemHandler.extractItem(INPUT_FIRE_STARTER, 1, false);
-        level.setBlock(getBlockPos(), ModBlocks.KILN_CONTROLLER.get().defaultBlockState().setValue(KilnControllerBlock.ON, true), 3);
-        finishRecipes(getInputBox(this.getBlockState().getValue(HorizontalDirectionalBlock.FACING), this.getBlockPos()));
-    }
-
-    private void finishRecipes(List<BlockPos> box){
-        for (int i = 0; i < box.size(); i++) {
-            BlockState blockState = ((BlockItem) result_blocks.get(i).getItem()).getBlock().defaultBlockState();
-            level.setBlock(box.get(i), blockState, 3);
-        }
-        level.setBlock(getBlockPos(), ModBlocks.KILN_CONTROLLER.get().defaultBlockState().setValue(KilnControllerBlock.ON, false), 3);
-        result_blocks.clear();
-        resetProgress();
-    }
-
     private boolean isValidStructure(Level pLevel, BlockPos pPos, Direction pDirection){
         return KILN_BASE_STRUCTURE.structureMatches(pLevel, pPos, pDirection);
     }
 
-    private boolean isFinished(){
-        return progress >= MAX_PROGRESS;
-    }
-
-    private void increaseProgress() {
-        progress++;
-    }
-
-    private void resetProgress(){
-        progress = 0;
-    }
+    /// Kiln Oven logic
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         if(level.isClientSide()) return;
         Direction facing = state.getValue(HorizontalDirectionalBlock.FACING);
+        List<BlockPos> box = getInputBox(this.getBlockState().getValue(HorizontalDirectionalBlock.FACING), this.getBlockPos());
 
         if(structure_check_cd <= 0){
             structure_check_cd = STRUCTURE_CHECK_INTERVAL;
             if(!isValidStructure(level, pos, facing)){
                 LOGGER.info("Kiln is not complete");
-                is_formed = false;
 
+                is_formed = 0;
                 drops();
                 resetProgress();
+                if(!original_blocks.isEmpty()) resetRecipes(box);
+                switchBlock(false);
                 setChanged();
                 return;
             }
-            is_formed = true;
-            setChanged();
+            is_formed = 1;
         } else {
             structure_check_cd--;
         }
-        if(getBlockState().getValue(KilnControllerBlock.ON)){
+
+        if(isCrafting()){
             increaseProgress();
             if(isFinished()){
-                finishRecipes(getInputBox(this.getBlockState().getValue(HorizontalDirectionalBlock.FACING), this.getBlockPos()));
+                finishRecipes(box);
             }
         }
+        setChanged();
+    }
 
+    /// Recipe checking, starting, and finishing
 
+    private void getRecipes(List<BlockPos> box){
+        if(level.isClientSide()) return;
+        result_blocks.clear();
+        max_progress = 0;
+        experience = 0;
+        SimpleContainer testInv = new SimpleContainer(2);
+        for (int i = 0; i < box.size(); i+=2) {
+            Block block_1 = level.getBlockState(box.get(i)).getBlock();
+            Block block_2 = level.getBlockState(box.get(i+1)).getBlock();
+            LOGGER.info(block_1 + " - " + block_2);
+            LOGGER.info(level.getRecipeManager().getAllRecipesFor(KilnSmeltingRecipe.Type.INSTANCE) + "");
+            LOGGER.info(testInv + "");
 
+            boolean is_block_1_air = block_1.defaultBlockState().isAir();
+            boolean is_block_2_air = block_2.defaultBlockState().isAir();
+
+            testInv.setItem(0, new ItemStack(block_1));
+            testInv.setItem(1, new ItemStack(block_2));
+
+            Optional<KilnSmeltingRecipe> recipe = level.getRecipeManager().getRecipeFor(KilnSmeltingRecipe.Type.INSTANCE, testInv, level);
+            if(recipe.isEmpty()){
+                if(is_block_1_air && is_block_2_air) {
+                    result_blocks.add(new ItemStack(Blocks.AIR));
+                    result_blocks.add(new ItemStack(Blocks.AIR));
+                } else if (is_block_1_air) {
+                    result_blocks.add(new ItemStack(ModBlocks.ASH_BLOCK.get()));
+                    result_blocks.add(new ItemStack(Blocks.AIR));
+                } else if(is_block_2_air){
+                    result_blocks.add(new ItemStack(Blocks.AIR));
+                    result_blocks.add(new ItemStack(ModBlocks.ASH_BLOCK.get()));
+                } else {
+                    result_blocks.add(new ItemStack(ModBlocks.ASH_BLOCK.get()));
+                    result_blocks.add(new ItemStack(ModBlocks.ASH_BLOCK.get()));
+                }
+            } else {
+                result_blocks.add(new ItemStack(ModBlocks.ASH_BLOCK.get()));
+                result_blocks.add(recipe.get().getResultItem(level.registryAccess()));
+                max_progress += recipe.get().getCookingTime();
+                experience += recipe.get().getExperience();
+            }
+            testInv.clearContent();
+        }
+        setChanged();
+    }
+
+    private void startRecipes(List<BlockPos> box){
+        if(level.isClientSide()) return;
+        if(isCrafting()) return;
+        LOGGER.info(result_blocks.toString());
+        if(result_blocks.stream().allMatch(ItemStack::isEmpty)) return;
+        if(itemHandler.getStackInSlot(INPUT_FIRE_STARTER).isEmpty()) return;
+
+        itemHandler.extractItem(INPUT_FIRE_STARTER, 1, false);
+        for (int i = 0; i < box.size(); i++) {
+            level.setBlock(box.get(i), ModBlocks.IN_PROGRESS.get().defaultBlockState(), 3);
+            original_blocks.add(result_blocks.get(i));
+        }
+        switchBlock(true);
+        setChanged();
+    }
+
+    private void resetRecipes(List<BlockPos> box){
+        if(level.isClientSide()) return;
+        for (int i = 0; i < box.size(); i++) {
+            level.setBlock(box.get(i), ((BlockItem) original_blocks.get(i).getItem()).getBlock().defaultBlockState(), 3);
+        }
+        result_blocks.clear();
+        original_blocks.clear();
+        max_progress = 0;
+        experience = 0;
+        setChanged();
+    }
+
+    private void finishRecipes(List<BlockPos> box){
+        for (int i = 0; i < box.size(); i++) {
+            BlockState state = result_blocks.get(i).isEmpty() ? Blocks.AIR.defaultBlockState() : ((BlockItem) result_blocks.get(i).getItem()).getBlock().defaultBlockState();
+            level.setBlock(box.get(i), state, 3);
+        }
+        result_blocks.clear();
+        original_blocks.clear();
+        switchBlock(false);
+        awardExperience();
+        resetProgress();
+        max_progress = 0;
+        experience = 0;
+        setChanged();
+    }
+
+    private void awardExperience(){
+        if(level instanceof ServerLevel serverLevel) ExperienceOrb.award(serverLevel, Vec3.atCenterOf(getBlockPos()), Mth.ceil(experience));
+    }
+
+    private void switchBlock(boolean value){
+        level.setBlock(getBlockPos(), getBlockState().setValue(KilnControllerBlock.ON, value), 3);
+    }
+
+    public boolean isCrafting(){
+        return getBlockState().getValue(KilnControllerBlock.ON);
+    }
+
+    private boolean isFinished(){
+        return progress >= max_progress;
+    }
+
+    private void increaseProgress() {progress++;}
+
+    private void resetProgress(){
+        progress = 0;
     }
 }

@@ -49,7 +49,7 @@ public class ModBlocks {
             "silver_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.DIAMOND_BLOCK)));
 
     public static final RegistryObject<Block> ASH_BLOCK = registerBlock(
-            "ash_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BASALT)));
+            "ash_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BASALT).noLootTable()));
 
     public static final RegistryObject<Block> FLINT_BLOCK = registerBlock(
             "flint_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.STONE)));
@@ -65,6 +65,9 @@ public class ModBlocks {
             "treated_hide_block", () -> new TreatedHideBlock(BlockBehaviour.Properties.of().strength(1,0).instabreak()));
     public static final RegistryObject<Block> LEATHER = registerBlock(
             "leather_block", () -> new LeatherBlock(BlockBehaviour.Properties.of().strength(1,0).instabreak()));
+
+    public static final RegistryObject<Block> IN_PROGRESS = registerBlock(
+            "in_progress", () -> new Block(BlockBehaviour.Properties.copy(Blocks.BEDROCK).noLootTable()));
 
     public static final RegistryObject<Block> POLISHER = registerBlock(
             "polisher", () -> new PolisherBlock(BlockBehaviour.Properties.copy(Blocks.SMITHING_TABLE)));

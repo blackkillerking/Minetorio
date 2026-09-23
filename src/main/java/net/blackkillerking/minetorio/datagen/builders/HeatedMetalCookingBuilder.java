@@ -52,19 +52,6 @@ public class HeatedMetalCookingBuilder implements RecipeBuilder {
         this.serializer = serializer;
     }
 
-    public static HeatedMetalCookingBuilder blasting(RecipeCategory pCategory, Ingredient pIngredient, Item pResult, int pCount, String pValue, int pCoolingTime, float pExperience, int pCookingTime) {
-        return new HeatedMetalCookingBuilder(pCategory, determineBlastingRecipeCategory(pResult),pIngredient, pResult, pCount, pValue, pCoolingTime, pExperience, pCookingTime, RecipeSerializer.BLASTING_RECIPE);
-    }
-
-    public static HeatedMetalCookingBuilder smelting(RecipeCategory pCategory, Ingredient pIngredient, Item pResult, int pCount, String pValue, int pCoolingTime, float pExperience, int pCookingTime) {
-        return new HeatedMetalCookingBuilder(pCategory, determineBlastingRecipeCategory(pResult),pIngredient, pResult, pCount, pValue, pCoolingTime, pExperience, pCookingTime, RecipeSerializer.SMELTING_RECIPE);
-    }
-
-    private static CookingBookCategory determineBlastingRecipeCategory(ItemLike pResult) {
-        return pResult.asItem() instanceof BlockItem ? CookingBookCategory.BLOCKS : CookingBookCategory.MISC;
-    }
-
-
     @Override
     public RecipeBuilder unlockedBy(String pCriterionName, CriterionTriggerInstance pCriterionTrigger) {
         this.advancement.addCriterion(pCriterionName, pCriterionTrigger);

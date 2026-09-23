@@ -2,6 +2,7 @@ package net.blackkillerking.minetorio.datagen;
 
 import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.block.ModBlocks;
+import net.blackkillerking.minetorio.datagen.builders.KilnSmeltingRecipeBuilder;
 import net.blackkillerking.minetorio.datagen.builders.MetalShapingRecipeBuilder;
 import net.blackkillerking.minetorio.datagen.builders.PrimitiveSmeltingRecipeBuilder;
 import net.blackkillerking.minetorio.item.ModItems;
@@ -16,6 +17,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.PartialNBTIngredient;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -150,6 +153,8 @@ public class ModRecipeProvider extends RecipeProvider {
             metalShapingSheetBasedRecipe(ModItems.HEATED_RING.get(), ModTags.Items.HAMMERS, ModTags.Items.HOLLOW_CONES, 32,metalType, 40, pWriter);
         }
 
+        kilnSmeltingRecipe(Blocks.IRON_BLOCK, Blocks.COAL_BLOCK, Items.DIAMOND_BLOCK, 40, 10, pWriter);
+
     }
 
     private static void nuggetByHammering(ItemLike pResult, int pCount, ItemLike pIngredient, String pGroup, Consumer<FinishedRecipe> pWriter){
@@ -213,6 +218,16 @@ public class ModRecipeProvider extends RecipeProvider {
 
         new MetalShapingRecipeBuilder(pItem, heatedSheetShapingRecipe, pCount, pCoolingTime)
                 .unlockedBy("has_" + pMetalType + "_sheet", has(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, pMetalType + "_sheet"))))
+                .save(pWriter);
+    }
+
+    private void kilnSmeltingRecipe(Block pIngredient, Block pFuel, Item pResult, float pExperience, int pCookingTime, Consumer<FinishedRecipe> pWriter){
+        List<Ingredient> kilnRecipe = new ArrayList<>();
+        kilnRecipe.add(Ingredient.of(pIngredient));
+        kilnRecipe.add(Ingredient.of(pFuel));
+
+        new KilnSmeltingRecipeBuilder(kilnRecipe, pResult, pExperience, pCookingTime)
+                .unlockedBy("has_" + pIngredient.asItem(), has(pIngredient))
                 .save(pWriter);
     }
 }

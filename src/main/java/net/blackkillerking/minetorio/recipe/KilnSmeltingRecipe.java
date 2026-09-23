@@ -18,19 +18,24 @@ public class KilnSmeltingRecipe implements Recipe<SimpleContainer> {
 
     private final NonNullList<Ingredient> ingredients;
     private final ItemStack result;
+    private final float experience;
     private final int cookingTime;
     private final ResourceLocation id;
 
-    public KilnSmeltingRecipe(NonNullList<Ingredient> ingredients, ItemStack result, int cookingTime, ResourceLocation id) {
+    public KilnSmeltingRecipe(NonNullList<Ingredient> ingredients, ItemStack result, float experience, int cookingTime, ResourceLocation id) {
         this.ingredients = ingredients;
         this.result = result;
+        this.experience = experience;
         this.cookingTime = cookingTime;
         this.id = id;
     }
 
     @Override
     public boolean matches(SimpleContainer pContainer, Level pLevel) {
-        return false;
+        if(pLevel.isClientSide){
+            return false;
+        }
+        return this.ingredients.get(0).test(pContainer.getItem(0)) && this.ingredients.get(1).test(pContainer.getItem(1));
     }
 
     @Override
@@ -51,6 +56,13 @@ public class KilnSmeltingRecipe implements Recipe<SimpleContainer> {
     @Override
     public NonNullList<Ingredient> getIngredients() {
         return ingredients;
+    }
+
+    public int getCookingTime(){
+        return cookingTime;}
+
+    public float getExperience(){
+        return experience;
     }
 
     @Override
@@ -89,8 +101,9 @@ public class KilnSmeltingRecipe implements Recipe<SimpleContainer> {
             }
 
             ItemStack result = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "result"));
+            float experience = GsonHelper.getAsFloat(json, "experience", 200);
             int cookingTime = GsonHelper.getAsInt(json, "cooking_time", 200);
-            return new KilnSmeltingRecipe(inputs, result, cookingTime, id);
+            return new KilnSmeltingRecipe(inputs, result, experience, cookingTime, id);
         }
 
         @Override
@@ -102,8 +115,9 @@ public class KilnSmeltingRecipe implements Recipe<SimpleContainer> {
             }
 
             ItemStack result = buf.readItem();
+            float experience = buf.readFloat();
             int cookingTime = buf.readVarInt();
-            return new KilnSmeltingRecipe(inputs, result, cookingTime, id);
+            return new KilnSmeltingRecipe(inputs, result, experience, cookingTime, id);
         }
 
         @Override
@@ -114,6 +128,7 @@ public class KilnSmeltingRecipe implements Recipe<SimpleContainer> {
                 ing.toNetwork(buf);
             }
             buf.writeItemStack(recipe.getResultItem(null), false);
+            buf.writeFloat(recipe.experience);
             buf.writeInt(recipe.cookingTime);
         }
 

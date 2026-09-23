@@ -2,6 +2,7 @@ package net.blackkillerking.minetorio.event.client;
 
 
 import net.blackkillerking.minetorio.Minetorio;
+import net.blackkillerking.minetorio.block.entity.KilnControllerBlockEntity;
 import net.blackkillerking.minetorio.block.entity.PrimitiveOvenBlockEntity;
 import net.blackkillerking.minetorio.block.multiblock.MultiBlockPatternRegistry;
 import net.blackkillerking.minetorio.particle.HeatedMetalParticle;
@@ -24,6 +25,7 @@ public class ClientBusEvent {
     public static void onCommonSetup(FMLCommonSetupEvent event){
         event.enqueueWork(() -> {
             MultiBlockPatternRegistry.register("primitive_oven", PrimitiveOvenBlockEntity.PRIMITIVE_OVEN_BASE_STRUCTURE);
+            MultiBlockPatternRegistry.register("kiln_oven", KilnControllerBlockEntity.KILN_BASE_STRUCTURE);
         });
     }
 }

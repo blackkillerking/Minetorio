@@ -1,9 +1,7 @@
 package net.blackkillerking.minetorio.screen;
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.screen.KilnController.DefaultKilnControllerMenu;
-import net.blackkillerking.minetorio.screen.KilnController.DefaultKilnControllerScreen;
-import net.blackkillerking.minetorio.screen.KilnController.FormedKilnControllerMenu;
+import net.blackkillerking.minetorio.screen.KilnController.KilnControllerMenu;
 import net.blackkillerking.minetorio.screen.MetalShapingStation.MetalShapingStationMenu;
 import net.blackkillerking.minetorio.screen.PrimitiveOven.PrimitiveOvenMenu;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -26,11 +24,9 @@ public class ModMenuTypes {
     public static final RegistryObject<MenuType<PrimitiveOvenMenu>> PRIMITIVE_OVEN_MENU =
             registerMenuType(PrimitiveOvenMenu::new, "primitive_oven_menu");
 
-    public static final RegistryObject<MenuType<FormedKilnControllerMenu>> FORMED_KILN_CONTROLLER_MENU =
-            registerMenuType(FormedKilnControllerMenu::new, "formed_kiln_controller_menu");
 
-    public static final RegistryObject<MenuType<DefaultKilnControllerMenu>> DEFAULT_KILN_CONTROLLER_MENU =
-            registerMenuType(DefaultKilnControllerMenu::new, "default_kiln_controller_menu");
+    public static final RegistryObject<MenuType<KilnControllerMenu>> KILN_CONTROLLER_MENU =
+            registerMenuType(KilnControllerMenu::new, "kiln_controller_menu");
 
 
 
