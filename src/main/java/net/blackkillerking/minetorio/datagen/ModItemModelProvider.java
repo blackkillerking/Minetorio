@@ -1,8 +1,8 @@
 package net.blackkillerking.minetorio.datagen;
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.block.ModBlocks;
-import net.blackkillerking.minetorio.item.ModItems;
+import net.blackkillerking.minetorio.registry.ModBlocks;
+import net.blackkillerking.minetorio.registry.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -169,6 +169,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         simpleItem(ModItems.CRUDE_OIL_BUCKET);
         simpleItem(ModItems.TANNIN_BUCKET);
 
+        simpleItem(ModItems.STEEL_INGOT);
+        simpleItem(ModItems.COKE);
+        simpleItem(ModItems.FIRE_STARTER);
+
+        simpleBlockItem(ModBlocks.BRICK_DOOR);
+
         withExistingParent("mud_layer_block", modLoc("block/mud_layer_height4_dried0_supportedfalse"));
 
         customBBBlock(ModBlocks.POLISHER.get());
@@ -181,6 +187,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
                 new ResourceLocation(Minetorio.MOD_ID,"item/" + item.getId().getPath()));
+    }
+
+    private ItemModelBuilder simpleBlockItem(RegistryObject<Block> item){
+        return withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(Minetorio.MOD_ID, "item/" + item.getId().getPath()));
     }
 
     private ItemModelBuilder handHeldItem (RegistryObject<Item> item){

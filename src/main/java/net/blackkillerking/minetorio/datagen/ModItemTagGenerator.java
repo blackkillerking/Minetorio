@@ -1,8 +1,8 @@
 package net.blackkillerking.minetorio.datagen;
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.item.ModItems;
-import net.blackkillerking.minetorio.utils.ModTags;
+import net.blackkillerking.minetorio.registry.ModItems;
+import net.blackkillerking.minetorio.tags.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;

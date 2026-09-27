@@ -1,12 +1,11 @@
 package net.blackkillerking.minetorio.datagen;
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.item.ModItems;
+import net.blackkillerking.minetorio.registry.ModItems;
 import net.blackkillerking.minetorio.loot.AddItemModifier;
 import net.blackkillerking.minetorio.loot.EntityLootModifier;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.predicates.*;
 import net.minecraftforge.common.data.GlobalLootModifierProvider;

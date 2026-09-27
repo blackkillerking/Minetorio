@@ -2,10 +2,7 @@ package net.blackkillerking.minetorio.screen.PrimitiveOven;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.block.entity.PrimitiveOvenBlockEntity;
-import net.blackkillerking.minetorio.item.ModItems;
-import net.blackkillerking.minetorio.network.ButtonPacket;
-import net.blackkillerking.minetorio.network.ModNetwork;
+import net.blackkillerking.minetorio.registry.ModItems;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -17,7 +14,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.List;
 import java.util.Map;

@@ -1,12 +1,12 @@
 package net.blackkillerking.minetorio.datagen;
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.block.ModBlocks;
+import net.blackkillerking.minetorio.registry.ModBlocks;
 import net.blackkillerking.minetorio.datagen.builders.KilnSmeltingRecipeBuilder;
 import net.blackkillerking.minetorio.datagen.builders.MetalShapingRecipeBuilder;
 import net.blackkillerking.minetorio.datagen.builders.PrimitiveSmeltingRecipeBuilder;
-import net.blackkillerking.minetorio.item.ModItems;
-import net.blackkillerking.minetorio.utils.ModTags;
+import net.blackkillerking.minetorio.registry.ModItems;
+import net.blackkillerking.minetorio.tags.ModTags;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.nbt.CompoundTag;
@@ -94,6 +94,8 @@ public class ModRecipeProvider extends RecipeProvider {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BASALT_HOE.get(), 1).pattern("S  ").pattern("s  ").pattern("   ").define('S', ModItems.BASALT_HOE_HEAD.get()).define('s', ModItems.FLINT_BASALT_SHOVEL_HOE_BODY.get()).unlockedBy("has_stiff_stick", has(ModItems.STIFF_STICK.get())).save(pWriter);
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.BASALT_HAMMER.get(), 1).pattern("B  ").pattern("s  ").pattern("   ").define('B', ModBlocks.BASALT_BLOCK.get()).define('s', ModItems.BASALT_HAMMER_BODY.get()).unlockedBy("has_basalt_block", has(ModBlocks.BASALT_BLOCK.get())).save(pWriter);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.KILN_CONTROLLER.get(), 1).pattern("BBB").pattern("BCB").pattern("BFB").define('B', Blocks.BRICKS).define('C', Items.COAL).define('F', ModItems.FIRE_STARTER.get()).unlockedBy("has_fire_starter", has(ModItems.FIRE_STARTER.get())).save(pWriter);
+
         nineBlockStorageRecipes(pWriter, RecipeCategory.MISC, ModItems.TIN_INGOT.get(), RecipeCategory.MISC, ModBlocks.TIN_BLOCK.get(),
                 "minetorio:tin_ingot", "tin", "minetorio:tin_block", "tin");
         nineBlockStorageRecipes(pWriter, RecipeCategory.MISC, ModItems.ZINC_INGOT.get(), RecipeCategory.MISC, ModBlocks.ZINC_BLOCK.get(),
@@ -106,6 +108,12 @@ public class ModRecipeProvider extends RecipeProvider {
                 "minetorio:raw_zinc", "zinc", "minetorio:raw_zinc_block", "zinc");
         nineBlockStorageRecipes(pWriter, RecipeCategory.MISC, ModItems.RAW_SILVER.get(), RecipeCategory.MISC, ModBlocks.RAW_SILVER_BLOCK.get(),
                 "minetorio:raw_silver", "silver", "minetorio:raw_silver_block", "silver");
+        nineBlockStorageRecipes(pWriter, RecipeCategory.MISC, ModItems.STEEL_INGOT.get(), RecipeCategory.MISC, ModBlocks.STEEL_BLOCK.get(),
+                "minetorio:steel_ingot", "steel", "minetorio:steel_block", "steel");
+        nineBlockStorageRecipes(pWriter, RecipeCategory.MISC, ModItems.COKE.get(), RecipeCategory.MISC, ModBlocks.COKE_BLOCK.get(),
+                "minetorio:coke", "coke", "minetorio:coke_block", "coke");
+        nineBlockStorageRecipes(pWriter, RecipeCategory.MISC, Items.CHARCOAL, RecipeCategory.MISC, ModBlocks.CHARCOAL_BLOCK.get(),
+                "minecraft:charcoal", "charcoal", "minetorio:charcoal_block", "charcoal");
 
         twoByTwoPacker(pWriter, RecipeCategory.MISC, Items.FLINT, ModItems.FLINT_FRAGMENT.get());
         twoByTwoPacker(pWriter, RecipeCategory.MISC, ModBlocks.BASALT_BLOCK.get(), ModItems.BASALT_ROCK.get());
@@ -153,7 +161,9 @@ public class ModRecipeProvider extends RecipeProvider {
             metalShapingSheetBasedRecipe(ModItems.HEATED_RING.get(), ModTags.Items.HAMMERS, ModTags.Items.HOLLOW_CONES, 32,metalType, 40, pWriter);
         }
 
-        kilnSmeltingRecipe(Blocks.IRON_BLOCK, Blocks.COAL_BLOCK, Items.DIAMOND_BLOCK, 40, 10, pWriter);
+        kilnSmeltingRecipe(Blocks.COAL_BLOCK, Blocks.IRON_BLOCK,  ModBlocks.STEEL_BLOCK.get().asItem(), 20, 1200, pWriter);
+        kilnSmeltingRecipe(Blocks.OAK_LOG, Blocks.OAK_LOG, ModBlocks.CHARCOAL_BLOCK.get().asItem(), 5, 600, pWriter);
+        kilnSmeltingRecipe(Blocks.COAL_BLOCK, Blocks.COAL_BLOCK, ModBlocks.COKE_BLOCK.get().asItem(), 10, 1200, pWriter);
 
     }
 
@@ -221,13 +231,13 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(pWriter);
     }
 
-    private void kilnSmeltingRecipe(Block pIngredient, Block pFuel, Item pResult, float pExperience, int pCookingTime, Consumer<FinishedRecipe> pWriter){
+    private void kilnSmeltingRecipe(Block pFuel, Block pIngredient, Item pResult, float pExperience, int pCookingTime, Consumer<FinishedRecipe> pWriter){
         List<Ingredient> kilnRecipe = new ArrayList<>();
-        kilnRecipe.add(Ingredient.of(pIngredient));
         kilnRecipe.add(Ingredient.of(pFuel));
+        kilnRecipe.add(Ingredient.of(pIngredient));
 
         new KilnSmeltingRecipeBuilder(kilnRecipe, pResult, pExperience, pCookingTime)
                 .unlockedBy("has_" + pIngredient.asItem(), has(pIngredient))
-                .save(pWriter);
+                .save(pWriter, Minetorio.MOD_ID + ":" + getItemName(pResult) + "_from_kiln_smelting");
     }
 }

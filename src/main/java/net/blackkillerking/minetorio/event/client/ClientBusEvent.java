@@ -2,11 +2,11 @@ package net.blackkillerking.minetorio.event.client;
 
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.block.entity.KilnControllerBlockEntity;
-import net.blackkillerking.minetorio.block.entity.PrimitiveOvenBlockEntity;
-import net.blackkillerking.minetorio.block.multiblock.MultiBlockPatternRegistry;
+import net.blackkillerking.minetorio.blockentity.KilnControllerBlockEntity;
+import net.blackkillerking.minetorio.blockentity.PrimitiveOvenBlockEntity;
+import net.blackkillerking.minetorio.multiblock.MultiBlockPatternRegistry;
 import net.blackkillerking.minetorio.particle.HeatedMetalParticle;
-import net.blackkillerking.minetorio.particle.ModParticals;
+import net.blackkillerking.minetorio.registry.ModParticals;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

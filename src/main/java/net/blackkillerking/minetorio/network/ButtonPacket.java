@@ -1,6 +1,6 @@
 package net.blackkillerking.minetorio.network;
 
-import net.blackkillerking.minetorio.block.entity.PrimitiveOvenBlockEntity;
+import net.blackkillerking.minetorio.blockentity.PrimitiveOvenBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;

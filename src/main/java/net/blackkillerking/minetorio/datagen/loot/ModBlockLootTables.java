@@ -1,15 +1,14 @@
 package net.blackkillerking.minetorio.datagen.loot;
 
-import net.blackkillerking.minetorio.block.ModBlocks;
-import net.blackkillerking.minetorio.block.crops.OliveCropBlock;
-import net.blackkillerking.minetorio.item.ModItems;
+import net.blackkillerking.minetorio.registry.ModBlocks;
+import net.blackkillerking.minetorio.block.crops.OliveBushBlock;
+import net.blackkillerking.minetorio.registry.ModItems;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.registries.RegistryObject;
@@ -31,14 +30,18 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.TIN_BLOCK.get());
         this.dropSelf(ModBlocks.ZINC_BLOCK.get());
         this.dropSelf(ModBlocks.SILVER_BLOCK.get());
+        this.dropSelf(ModBlocks.STEEL_BLOCK.get());
 
         this.dropSelf(ModBlocks.MUD_LAYER_BLOCK.get());
+        this.dropSelf(ModBlocks.CHARCOAL_BLOCK.get());
+        this.dropSelf(ModBlocks.COKE_BLOCK.get());
 
         this.add(ModBlocks.TIN_ORE.get(), block -> createOreDrop(ModBlocks.TIN_ORE.get(), ModItems.RAW_TIN.get()));
         this.add(ModBlocks.ZINC_ORE.get(), block -> createOreDrop(ModBlocks.ZINC_ORE.get(), ModItems.RAW_ZINC.get()));
         this.add(ModBlocks.SILVER_ORE.get(), block -> createOreDrop(ModBlocks.SILVER_ORE.get(), ModItems.RAW_SILVER.get()));
 
         this.add(ModBlocks.FLINT_BLOCK.get(), block -> createSingleItemTable(ModItems.FLINT_FRAGMENT.get()));
+        this.add(ModBlocks.BASALT_BLOCK.get(), block -> createSingleItemTable(ModItems.BASALT_ROCK.get()));
         this.add(ModBlocks.BASALT_BLOCK.get(), block -> createSingleItemTable(ModItems.BASALT_ROCK.get()));
 
         this.add(ModBlocks.ANIMAL_HIDE.get(), block -> createSingleItemTable(ModItems.ANIMAL_HIDE.get()));
@@ -53,8 +56,10 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.KILN_CONTROLLER.get());
         this.add(ModBlocks.PRIMITIVE_OVEN.get(), block -> createSingleItemTable(Blocks.MUD));
 
-        LootItemCondition.Builder lootitemcondition$builder1 = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.OLIVE_CROP.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(OliveCropBlock.AGE, 3));
-        this.add(ModBlocks.OLIVE_CROP.get(), this.createCropDrops(ModBlocks.OLIVE_CROP.get(), ModItems.OLIVE.get(), ModItems.OLIVE_SEEDS.get(), lootitemcondition$builder1));
+        LootItemCondition.Builder lootitemcondition$builder1 = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.OLIVE_BUSH.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(OliveBushBlock.AGE, 3));
+        this.add(ModBlocks.OLIVE_BUSH.get(), this.createCropDrops(ModBlocks.OLIVE_BUSH.get(), ModItems.OLIVE.get(), ModItems.OLIVE_SEEDS.get(), lootitemcondition$builder1));
+        this.add(ModBlocks.BRICK_DOOR.get(),
+                block -> createDoorTable(ModBlocks.BRICK_DOOR.get()));
 
     }
 

@@ -1,7 +1,7 @@
 package net.blackkillerking.minetorio.event;
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.item.custom.tools.HammerItem;
+import net.blackkillerking.minetorio.item.tools.HammerItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;

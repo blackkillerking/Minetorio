@@ -1,25 +1,19 @@
 package net.blackkillerking.minetorio.datagen;
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.block.ModBlocks;
-import net.blackkillerking.minetorio.block.crops.OliveCropBlock;
-import net.blackkillerking.minetorio.block.custom.PolisherBlock;
-import net.blackkillerking.minetorio.block.custom.PrimitiveOvenBlock;
-import net.minecraft.core.Direction;
+import net.blackkillerking.minetorio.registry.ModBlocks;
+import net.blackkillerking.minetorio.block.crops.OliveBushBlock;
+import net.blackkillerking.minetorio.block.blockentities.KilnControllerBlock;
+import net.blackkillerking.minetorio.block.blockentities.PrimitiveOvenBlock;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CropBlock;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -49,6 +43,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
         blockWithItem(ModBlocks.BASALT_BLOCK);
         blockWithItem(ModBlocks.FLINT_BLOCK);
 
+        blockWithItem(ModBlocks.ASH_BLOCK);
+        blockWithItem(ModBlocks.STEEL_BLOCK);
+        blockWithItem(ModBlocks.CHARCOAL_BLOCK);
+        blockWithItem(ModBlocks.COKE_BLOCK);
+
         simpleBlock(ModBlocks.POLISHER.get(),
                 new ModelFile.UncheckedModelFile(modLoc("block/polisher")));
         simpleBlock(ModBlocks.BROKEN_POLISHER.get(),
@@ -66,30 +65,24 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.LEATHER.get(),
                 new ModelFile.UncheckedModelFile(modLoc("block/leather_block")));
 
-        makeCropModel((CropBlock) ModBlocks.OLIVE_CROP.get(), "olive_crop_stage", "olive_crop_stage");
+        makeCropModel((BushBlock) ModBlocks.OLIVE_BUSH.get(), "olive_bush_stage", "olive_bush_stage");
 
-        ResourceLocation top_and_side = modLoc("block/mud_block");
-        ResourceLocation front_off = modLoc("block/primitive_oven_front_off");
-        ResourceLocation front_on = modLoc("block/primitive_oven_front_on");
+        horizontalFacingBlockWithOnSwitch(ModBlocks.PRIMITIVE_OVEN, PrimitiveOvenBlock.ON,"primitive_oven");
+        horizontalFacingBlockWithOnSwitch(ModBlocks.KILN_CONTROLLER, KilnControllerBlock.ON, "kiln_controller");
 
-        ModelFile off = models().orientable("primitive_oven", top_and_side, front_off, top_and_side);
-        ModelFile on = models().orientable("primitive_oven_lit", top_and_side, front_on, top_and_side);
-
-        horizontalBlock(ModBlocks.PRIMITIVE_OVEN.get(), state ->
-                state.getValue(PrimitiveOvenBlock.ON) ? on : off);
-
-        itemModels().withExistingParent("primitive_oven", modLoc("block/primitive_oven"));
+        doorBlockWithRenderType((DoorBlock) ModBlocks.BRICK_DOOR.get(), modLoc("block/brick_door_bottom"), modLoc("block/brick_door_top"), "cutout");
+        blockItem(ModBlocks.BRICK_DOOR, "_bottom");
     }
 
-    private void makeCropModel(CropBlock block, String modelName, String textureName){
+    private void makeCropModel(BushBlock block, String modelName, String textureName){
         Function<BlockState, ConfiguredModel[]> function = state -> states(state, block, modelName, textureName);
         getVariantBuilder(block).forAllStates(function);
     }
 
-    private ConfiguredModel[] states(BlockState state, CropBlock block, String modelName, String textureName){
+    private ConfiguredModel[] states(BlockState state, BushBlock block, String modelName, String textureName){
         ConfiguredModel[] models = new ConfiguredModel[1];
-        models[0] = new ConfiguredModel(models().crop(modelName + state.getValue(((OliveCropBlock) block).getAgeProperty()),
-                new ResourceLocation(Minetorio.MOD_ID, "block/" + textureName + state.getValue(((OliveCropBlock) block).getAgeProperty()))).renderType("cutout"));
+        models[0] = new ConfiguredModel(models().crop(modelName + state.getValue(((OliveBushBlock) block).getAgeProperty()),
+                new ResourceLocation(Minetorio.MOD_ID, "block/" + textureName + state.getValue(((OliveBushBlock) block).getAgeProperty()))).renderType("cutout"));
         return models;
     }
 
@@ -105,35 +98,18 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(blockRegistryObject.get(), cubeAll(blockRegistryObject.get()));
     }
 
-    private void axisBlockWithStates(RegistryObject<Block> block, BooleanProperty blockProperties, String stateOneName, String stateTwoName){
-        getVariantBuilder(block.get()).forAllStates(state -> {
-            if(state.getValue(blockProperties)){
-                return new ConfiguredModel[]{new ConfiguredModel(models().cubeBottomTop(
-                        stateOneName,
-                        new ResourceLocation(Minetorio.MOD_ID, "block/" + stateOneName + "_side"),
-                        new ResourceLocation(Minetorio.MOD_ID, "block/" + stateOneName + "_top"),
-                        new ResourceLocation(Minetorio.MOD_ID, "block/" + stateOneName + "_top")
-                ))};
-            } else{
-                return new ConfiguredModel[]{new ConfiguredModel(models().cubeBottomTop(
-                        stateTwoName,
-                        new ResourceLocation(Minetorio.MOD_ID, "block/" + stateTwoName + "_side"),
-                        new ResourceLocation(Minetorio.MOD_ID, "block/" + stateTwoName + "_top"),
-                        new ResourceLocation(Minetorio.MOD_ID, "block/" + stateTwoName + "_top")
-                ))};
+    private void horizontalFacingBlockWithOnSwitch(RegistryObject<Block> block, BooleanProperty property, String blockName){
+        ResourceLocation top_and_side = modLoc("block/" + blockName + "_side");
+        ResourceLocation front_off = modLoc("block/" + blockName + "_front_off");
+        ResourceLocation front_on = modLoc("block/" + blockName + "_front_on");
 
-            }
-        });
-    }
+        ModelFile off = models().orientable(blockName, top_and_side, front_off, top_and_side);
+        ModelFile on = models().orientable(blockName + "_lit", top_and_side, front_on, top_and_side);
 
-    private void axisBlock(RegistryObject<Block> block, String name){
-        simpleBlock(block.get(),
-                models().cubeBottomTop(
-                        name,
-                        new ResourceLocation(Minetorio.MOD_ID, "block/" + name + "_side"),
-                        new ResourceLocation(Minetorio.MOD_ID, "block/" + name + "_top"),
-                        new ResourceLocation(Minetorio.MOD_ID, "block/" + name + "_top")
-                ));
+        horizontalBlock(block.get(), state ->
+                state.getValue(property) ? on : off);
+
+        itemModels().withExistingParent(blockName, modLoc("block/" + blockName));
     }
 
 

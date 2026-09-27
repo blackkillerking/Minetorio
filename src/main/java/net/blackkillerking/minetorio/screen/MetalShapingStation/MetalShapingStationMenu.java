@@ -1,9 +1,9 @@
 package net.blackkillerking.minetorio.screen.MetalShapingStation;
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.block.ModBlocks;
-import net.blackkillerking.minetorio.block.entity.MetalShapingStationBlockEntity;
-import net.blackkillerking.minetorio.screen.ModMenuTypes;
+import net.blackkillerking.minetorio.registry.ModBlocks;
+import net.blackkillerking.minetorio.blockentity.MetalShapingStationBlockEntity;
+import net.blackkillerking.minetorio.registry.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;

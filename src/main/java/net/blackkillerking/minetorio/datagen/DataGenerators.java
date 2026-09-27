@@ -33,6 +33,7 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), new ModItemModelProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeServer(), new ModFluidTagsProvider(packOutput, lookUpProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new ModGlobalLootModifierProvider(packOutput));
+        generator.addProvider(event.includeServer(), new ModWorldGenProvider(packOutput, lookUpProvider));
 
     }
 }

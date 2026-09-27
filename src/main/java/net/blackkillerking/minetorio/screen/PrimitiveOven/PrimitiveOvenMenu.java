@@ -1,8 +1,8 @@
 package net.blackkillerking.minetorio.screen.PrimitiveOven;
 
-import net.blackkillerking.minetorio.block.ModBlocks;
-import net.blackkillerking.minetorio.block.entity.PrimitiveOvenBlockEntity;
-import net.blackkillerking.minetorio.screen.ModMenuTypes;
+import net.blackkillerking.minetorio.registry.ModBlocks;
+import net.blackkillerking.minetorio.blockentity.PrimitiveOvenBlockEntity;
+import net.blackkillerking.minetorio.registry.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;

@@ -1,21 +1,22 @@
 package net.blackkillerking.minetorio;
 
 import com.mojang.logging.LogUtils;
-import net.blackkillerking.minetorio.block.ModBlocks;
-import net.blackkillerking.minetorio.block.entity.ModBlockEntites;
-import net.blackkillerking.minetorio.fluid.ModFluidTypes;
-import net.blackkillerking.minetorio.fluid.ModFluids;
-import net.blackkillerking.minetorio.item.ModCreativeModTabs;
-import net.blackkillerking.minetorio.item.ModItems;
-import net.blackkillerking.minetorio.loot.ModLootModifiers;
-import net.blackkillerking.minetorio.network.ModNetwork;
-import net.blackkillerking.minetorio.particle.ModParticals;
-import net.blackkillerking.minetorio.recipe.ModRecipes;
+import net.blackkillerking.minetorio.registry.ModBlocks;
+import net.blackkillerking.minetorio.registry.ModBlockEntites;
+import net.blackkillerking.minetorio.registry.ModFluidTypes;
+import net.blackkillerking.minetorio.registry.ModFluids;
+import net.blackkillerking.minetorio.tabs.ModCreativeModTabs;
+import net.blackkillerking.minetorio.registry.ModItems;
+import net.blackkillerking.minetorio.registry.ModLootModifiers;
+import net.blackkillerking.minetorio.registry.ModNetwork;
+import net.blackkillerking.minetorio.registry.ModParticals;
+import net.blackkillerking.minetorio.registry.ModRecipes;
 import net.blackkillerking.minetorio.screen.KilnController.KilnControllerScreen;
 import net.blackkillerking.minetorio.screen.MetalShapingStation.MetalShapingStationScreen;
-import net.blackkillerking.minetorio.screen.ModMenuTypes;
+import net.blackkillerking.minetorio.registry.ModMenuTypes;
 import net.blackkillerking.minetorio.screen.PrimitiveOven.PrimitiveOvenScreen;
-import net.blackkillerking.minetorio.sound.ModSound;
+import net.blackkillerking.minetorio.registry.ModSound;
+import net.blackkillerking.minetorio.registry.ModFeatures;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -65,6 +66,8 @@ public class Minetorio
 
         ModMenuTypes.register(modEventBus);
         ModRecipes.register(modEventBus);
+
+        ModFeatures.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);

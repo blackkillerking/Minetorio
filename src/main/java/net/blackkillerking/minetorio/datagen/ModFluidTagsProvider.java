@@ -1,8 +1,7 @@
 package net.blackkillerking.minetorio.datagen;
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.fluid.ModFluidTypes;
-import net.blackkillerking.minetorio.fluid.ModFluids;
+import net.blackkillerking.minetorio.registry.ModFluids;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.FluidTagsProvider;

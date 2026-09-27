@@ -1,12 +1,10 @@
 package net.blackkillerking.minetorio.screen.KilnController;
 
-import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.block.ModBlocks;
-import net.blackkillerking.minetorio.block.entity.KilnControllerBlockEntity;
-import net.blackkillerking.minetorio.screen.ModMenuTypes;
+import net.blackkillerking.minetorio.registry.ModBlocks;
+import net.blackkillerking.minetorio.blockentity.KilnControllerBlockEntity;
+import net.blackkillerking.minetorio.registry.ModMenuTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -16,6 +14,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class KilnControllerMenu extends AbstractContainerMenu {
 
     public final KilnControllerBlockEntity blockEntity;
@@ -23,11 +24,11 @@ public class KilnControllerMenu extends AbstractContainerMenu {
     private final ContainerData data;
 
     public KilnControllerMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2));
+        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(3));
     }
     public KilnControllerMenu(int pContainerId, Inventory inv , BlockEntity blockEntity, ContainerData data) {
         super(ModMenuTypes.KILN_CONTROLLER_MENU.get(), pContainerId);
-        checkContainerSize(inv, 1);
+        checkContainerSize(inv, 19);
         this.blockEntity = (KilnControllerBlockEntity) blockEntity;
         this.level = inv.player.level();
         this.data = data;
@@ -37,7 +38,9 @@ public class KilnControllerMenu extends AbstractContainerMenu {
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
             this.addSlot(new SlotItemHandler(iItemHandler, 0, 152, 35));
-
+            for (int i = 0; i < 18; i++) {
+                this.addSlot(new SlotItemHandler(iItemHandler, i+1, 10000, 10000));
+            }
             });
 
         addDataSlots(data);
@@ -49,6 +52,21 @@ public class KilnControllerMenu extends AbstractContainerMenu {
 
     public boolean isCrafting(){
         return blockEntity.isCrafting();
+    }
+
+    public int getLayer(){
+        return data.get(2);
+    }
+
+    public List<ItemStack> getRecipeVisual(){
+        List<ItemStack> stacks = new ArrayList<>();
+        for (int i = 0; i < 18; i+=2) {
+            stacks.add(blockEntity.getItemStackInSlot(i+1));
+        }
+        for (int i = 1; i < 19  ; i+=2) {
+            stacks.add(blockEntity.getItemStackInSlot(i+1));
+        }
+        return stacks;
     }
 
 

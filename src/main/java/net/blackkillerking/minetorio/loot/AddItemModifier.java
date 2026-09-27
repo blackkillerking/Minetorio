@@ -27,8 +27,6 @@ public class AddItemModifier extends LootModifier {
         this.item = item;
     }
 
-
-
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
         for (LootItemCondition condition : this.conditions){

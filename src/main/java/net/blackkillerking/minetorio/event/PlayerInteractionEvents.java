@@ -2,9 +2,9 @@ package net.blackkillerking.minetorio.event;
 
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.block.ModBlocks;
-import net.blackkillerking.minetorio.block.multiblock.MultiBlockPatternRegistry;
-import net.blackkillerking.minetorio.item.ModItems;
+import net.blackkillerking.minetorio.registry.ModBlocks;
+import net.blackkillerking.minetorio.multiblock.MultiBlockPatternRegistry;
+import net.blackkillerking.minetorio.registry.ModItems;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;

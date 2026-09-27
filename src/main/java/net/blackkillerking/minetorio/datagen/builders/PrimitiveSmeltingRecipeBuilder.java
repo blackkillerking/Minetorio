@@ -2,9 +2,7 @@ package net.blackkillerking.minetorio.datagen.builders;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.recipe.PrimitiveSmeltingRecipe;
-import net.blackkillerking.minetorio.utils.ModTags;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.CriterionTriggerInstance;
@@ -14,7 +12,6 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
