@@ -33,7 +33,7 @@ public class ModBiomeModifiers {
         register(context, ADD_EARTH_TIN_ORE, BiomeTags.IS_OVERWORLD, ModPlacedFeatures.EARTH_TIN_ORE_PLACED, GenerationStep.Decoration.UNDERGROUND_ORES, biome, placedFeature);
         register(context, ADD_OLIVE_PATCH, Tags.Biomes.IS_PLAINS, ModPlacedFeatures.OLIVE_PATCH_PLACED, GenerationStep.Decoration.VEGETAL_DECORATION, biome, placedFeature);
         register(context, ADD_FLINT_DEPOSIT, BiomeTags.IS_RIVER, ModPlacedFeatures.FLINT_DEPOSIT_PLACED, GenerationStep.Decoration.LOCAL_MODIFICATIONS, biome, placedFeature);
-        register(context, ADD_BASALT_DEPOSIT, BiomeTags.IS_OVERWORLD, ModPlacedFeatures.BASALT_DEPOSIT_PLACED, GenerationStep.Decoration.UNDERGROUND_ORES, biome, placedFeature);
+        register(context, ADD_BASALT_DEPOSIT, BiomeTags.IS_MOUNTAIN, ModPlacedFeatures.BASALT_DEPOSIT_PLACED, GenerationStep.Decoration.LOCAL_MODIFICATIONS, biome, placedFeature);
     }
 
     private static ResourceKey<BiomeModifier> registerKey(String name) {

@@ -1,5 +1,7 @@
 package net.blackkillerking.minetorio.blockentity.base;
 
+import net.blackkillerking.minetorio.multiblock.MultiblockPattern;
+import net.blackkillerking.minetorio.multiblock.MultiblockPatternRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -12,6 +14,8 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -24,8 +28,10 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class MultiBlockBaseBlockEntity extends BlockEntity implements MenuProvider {
-    public MultiBlockBaseBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
+import java.util.List;
+
+public class MultiblockBaseBlockEntity extends BlockEntity implements MenuProvider {
+    public MultiblockBaseBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }
     ItemStackHandler itemHandler;
@@ -84,6 +90,10 @@ public class MultiBlockBaseBlockEntity extends BlockEntity implements MenuProvid
 
     public boolean isUpgraded(Level pLevel, BlockPos pPos, Direction pDirection){
         return false;
+    }
+
+    public MultiblockPattern getPattern(){
+        return MultiblockPatternRegistry.get("primitive_oven");
     }
 
 

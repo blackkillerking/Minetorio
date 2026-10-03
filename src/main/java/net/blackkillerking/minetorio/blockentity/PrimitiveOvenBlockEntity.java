@@ -2,9 +2,10 @@ package net.blackkillerking.minetorio.blockentity;
 
 import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.block.blockentities.PrimitiveOvenBlock;
-import net.blackkillerking.minetorio.blockentity.base.MultiBlockBaseBlockEntity;
-import net.blackkillerking.minetorio.multiblock.MultiBlockPatternPart;
-import net.blackkillerking.minetorio.multiblock.MultiBlockPattern;
+import net.blackkillerking.minetorio.blockentity.base.InserterAccess;
+import net.blackkillerking.minetorio.blockentity.base.MultiblockBaseBlockEntity;
+import net.blackkillerking.minetorio.multiblock.MultiblockPatternPart;
+import net.blackkillerking.minetorio.multiblock.MultiblockPattern;
 import net.blackkillerking.minetorio.registry.ModBlockEntites;
 import net.blackkillerking.minetorio.registry.ModItems;
 import net.blackkillerking.minetorio.recipe.PrimitiveSmeltingRecipe;
@@ -35,6 +36,7 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -44,7 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class PrimitiveOvenBlockEntity extends MultiBlockBaseBlockEntity {
+public class PrimitiveOvenBlockEntity extends MultiblockBaseBlockEntity implements InserterAccess {
 
     public Logger LOGGER = Minetorio.LOGGER;
     protected final ContainerData data;
@@ -131,15 +133,15 @@ public class PrimitiveOvenBlockEntity extends MultiBlockBaseBlockEntity {
             new BlockPos(0, 3, -2)
     );
 
-    public static final MultiBlockPattern PRIMITIVE_OVEN_BASE_STRUCTURE = new MultiBlockPattern(
-            new MultiBlockPatternPart(BLOCK_PATTERN, state -> state.is(Blocks.MUD)),
-            new MultiBlockPatternPart(EMPTY_PATTERN, state -> !state.is(Blocks.MUD))
+    public static final MultiblockPattern PRIMITIVE_OVEN_BASE_STRUCTURE = new MultiblockPattern(
+            new MultiblockPatternPart(BLOCK_PATTERN, state -> state.is(Blocks.MUD)),
+            new MultiblockPatternPart(EMPTY_PATTERN, state -> !state.is(Blocks.MUD))
     );
 
-    public static final MultiBlockPattern PRIMITIVE_OVEN_BELLOW_UPGRADE_STRUCTURE = new MultiBlockPattern(
-            new MultiBlockPatternPart(BELLOW_MUD_BLOCK_PATTERN, state -> state.is(Blocks.MUD)),
-            new MultiBlockPatternPart(BELLOW_EMPTY_PATTERN, state -> !state.is(Blocks.MUD)),
-            new MultiBlockPatternPart(BELLOW_PADDED_LEATHER_PATTERN, state -> state.is(Blocks.OAK_SLAB))
+    public static final MultiblockPattern PRIMITIVE_OVEN_BELLOW_UPGRADE_STRUCTURE = new MultiblockPattern(
+            new MultiblockPatternPart(BELLOW_MUD_BLOCK_PATTERN, state -> state.is(Blocks.MUD)),
+            new MultiblockPatternPart(BELLOW_EMPTY_PATTERN, state -> !state.is(Blocks.MUD)),
+            new MultiblockPatternPart(BELLOW_PADDED_LEATHER_PATTERN, state -> state.is(Blocks.OAK_SLAB))
     );
 
     private final ItemStackHandler itemHandler = new ItemStackHandler(16){
@@ -549,5 +551,20 @@ public class PrimitiveOvenBlockEntity extends MultiBlockBaseBlockEntity {
 
     public ItemStack getItemInSlot(int slot){
         return itemHandler.getStackInSlot(slot);
+    }
+
+    @Override
+    public IItemHandler getItemHandler() {
+        return itemHandler;
+    }
+
+    @Override
+    public List<Integer> getInputSlots() {
+        return List.of(INPUT_FUEL, INPUT_ORE, INPUT_FIRE_STARTER);
+    }
+
+    @Override
+    public List<Integer> getOutputSlots() {
+        return List.of(OUTPUT_METAL);
     }
 }

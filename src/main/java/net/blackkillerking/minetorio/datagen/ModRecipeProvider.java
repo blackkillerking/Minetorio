@@ -52,7 +52,7 @@ public class ModRecipeProvider extends RecipeProvider {
         }
 
         nuggetByHammering(Items.IRON_NUGGET, 9, Items.IRON_INGOT, "iron", pWriter);
-        nuggetByHammering(Items.GOLD_NUGGET, 9, Items.IRON_INGOT, "gold", pWriter);
+        nuggetByHammering(Items.GOLD_NUGGET, 9, Items.GOLD_INGOT, "gold", pWriter);
         nuggetByHammering(ForgeRegistries.ITEMS.getValue(new ResourceLocation(Minetorio.MOD_ID, "copper_nugget")), 9, Items.COPPER_INGOT, "copper", pWriter);
 
         //SHAPED RECIPES

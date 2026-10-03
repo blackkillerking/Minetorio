@@ -2,6 +2,7 @@ package net.blackkillerking.minetorio.registry;
 
 import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.blockentity.KilnControllerBlockEntity;
+import net.blackkillerking.minetorio.blockentity.MechanicalInserterBlockEntity;
 import net.blackkillerking.minetorio.blockentity.MetalShapingStationBlockEntity;
 import net.blackkillerking.minetorio.blockentity.PrimitiveOvenBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -30,6 +31,11 @@ public class ModBlockEntites {
             BLOCK_ENTITIES.register("kiln_controller_be", () ->
                     BlockEntityType.Builder.of(KilnControllerBlockEntity::new,
                             ModBlocks.KILN_CONTROLLER.get()).build(null));
+
+    public final static RegistryObject<BlockEntityType<MechanicalInserterBlockEntity>> MECHANICAL_INSERTER_BE =
+            BLOCK_ENTITIES.register("mechanical_inserter_be", () ->
+                    BlockEntityType.Builder.of(MechanicalInserterBlockEntity::new,
+                            ModBlocks.MECHANICAL_INSERTER.get()).build(null));
 
     public static void register (IEventBus eventBus){
         BLOCK_ENTITIES.register(eventBus);

@@ -4,7 +4,7 @@ import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.registry.ModBlocks;
 import net.blackkillerking.minetorio.block.crops.OliveBushBlock;
 import net.blackkillerking.minetorio.registry.ModFeatures;
-import net.blackkillerking.minetorio.worldgen.custom.config.OldTrunkConfig;
+import net.blackkillerking.minetorio.worldgen.custom.config.TrunkConfig;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
@@ -33,15 +33,13 @@ public class ModConfiguredFeatures {
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?,?>> context){
         RuleTest stoneReplaceables = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
+        RuleTest dirtReplaceables = new TagMatchTest(BlockTags.DIRT);
 
         List<OreConfiguration.TargetBlockState> earth_tin_ore = List.of(
                 OreConfiguration.target(stoneReplaceables, ModBlocks.TIN_ORE.get().defaultBlockState())
         );
-        List<OreConfiguration.TargetBlockState> basalt_rock = List.of(
-                OreConfiguration.target(stoneReplaceables, Blocks.BASALT.defaultBlockState())
-        );
 
-        register(context, OLD_TRUNK,  ModFeatures.OLD_TRUNK.get(), new OldTrunkConfig(
+        register(context, OLD_TRUNK,  ModFeatures.TRUNK.get(), new TrunkConfig(
                 BlockStateProvider.simple(ModBlocks.OLD_LOG.get()),
                 UniformInt.of(4,10)
         ));
@@ -63,7 +61,13 @@ public class ModConfiguredFeatures {
                 1
         ));
 
-        register(context, BASALT_DEPOSIT, Feature.ORE, new OreConfiguration(basalt_rock, 16));
+        register(context, BASALT_DEPOSIT, Feature.DISK, new DiskConfiguration(
+                RuleBasedBlockStateProvider.simple(Blocks.BASALT),
+                BlockPredicate.anyOf(BlockPredicate.matchesTag(BlockTags.DIRT), BlockPredicate.matchesTag(BlockTags.STONE_ORE_REPLACEABLES)),
+                UniformInt.of(4,6),
+                1
+        ));
+
     }
 
     public static ResourceKey<ConfiguredFeature<?,?>> registerKey (String name){

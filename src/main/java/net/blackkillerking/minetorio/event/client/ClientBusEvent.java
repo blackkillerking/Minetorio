@@ -4,7 +4,7 @@ package net.blackkillerking.minetorio.event.client;
 import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.blockentity.KilnControllerBlockEntity;
 import net.blackkillerking.minetorio.blockentity.PrimitiveOvenBlockEntity;
-import net.blackkillerking.minetorio.multiblock.MultiBlockPatternRegistry;
+import net.blackkillerking.minetorio.multiblock.MultiblockPatternRegistry;
 import net.blackkillerking.minetorio.particle.HeatedMetalParticle;
 import net.blackkillerking.minetorio.registry.ModParticals;
 import net.minecraftforge.api.distmarker.Dist;
@@ -24,8 +24,8 @@ public class ClientBusEvent {
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event){
         event.enqueueWork(() -> {
-            MultiBlockPatternRegistry.register("primitive_oven", PrimitiveOvenBlockEntity.PRIMITIVE_OVEN_BASE_STRUCTURE);
-            MultiBlockPatternRegistry.register("kiln_oven", KilnControllerBlockEntity.KILN_BASE_STRUCTURE);
+            MultiblockPatternRegistry.register("primitive_oven", PrimitiveOvenBlockEntity.PRIMITIVE_OVEN_BASE_STRUCTURE);
+            MultiblockPatternRegistry.register("kiln_oven", KilnControllerBlockEntity.KILN_BASE_STRUCTURE);
         });
     }
 }

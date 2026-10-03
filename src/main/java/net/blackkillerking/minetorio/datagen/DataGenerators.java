@@ -12,8 +12,6 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.concurrent.CompletableFuture;
 
 @Mod.EventBusSubscriber(modid = Minetorio.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-
-
 public class DataGenerators {
 
     @SubscribeEvent
@@ -34,6 +32,5 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), new ModFluidTagsProvider(packOutput, lookUpProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new ModGlobalLootModifierProvider(packOutput));
         generator.addProvider(event.includeServer(), new ModWorldGenProvider(packOutput, lookUpProvider));
-
     }
 }

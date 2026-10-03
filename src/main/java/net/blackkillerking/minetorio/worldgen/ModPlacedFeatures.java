@@ -49,8 +49,12 @@ public class ModPlacedFeatures {
                 PlacementUtils.HEIGHTMAP,
                 BiomeFilter.biome()
         ));
-        register(context, BASALT_DEPOSIT_PLACED, configured_features.getOrThrow(ModConfiguredFeatures.BASALT_DEPOSIT),
-                OrePlacement.commonOrePlacement(12, HeightRangePlacement.uniform(VerticalAnchor.absolute(30), VerticalAnchor.absolute(70))));
+        register(context, BASALT_DEPOSIT_PLACED, configured_features.getOrThrow(ModConfiguredFeatures.BASALT_DEPOSIT), List.of(
+                CountPlacement.of(5),
+                InSquarePlacement.spread(),
+                PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
+                BiomeFilter.biome()
+        ));
     }
 
     public static ResourceKey<PlacedFeature> registerKey (String name){

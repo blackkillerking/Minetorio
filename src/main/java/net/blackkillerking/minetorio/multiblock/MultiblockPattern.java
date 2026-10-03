@@ -7,11 +7,11 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
 
-public class MultiBlockPattern {
+public class MultiblockPattern {
 
-    private final List<MultiBlockPatternPart> parts;
+    private final List<MultiblockPatternPart> parts;
 
-    public MultiBlockPattern(MultiBlockPatternPart... part) {
+    public MultiblockPattern(MultiblockPatternPart... part) {
         this.parts = List.of(part);
     }
 
@@ -30,7 +30,7 @@ public class MultiBlockPattern {
     }
 
     public boolean structureMatches(Level pLevel, BlockPos pAnchor, Direction pFacing){
-        for(MultiBlockPatternPart part : parts){
+        for(MultiblockPatternPart part : parts){
             for(BlockPos offset : rotate(part.positions(), pFacing)){
                 BlockState state = pLevel.getBlockState(pAnchor.offset(offset));
                 if(!part.check().test(state)) return false;

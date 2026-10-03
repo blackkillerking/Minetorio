@@ -54,6 +54,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
         this.dropSelf(ModBlocks.METAL_SHAPING_STATION.get());
         this.dropSelf(ModBlocks.KILN_CONTROLLER.get());
+        this.dropSelf(ModBlocks.MECHANICAL_INSERTER.get());
         this.add(ModBlocks.PRIMITIVE_OVEN.get(), block -> createSingleItemTable(Blocks.MUD));
 
         LootItemCondition.Builder lootitemcondition$builder1 = LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.OLIVE_BUSH.get()).setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(OliveBushBlock.AGE, 3));

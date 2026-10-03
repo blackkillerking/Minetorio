@@ -5,6 +5,7 @@ import net.blackkillerking.minetorio.block.MudLayerBlock;
 import net.blackkillerking.minetorio.block.OldLogBlock;
 import net.blackkillerking.minetorio.block.PolisherBlock;
 import net.blackkillerking.minetorio.block.blockentities.KilnControllerBlock;
+import net.blackkillerking.minetorio.block.blockentities.MechanicalInserterBlock;
 import net.blackkillerking.minetorio.block.blockentities.MetalShapingStationBlock;
 import net.blackkillerking.minetorio.block.blockentities.PrimitiveOvenBlock;
 import net.blackkillerking.minetorio.block.crops.OliveBushBlock;
@@ -86,9 +87,11 @@ public class ModBlocks {
     public static final RegistryObject<Block> METAL_SHAPING_STATION = registerBlock(
             "metal_shaping_station", () -> new MetalShapingStationBlock(BlockBehaviour.Properties.copy(Blocks.ANVIL).noOcclusion()));
     public static final RegistryObject<Block> PRIMITIVE_OVEN = registerBlock(
-            "primitive_oven", () -> new PrimitiveOvenBlock(BlockBehaviour.Properties.copy(Blocks.ANVIL).noOcclusion()));
+            "primitive_oven", () -> new PrimitiveOvenBlock(BlockBehaviour.Properties.copy(Blocks.ANVIL)));
     public static final RegistryObject<Block> KILN_CONTROLLER = registerBlock(
-            "kiln_controller", () -> new KilnControllerBlock(BlockBehaviour.Properties.copy(Blocks.ANVIL).noOcclusion()));
+            "kiln_controller", () -> new KilnControllerBlock(BlockBehaviour.Properties.copy(Blocks.ANVIL)));
+    public static final RegistryObject<Block> MECHANICAL_INSERTER = registerBlock(
+            "mechanical_inserter", () -> new MechanicalInserterBlock(BlockBehaviour.Properties.copy(Blocks.ANVIL)));
 
     public static final RegistryObject<LiquidBlock> CRUDE_OIL_BLOCK = BLOCKS.register(
             "crude_oil_block", () -> new LiquidBlock(ModFluids.SOURCE_CRUDE_OIL, BlockBehaviour.Properties.copy(Blocks.LAVA).noLootTable()));

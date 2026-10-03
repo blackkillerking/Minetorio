@@ -3,7 +3,7 @@ package net.blackkillerking.minetorio.event;
 
 import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.registry.ModBlocks;
-import net.blackkillerking.minetorio.multiblock.MultiBlockPatternRegistry;
+import net.blackkillerking.minetorio.multiblock.MultiblockPatternRegistry;
 import net.blackkillerking.minetorio.registry.ModItems;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -59,7 +59,7 @@ public class PlayerInteractionEvents {
         boolean isDirectionPlane = Direction.Plane.HORIZONTAL.test(player.getDirection()) ;
 
         if(event.getHand().equals(InteractionHand.MAIN_HAND) && isStick && isDirectionPlane && !isSneaking){
-            if(MultiBlockPatternRegistry.get("primitive_oven").structureMatches(level, event.getPos(), player.getDirection().getOpposite())){
+            if(MultiblockPatternRegistry.get("primitive_oven").structureMatches(level, event.getPos(), player.getDirection().getOpposite())){
                 level.setBlock(event.getPos(), ModBlocks.PRIMITIVE_OVEN.get().defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, player.getDirection().getOpposite()), 3);
             }
         }

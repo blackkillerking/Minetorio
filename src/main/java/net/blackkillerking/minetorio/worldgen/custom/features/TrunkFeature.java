@@ -1,7 +1,7 @@
 package net.blackkillerking.minetorio.worldgen.custom.features;
 
 import com.mojang.serialization.Codec;
-import net.blackkillerking.minetorio.worldgen.custom.config.OldTrunkConfig;
+import net.blackkillerking.minetorio.worldgen.custom.config.TrunkConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
@@ -13,16 +13,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
-public class OldTrunkFeature extends Feature<OldTrunkConfig> {
-    public OldTrunkFeature(Codec<OldTrunkConfig> pCodec) {
+public class TrunkFeature extends Feature<TrunkConfig> {
+    public TrunkFeature(Codec<TrunkConfig> pCodec) {
         super(pCodec);
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<OldTrunkConfig> pContext) {
+    public boolean place(FeaturePlaceContext<TrunkConfig> pContext) {
         WorldGenLevel level = pContext.level();
         RandomSource random = pContext.random();
-        OldTrunkConfig config = pContext.config();
+        TrunkConfig config = pContext.config();
         BlockPos origin = pContext.origin();
 
         Direction.Axis axis = random.nextBoolean() ? Direction.Axis.X : Direction.Axis.Z;
