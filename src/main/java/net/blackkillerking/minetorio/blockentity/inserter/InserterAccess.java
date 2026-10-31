@@ -1,4 +1,4 @@
-package net.blackkillerking.minetorio.blockentity.base;
+package net.blackkillerking.minetorio.blockentity.inserter;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;

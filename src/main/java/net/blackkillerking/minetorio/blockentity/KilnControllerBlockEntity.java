@@ -1,7 +1,6 @@
 package net.blackkillerking.minetorio.blockentity;
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.blockentity.base.InserterAccess;
 import net.blackkillerking.minetorio.registry.ModBlockEntites;
 import net.blackkillerking.minetorio.registry.ModBlocks;
 import net.blackkillerking.minetorio.block.blockentities.KilnControllerBlock;
@@ -35,7 +34,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

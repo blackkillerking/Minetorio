@@ -5,21 +5,13 @@ import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.blockentity.KilnControllerBlockEntity;
 import net.blackkillerking.minetorio.blockentity.PrimitiveOvenBlockEntity;
 import net.blackkillerking.minetorio.multiblock.MultiblockPatternRegistry;
-import net.blackkillerking.minetorio.particle.HeatedMetalParticle;
-import net.blackkillerking.minetorio.registry.ModParticals;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod.EventBusSubscriber(modid = Minetorio.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ClientBusEvent {
-
-    @SubscribeEvent
-    public static void registerParticleFactories(RegisterParticleProvidersEvent event){
-        event.registerSpriteSet(ModParticals.HEATED_METAL_PARTICLES.get(), HeatedMetalParticle.Provider::new);
-    }
+public class ModClientBusEvent {
 
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event){

@@ -1,7 +1,7 @@
-package net.blackkillerking.minetorio.worldgen.custom.features;
+package net.blackkillerking.minetorio.worldgen.customfeatures.features;
 
 import com.mojang.serialization.Codec;
-import net.blackkillerking.minetorio.worldgen.custom.config.TrunkConfig;
+import net.blackkillerking.minetorio.worldgen.customfeatures.config.TrunkConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;

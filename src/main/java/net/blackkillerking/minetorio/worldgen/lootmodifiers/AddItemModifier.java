@@ -1,4 +1,4 @@
-package net.blackkillerking.minetorio.loot;
+package net.blackkillerking.minetorio.worldgen.lootmodifiers;
 
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;

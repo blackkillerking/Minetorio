@@ -2,8 +2,8 @@ package net.blackkillerking.minetorio.registry;
 
 import com.mojang.serialization.Codec;
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.loot.AddItemModifier;
-import net.blackkillerking.minetorio.loot.EntityLootModifier;
+import net.blackkillerking.minetorio.worldgen.lootmodifiers.AddItemModifier;
+import net.blackkillerking.minetorio.worldgen.lootmodifiers.EntityLootModifier;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;

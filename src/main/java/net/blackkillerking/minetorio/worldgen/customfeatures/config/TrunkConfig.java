@@ -1,4 +1,4 @@
-package net.blackkillerking.minetorio.worldgen.custom.config;
+package net.blackkillerking.minetorio.worldgen.customfeatures.config;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

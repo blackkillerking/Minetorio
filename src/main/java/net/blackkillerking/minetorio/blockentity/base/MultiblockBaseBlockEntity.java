@@ -34,7 +34,7 @@ public class MultiblockBaseBlockEntity extends BlockEntity implements MenuProvid
     public MultiblockBaseBlockEntity(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
     }
-    ItemStackHandler itemHandler;
+    protected IItemHandler exposedHandler() { return null; }
     public final int STRUCTURE_CHECK_INTERVAL = 5;
 
     @Override
@@ -60,7 +60,7 @@ public class MultiblockBaseBlockEntity extends BlockEntity implements MenuProvid
     @Override
     public void onLoad() {
         super.onLoad();
-        lazyItemHandler = LazyOptional.of(() -> itemHandler);
+        lazyItemHandler = LazyOptional.of(() -> exposedHandler());
     }
 
     @Override

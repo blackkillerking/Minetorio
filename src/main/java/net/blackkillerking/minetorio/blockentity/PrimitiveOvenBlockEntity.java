@@ -2,7 +2,7 @@ package net.blackkillerking.minetorio.blockentity;
 
 import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.block.blockentities.PrimitiveOvenBlock;
-import net.blackkillerking.minetorio.blockentity.base.InserterAccess;
+import net.blackkillerking.minetorio.blockentity.inserter.InserterAccess;
 import net.blackkillerking.minetorio.blockentity.base.MultiblockBaseBlockEntity;
 import net.blackkillerking.minetorio.multiblock.MultiblockPatternPart;
 import net.blackkillerking.minetorio.multiblock.MultiblockPattern;
@@ -48,6 +48,8 @@ import java.util.Optional;
 
 public class PrimitiveOvenBlockEntity extends MultiblockBaseBlockEntity implements InserterAccess {
 
+    @Override
+    protected IItemHandler exposedHandler() { return itemHandler; }
     public Logger LOGGER = Minetorio.LOGGER;
     protected final ContainerData data;
 

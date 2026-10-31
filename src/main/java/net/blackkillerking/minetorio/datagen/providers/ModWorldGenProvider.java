@@ -1,4 +1,4 @@
-package net.blackkillerking.minetorio.datagen;
+package net.blackkillerking.minetorio.datagen.providers;
 
 import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.worldgen.ModBiomeModifiers;

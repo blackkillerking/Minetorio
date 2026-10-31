@@ -1,7 +1,8 @@
 package net.blackkillerking.minetorio.blockentity;
 
 import net.blackkillerking.minetorio.block.blockentities.MechanicalInserterBlock;
-import net.blackkillerking.minetorio.blockentity.base.InserterAccess;
+import net.blackkillerking.minetorio.blockentity.inserter.InserterAccess;
+import net.blackkillerking.minetorio.blockentity.inserter.InsertionPoint;
 import net.blackkillerking.minetorio.registry.ModBlockEntites;
 import net.blackkillerking.minetorio.screen.MechanicalInserter.MechanicalInserterMenu;
 import net.minecraft.core.BlockPos;
@@ -19,6 +20,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,13 +31,61 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoBlockEntity;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class MechanicalInserterBlockEntity extends BlockEntity implements MenuProvider {
-    int swing_time = 10;
-    int hand_size = 1;
+import java.util.function.Predicate;
+
+public class MechanicalInserterBlockEntity extends BlockEntity implements MenuProvider, GeoBlockEntity {
+    private static final int MOVE_TIME = 12;
+    private static final int DELAY = 2;
+
+    private int swing_time = 10;
+    private int timer;
+    private int hand_size = 1;
+
+    private boolean isWorking;
+    private Predicate<ItemStack> filter = stack -> true;
+
+    private enum PHASE{
+        IDLE,
+        PICKUP,
+        DROPOFF
+    }
+    private PHASE phase = PHASE.IDLE;
+
+
+    protected static final RawAnimation SWING_ANIMATION = RawAnimation.begin().thenLoop("mechanical_inserter_swing.animation.json");
+    private AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     public MechanicalInserterBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntites.MECHANICAL_INSERTER_BE.get(), pPos, pBlockState);
+    }
+
+    protected <E extends MechanicalInserterBlockEntity>PlayState deployAnimationController(final AnimationState<E> state){
+        return state.setAndContinue(SWING_ANIMATION);
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, state -> {
+            if (isWorking) {
+                return state.setAndContinue(SWING_ANIMATION);
+            }
+            return PlayState.STOP;
+        }));
+
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
     }
 
     @Override
@@ -114,32 +164,73 @@ public class MechanicalInserterBlockEntity extends BlockEntity implements MenuPr
 
     public void tick(Level level, BlockPos pos, BlockState state){
         if (level.isClientSide) return;
-        if (swing_time > 0) { swing_time--; return; }
+        if (timer > 0 && --timer > 0) return;
 
-        BlockPos senderPos = getTarget(pos, state, false);
-        BlockPos receiverPos = getTarget(pos, state, true);
+        InsertionPoint sender = new InsertionPoint(level, getTarget(pos, state, false));
+        InsertionPoint receiver = new InsertionPoint(level, getTarget(pos, state, true));
 
-        if(!level.isLoaded(senderPos) || !level.isLoaded(receiverPos)) return;
-        if(!(level.getBlockEntity(senderPos) instanceof InserterAccess senderBE) || !(((InserterAccess)  level.getBlockEntity(senderPos)).isInserterAccessible())) return;
-        if(!(level.getBlockEntity(receiverPos) instanceof InserterAccess receiverBE) || !(((InserterAccess) level.getBlockEntity(receiverPos)).isInserterAccessible())) return;
-
-        ItemStack inserter_hand = itemHandler.getStackInSlot(0);
-
-        if(inserter_hand.isEmpty()){
-            int extraction_slot = senderBE.getTargetSlot(hand_size, receiverBE);
-            if(extraction_slot == -1) return;
-            ItemStack temp = new ItemStack(senderBE.getItemHandler().getStackInSlot(extraction_slot).getItem());
-            senderBE.extractFromSlot(extraction_slot, 1);
-            itemHandler.insertItem(0, temp, false);
-        } else{
-            int insertion_slot = receiverBE.getSlotToInsertOrThrow(inserter_hand);
-            if(insertion_slot == -1) return;
-            receiverBE.insertInSlot(insertion_slot, inserter_hand);
-            itemHandler.extractItem(0, hand_size, false);
+        switch(phase){
+            case IDLE -> idle(sender, receiver);
+            case PICKUP -> pickup(sender, receiver);
+            case DROPOFF -> dropOff(receiver);
         }
-        setChanged();
-        swing_time = 20; //replace with animation time later
+    }
 
+    private void idle(InsertionPoint pSender, InsertionPoint pReceiver) {
+        if(!itemHandler.getStackInSlot(0).isEmpty()){
+            setPhase(PHASE.DROPOFF, MOVE_TIME);
+        } else if(getPickup(pSender, pReceiver) != null){
+            setPhase(PHASE.PICKUP, MOVE_TIME);
+        } else {
+            timer = DELAY;
+        }
+    }
+
+    private void pickup(InsertionPoint pSender, InsertionPoint pReceiver) {
+        InsertionPoint.Extractable extractable = getPickup(pSender, pReceiver);
+        if(extractable == null){
+            setPhase(PHASE.IDLE, DELAY);
+            return;
+        }
+
+        int amount = Math.min(extractable.stack().getCount(), pReceiver.accepts(extractable.stack()));
+        ItemStack taken = extractable.itemHandler().extractItem(extractable.slot(), amount, false);
+        if(taken.isEmpty()){
+            setPhase(PHASE.IDLE, DELAY);
+        }
+
+        itemHandler.insertItem(0, taken, false);
+        setPhase(PHASE.DROPOFF, MOVE_TIME);
+    }
+
+    private void dropOff(InsertionPoint pReceiver) {
+        ItemStack hand = itemHandler.extractItem(0, itemHandler.getStackInSlot(0).getCount(), false);
+        if(hand.isEmpty()){
+            setPhase(PHASE.IDLE, DELAY);
+            return;
+        }
+
+        ItemStack remainder = pReceiver.insertStack(hand, false);
+        if(!remainder.isEmpty()){
+            itemHandler.insertItem(0, remainder, false);
+            timer = MOVE_TIME;
+            setChanged();
+        } else{
+            setPhase(PHASE.IDLE, DELAY);
+        }
+    }
+
+    private InsertionPoint.Extractable getPickup(InsertionPoint pSender, InsertionPoint pReceiver) {
+        return pSender.getExtractable(hand_size, s -> filter.test(s) && pReceiver.accepts(s) > 0);
+    }
+
+    private void setPhase(PHASE pPhase, int pTicks) {
+        boolean changed = phase != pPhase;
+        phase = pPhase;
+        timer = pTicks;
+        setChanged();
+        if (changed && level != null)
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
     }
 
     private BlockPos getTarget(BlockPos pPos, BlockState pState, boolean pIsForward) {
@@ -149,4 +240,6 @@ public class MechanicalInserterBlockEntity extends BlockEntity implements MenuPr
         Direction dir = pIsForward ? facing : facing.getOpposite();
         return pPos.relative(dir, h).above(v);
     }
+
+
 }

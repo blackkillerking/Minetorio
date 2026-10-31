@@ -1,8 +1,6 @@
-package net.blackkillerking.minetorio.tabs;
+package net.blackkillerking.minetorio.registry;
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.registry.ModBlocks;
-import net.blackkillerking.minetorio.registry.ModItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;

@@ -1,6 +1,7 @@
 package net.blackkillerking.minetorio.datagen;
 
 import net.blackkillerking.minetorio.Minetorio;
+import net.blackkillerking.minetorio.datagen.providers.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -22,7 +23,6 @@ public class DataGenerators {
         CompletableFuture<HolderLookup.Provider> lookUpProvider = event.getLookupProvider();
 
         generator.addProvider(event.includeServer(), new ModRecipeProvider(packOutput));
-
         generator.addProvider(event.includeServer(), ModLootTableProvider.create(packOutput));
         ModBlockTagGenerator blockTagGenerator = new ModBlockTagGenerator(packOutput, lookUpProvider, existingFileHelper);
         generator.addProvider(event.includeServer(), blockTagGenerator);

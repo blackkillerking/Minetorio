@@ -1,9 +1,9 @@
-package net.blackkillerking.minetorio.datagen;
+package net.blackkillerking.minetorio.datagen.providers;
 
 import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.registry.ModItems;
-import net.blackkillerking.minetorio.loot.AddItemModifier;
-import net.blackkillerking.minetorio.loot.EntityLootModifier;
+import net.blackkillerking.minetorio.worldgen.lootmodifiers.AddItemModifier;
+import net.blackkillerking.minetorio.worldgen.lootmodifiers.EntityLootModifier;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;

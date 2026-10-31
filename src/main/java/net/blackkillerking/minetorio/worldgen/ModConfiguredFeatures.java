@@ -4,7 +4,7 @@ import net.blackkillerking.minetorio.Minetorio;
 import net.blackkillerking.minetorio.registry.ModBlocks;
 import net.blackkillerking.minetorio.block.crops.OliveBushBlock;
 import net.blackkillerking.minetorio.registry.ModFeatures;
-import net.blackkillerking.minetorio.worldgen.custom.config.TrunkConfig;
+import net.blackkillerking.minetorio.worldgen.customfeatures.config.TrunkConfig;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;

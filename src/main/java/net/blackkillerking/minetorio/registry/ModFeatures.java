@@ -1,8 +1,8 @@
 package net.blackkillerking.minetorio.registry;
 
 import net.blackkillerking.minetorio.Minetorio;
-import net.blackkillerking.minetorio.worldgen.custom.config.TrunkConfig;
-import net.blackkillerking.minetorio.worldgen.custom.features.TrunkFeature;
+import net.blackkillerking.minetorio.worldgen.customfeatures.config.TrunkConfig;
+import net.blackkillerking.minetorio.worldgen.customfeatures.features.TrunkFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;

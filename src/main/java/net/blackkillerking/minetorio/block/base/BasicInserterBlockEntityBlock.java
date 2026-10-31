@@ -14,6 +14,7 @@ public class BasicInserterBlockEntityBlock extends BasicBlockEntityBlock{
 
     public static final IntegerProperty HORIZONTAL_REACH = IntegerProperty.create("horizontal_reach", 1, 3);
     public static final IntegerProperty VERTICAL_REACH = IntegerProperty.create("vertical_reach", 0, 4);
+    public static final IntegerProperty STATE = IntegerProperty.create("state", 0,4);
     public static final BooleanProperty ON = BooleanProperty.create("on");
 
     protected BasicInserterBlockEntityBlock(Properties pProperties) {
@@ -22,6 +23,7 @@ public class BasicInserterBlockEntityBlock extends BasicBlockEntityBlock{
                 .setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH)
                 .setValue(HORIZONTAL_REACH, 1)
                 .setValue(VERTICAL_REACH, 2)
+                .setValue(STATE, 0)
                 .setValue(ON, false));
     }
 
@@ -32,6 +34,6 @@ public class BasicInserterBlockEntityBlock extends BasicBlockEntityBlock{
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
-        pBuilder.add(HorizontalDirectionalBlock.FACING, HORIZONTAL_REACH, VERTICAL_REACH, ON);
+        pBuilder.add(HorizontalDirectionalBlock.FACING, HORIZONTAL_REACH, VERTICAL_REACH, STATE, ON);
     }
 }
